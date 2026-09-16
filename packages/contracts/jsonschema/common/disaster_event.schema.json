@@ -1,0 +1,596 @@
+{
+  "$defs": {
+    "DataConflict": {
+      "additionalProperties": false,
+      "properties": {
+        "field_path": {
+          "title": "Field Path",
+          "type": "string"
+        },
+        "resolution": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Resolution"
+        },
+        "source_ids": {
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "values": {
+          "items": {},
+          "title": "Values",
+          "type": "array"
+        }
+      },
+      "required": [
+        "field_path",
+        "values",
+        "source_ids"
+      ],
+      "title": "DataConflict",
+      "type": "object"
+    },
+    "DataQuality": {
+      "additionalProperties": false,
+      "properties": {
+        "completeness": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Completeness"
+        },
+        "conflicts": {
+          "items": {
+            "$ref": "#/$defs/DataConflict"
+          },
+          "title": "Conflicts",
+          "type": "array"
+        },
+        "coverage": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Coverage"
+        },
+        "flags": {
+          "items": {
+            "$ref": "#/$defs/QualityFlag"
+          },
+          "title": "Flags",
+          "type": "array"
+        },
+        "freshness_seconds": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Freshness Seconds"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "score": {
+          "default": 1.0,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Score",
+          "type": "number"
+        },
+        "status": {
+          "$ref": "#/$defs/DataStatus",
+          "default": "FRESH"
+        },
+        "weights_version": {
+          "default": "1.0.0",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "title": "Weights Version",
+          "type": "string"
+        }
+      },
+      "title": "DataQuality",
+      "type": "object"
+    },
+    "DataStatus": {
+      "enum": [
+        "FRESH",
+        "STALE",
+        "UNAVAILABLE",
+        "CONFLICTING",
+        "PARTIAL"
+      ],
+      "title": "DataStatus",
+      "type": "string"
+    },
+    "DisasterEventType": {
+      "enum": [
+        "EARTHQUAKE",
+        "CYCLONE",
+        "STORM",
+        "FLOOD",
+        "WILDFIRE",
+        "VOLCANO",
+        "LANDSLIDE",
+        "EXTREME_TEMPERATURE",
+        "HEALTH",
+        "TRANSPORT_CLOSURE",
+        "OTHER"
+      ],
+      "title": "DisasterEventType",
+      "type": "string"
+    },
+    "LineString": {
+      "additionalProperties": false,
+      "properties": {
+        "coordinates": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 3,
+            "minItems": 2,
+            "type": "array"
+          },
+          "minItems": 2,
+          "title": "Coordinates",
+          "type": "array"
+        },
+        "type": {
+          "const": "LineString",
+          "default": "LineString",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "coordinates"
+      ],
+      "title": "LineString",
+      "type": "object"
+    },
+    "MultiPolygon": {
+      "additionalProperties": false,
+      "properties": {
+        "coordinates": {
+          "items": {
+            "items": {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "maxItems": 3,
+                "minItems": 2,
+                "type": "array"
+              },
+              "type": "array"
+            },
+            "type": "array"
+          },
+          "minItems": 1,
+          "title": "Coordinates",
+          "type": "array"
+        },
+        "type": {
+          "const": "MultiPolygon",
+          "default": "MultiPolygon",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "coordinates"
+      ],
+      "title": "MultiPolygon",
+      "type": "object"
+    },
+    "Point": {
+      "additionalProperties": false,
+      "properties": {
+        "coordinates": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 2,
+          "title": "Coordinates",
+          "type": "array"
+        },
+        "type": {
+          "const": "Point",
+          "default": "Point",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "coordinates"
+      ],
+      "title": "Point",
+      "type": "object"
+    },
+    "Polygon": {
+      "additionalProperties": false,
+      "properties": {
+        "coordinates": {
+          "items": {
+            "items": {
+              "items": {
+                "type": "number"
+              },
+              "maxItems": 3,
+              "minItems": 2,
+              "type": "array"
+            },
+            "type": "array"
+          },
+          "minItems": 1,
+          "title": "Coordinates",
+          "type": "array"
+        },
+        "type": {
+          "const": "Polygon",
+          "default": "Polygon",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "coordinates"
+      ],
+      "title": "Polygon",
+      "type": "object"
+    },
+    "QualityFlag": {
+      "enum": [
+        "MISSING",
+        "STALE",
+        "CONFLICTING",
+        "INFERRED",
+        "INCOMPLETE",
+        "OUTSIDE_COVERAGE"
+      ],
+      "title": "QualityFlag",
+      "type": "string"
+    },
+    "Severity": {
+      "enum": [
+        "INFO",
+        "MINOR",
+        "MODERATE",
+        "SEVERE",
+        "EXTREME",
+        "UNKNOWN"
+      ],
+      "title": "Severity",
+      "type": "string"
+    },
+    "SourceAuthority": {
+      "enum": [
+        "OFFICIAL",
+        "INTERGOVERNMENTAL",
+        "LICENSED_PROVIDER",
+        "COMMUNITY",
+        "UNKNOWN"
+      ],
+      "title": "SourceAuthority",
+      "type": "string"
+    },
+    "SourceProvenance": {
+      "additionalProperties": false,
+      "properties": {
+        "attribution": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Attribution"
+        },
+        "authority": {
+          "$ref": "#/$defs/SourceAuthority",
+          "default": "UNKNOWN"
+        },
+        "content_hash": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "expires_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expires At"
+        },
+        "fetched_at": {
+          "format": "date-time",
+          "title": "Fetched At",
+          "type": "string"
+        },
+        "license": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License"
+        },
+        "observed_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Observed At"
+        },
+        "provider": {
+          "title": "Provider",
+          "type": "string"
+        },
+        "provider_record_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Provider Record Id"
+        },
+        "published_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Published At"
+        },
+        "schema_version": {
+          "default": "1.0.0",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "source_id": {
+          "format": "uuid",
+          "title": "Source Id",
+          "type": "string"
+        },
+        "source_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Url"
+        }
+      },
+      "required": [
+        "source_id",
+        "provider",
+        "fetched_at",
+        "content_hash"
+      ],
+      "title": "SourceProvenance",
+      "type": "object"
+    }
+  },
+  "$id": "https://smart-travel-assistant.local/schemas/1.0.0/DisasterEvent.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "closure": {
+      "default": false,
+      "description": "Official closure / no-go; hard constraint for routes",
+      "title": "Closure",
+      "type": "boolean"
+    },
+    "country_codes": {
+      "items": {
+        "pattern": "^[A-Z]{2}$",
+        "type": "string"
+      },
+      "title": "Country Codes",
+      "type": "array"
+    },
+    "description": {
+      "anyOf": [
+        {
+          "maxLength": 4000,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Description"
+    },
+    "effective_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Effective At"
+    },
+    "ends_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Ends At"
+    },
+    "event_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Event Id",
+      "type": "string"
+    },
+    "event_type": {
+      "$ref": "#/$defs/DisasterEventType"
+    },
+    "geometry": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Point"
+        },
+        {
+          "$ref": "#/$defs/LineString"
+        },
+        {
+          "$ref": "#/$defs/Polygon"
+        },
+        {
+          "$ref": "#/$defs/MultiPolygon"
+        }
+      ],
+      "title": "Geometry"
+    },
+    "instruction": {
+      "anyOf": [
+        {
+          "maxLength": 2000,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Instruction"
+    },
+    "magnitude": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Magnitude"
+    },
+    "official": {
+      "default": false,
+      "title": "Official",
+      "type": "boolean"
+    },
+    "quality": {
+      "$ref": "#/$defs/DataQuality"
+    },
+    "severity": {
+      "$ref": "#/$defs/Severity",
+      "default": "UNKNOWN"
+    },
+    "source": {
+      "$ref": "#/$defs/SourceProvenance"
+    },
+    "title": {
+      "maxLength": 300,
+      "title": "Title",
+      "type": "string"
+    },
+    "updated_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Updated At"
+    }
+  },
+  "required": [
+    "event_id",
+    "event_type",
+    "title",
+    "geometry",
+    "source"
+  ],
+  "title": "DisasterEvent",
+  "type": "object",
+  "x-contract-version": "1.0.0"
+}

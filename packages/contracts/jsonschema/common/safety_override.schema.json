@@ -1,0 +1,74 @@
+{
+  "$defs": {
+    "ReasonCode": {
+      "description": "Controlled vocabulary for risk/decision reasons (LLM may only paraphrase these).",
+      "enum": [
+        "SEVERE_WEATHER_CORRIDOR",
+        "HEAVY_PRECIPITATION",
+        "HIGH_WIND",
+        "LOW_VISIBILITY",
+        "EXTREME_TEMPERATURE",
+        "EARTHQUAKE_NEAR_CORRIDOR",
+        "ACTIVE_DISASTER_EVENT",
+        "OFFICIAL_ALERT_ACTIVE",
+        "OFFICIAL_CLOSURE",
+        "TRANSPORT_DISRUPTION",
+        "TRANSPORT_DELAY",
+        "SAFER_ROUTE_AVAILABLE",
+        "NO_SAFER_ROUTE",
+        "RISK_DECREASES_LATER",
+        "LOW_DATA_COVERAGE",
+        "STALE_DATA",
+        "CONFLICTING_SOURCES",
+        "INSUFFICIENT_EVIDENCE",
+        "NO_RELIABLE_KNOWLEDGE_EVIDENCE",
+        "MODEL_UNAVAILABLE",
+        "PROVIDER_UNAVAILABLE",
+        "CONDITIONS_NORMAL"
+      ],
+      "title": "ReasonCode",
+      "type": "string"
+    },
+    "RiskLevel": {
+      "enum": [
+        "LOW",
+        "MEDIUM",
+        "HIGH",
+        "UNKNOWN"
+      ],
+      "title": "RiskLevel",
+      "type": "string"
+    }
+  },
+  "$id": "https://smart-travel-assistant.local/schemas/1.0.0/SafetyOverride.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "code": {
+      "$ref": "#/$defs/ReasonCode"
+    },
+    "event_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Event Ids",
+      "type": "array"
+    },
+    "minimum_risk": {
+      "$ref": "#/$defs/RiskLevel"
+    },
+    "policy_version": {
+      "default": "1.0.0",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "title": "Policy Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "code",
+    "minimum_risk"
+  ],
+  "title": "SafetyOverride",
+  "type": "object",
+  "x-contract-version": "1.0.0"
+}

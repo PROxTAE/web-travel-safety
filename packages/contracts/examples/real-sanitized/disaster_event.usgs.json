@@ -1,0 +1,60 @@
+{
+  "_fixture": {
+    "model": "DisasterEvent",
+    "source": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson",
+    "captured_at": "2026-09-16T20:14:37Z",
+    "schema_version": "1.0.0",
+    "license": "USGS public domain",
+    "redaction": "none required; official public event"
+  },
+  "data": {
+    "event_id": "usgs:us7000thwt",
+    "event_type": "EARTHQUAKE",
+    "title": "M 5.1 - 77 km SSW of San Jose Village, Northern Mariana Islands",
+    "description": null,
+    "severity": "MODERATE",
+    "magnitude": 5.1,
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        145.4729,
+        14.2866
+      ]
+    },
+    "effective_at": "2026-09-16T18:33:20Z",
+    "ends_at": null,
+    "updated_at": "2026-09-16T20:11:05Z",
+    "instruction": null,
+    "official": true,
+    "closure": false,
+    "country_codes": [
+      "MP"
+    ],
+    "quality": {
+      "status": "FRESH",
+      "score": 0.95,
+      "flags": [],
+      "coverage": null,
+      "completeness": 1.0,
+      "freshness_seconds": 212,
+      "conflicts": [],
+      "notes": [],
+      "weights_version": "1.0.0"
+    },
+    "source": {
+      "source_id": "67715413-98b7-5937-a62d-7b57fb3c8095",
+      "provider": "usgs",
+      "provider_record_id": "us7000thwt",
+      "authority": "OFFICIAL",
+      "source_url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000thwt",
+      "license": "public domain",
+      "attribution": "U.S. Geological Survey",
+      "observed_at": "2026-09-16T18:33:20Z",
+      "published_at": "2026-09-16T20:11:05Z",
+      "fetched_at": "2026-09-16T20:14:37Z",
+      "expires_at": "2026-09-16T20:24:37Z",
+      "content_hash": "1bc624927d307f091f51615322c47e8b72d01c615a03a3dca90393c10ad58496",
+      "schema_version": "1.0.0"
+    }
+  }
+}

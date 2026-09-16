@@ -1,0 +1,478 @@
+{
+  "$defs": {
+    "DataConflict": {
+      "additionalProperties": false,
+      "properties": {
+        "field_path": {
+          "title": "Field Path",
+          "type": "string"
+        },
+        "resolution": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Resolution"
+        },
+        "source_ids": {
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "values": {
+          "items": {},
+          "title": "Values",
+          "type": "array"
+        }
+      },
+      "required": [
+        "field_path",
+        "values",
+        "source_ids"
+      ],
+      "title": "DataConflict",
+      "type": "object"
+    },
+    "DataQuality": {
+      "additionalProperties": false,
+      "properties": {
+        "completeness": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Completeness"
+        },
+        "conflicts": {
+          "items": {
+            "$ref": "#/$defs/DataConflict"
+          },
+          "title": "Conflicts",
+          "type": "array"
+        },
+        "coverage": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Coverage"
+        },
+        "flags": {
+          "items": {
+            "$ref": "#/$defs/QualityFlag"
+          },
+          "title": "Flags",
+          "type": "array"
+        },
+        "freshness_seconds": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Freshness Seconds"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "score": {
+          "default": 1.0,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Score",
+          "type": "number"
+        },
+        "status": {
+          "$ref": "#/$defs/DataStatus",
+          "default": "FRESH"
+        },
+        "weights_version": {
+          "default": "1.0.0",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "title": "Weights Version",
+          "type": "string"
+        }
+      },
+      "title": "DataQuality",
+      "type": "object"
+    },
+    "DataStatus": {
+      "enum": [
+        "FRESH",
+        "STALE",
+        "UNAVAILABLE",
+        "CONFLICTING",
+        "PARTIAL"
+      ],
+      "title": "DataStatus",
+      "type": "string"
+    },
+    "QualityFlag": {
+      "enum": [
+        "MISSING",
+        "STALE",
+        "CONFLICTING",
+        "INFERRED",
+        "INCOMPLETE",
+        "OUTSIDE_COVERAGE"
+      ],
+      "title": "QualityFlag",
+      "type": "string"
+    },
+    "SourceAuthority": {
+      "enum": [
+        "OFFICIAL",
+        "INTERGOVERNMENTAL",
+        "LICENSED_PROVIDER",
+        "COMMUNITY",
+        "UNKNOWN"
+      ],
+      "title": "SourceAuthority",
+      "type": "string"
+    },
+    "SourceProvenance": {
+      "additionalProperties": false,
+      "properties": {
+        "attribution": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Attribution"
+        },
+        "authority": {
+          "$ref": "#/$defs/SourceAuthority",
+          "default": "UNKNOWN"
+        },
+        "content_hash": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "expires_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expires At"
+        },
+        "fetched_at": {
+          "format": "date-time",
+          "title": "Fetched At",
+          "type": "string"
+        },
+        "license": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License"
+        },
+        "observed_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Observed At"
+        },
+        "provider": {
+          "title": "Provider",
+          "type": "string"
+        },
+        "provider_record_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Provider Record Id"
+        },
+        "published_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Published At"
+        },
+        "schema_version": {
+          "default": "1.0.0",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "source_id": {
+          "format": "uuid",
+          "title": "Source Id",
+          "type": "string"
+        },
+        "source_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Url"
+        }
+      },
+      "required": [
+        "source_id",
+        "provider",
+        "fetched_at",
+        "content_hash"
+      ],
+      "title": "SourceProvenance",
+      "type": "object"
+    },
+    "TransportServiceStatus": {
+      "enum": [
+        "ON_TIME",
+        "DELAYED",
+        "CANCELLED",
+        "DISRUPTED",
+        "UNKNOWN"
+      ],
+      "title": "TransportServiceStatus",
+      "type": "string"
+    },
+    "TravelMode": {
+      "enum": [
+        "FLIGHT",
+        "TRAIN",
+        "BUS",
+        "CAR",
+        "WALK",
+        "BICYCLE",
+        "MULTIMODAL"
+      ],
+      "title": "TravelMode",
+      "type": "string"
+    }
+  },
+  "$id": "https://smart-travel-assistant.local/schemas/1.0.0/TransportStatus.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "cancellation": {
+      "default": false,
+      "title": "Cancellation",
+      "type": "boolean"
+    },
+    "delay_minutes": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Delay Minutes"
+    },
+    "destination_stop": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Destination Stop"
+    },
+    "estimated_arrival": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Estimated Arrival"
+    },
+    "estimated_departure": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Estimated Departure"
+    },
+    "id": {
+      "format": "uuid",
+      "title": "Id",
+      "type": "string"
+    },
+    "message": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Message"
+    },
+    "mode": {
+      "$ref": "#/$defs/TravelMode"
+    },
+    "operator": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Operator"
+    },
+    "origin_stop": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Origin Stop"
+    },
+    "quality": {
+      "$ref": "#/$defs/DataQuality"
+    },
+    "scheduled_arrival": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Scheduled Arrival"
+    },
+    "scheduled_departure": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Scheduled Departure"
+    },
+    "service_number": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Service Number"
+    },
+    "source": {
+      "$ref": "#/$defs/SourceProvenance"
+    },
+    "status": {
+      "$ref": "#/$defs/TransportServiceStatus",
+      "default": "UNKNOWN"
+    }
+  },
+  "required": [
+    "id",
+    "mode",
+    "source"
+  ],
+  "title": "TransportStatus",
+  "type": "object",
+  "x-contract-version": "1.0.0"
+}

@@ -1,0 +1,65 @@
+{
+  "_fixture": {
+    "model": "WeatherForecastPoint",
+    "source": "https://api.open-meteo.com/v1/forecast?latitude=13.754&longitude=100.5014&current=temperature_2m,apparent_temperature,precipitation,rain,weather_code,wind_speed_10m,wind_gusts_10m&timezone=UTC",
+    "captured_at": "2026-09-16T20:14:37Z",
+    "schema_version": "1.0.0",
+    "license": "Open-Meteo CC BY 4.0 (non-commercial)",
+    "redaction": "coordinates are a public city centroid; fields the provider did not return are null (visibility, snowfall, probability)"
+  },
+  "data": {
+    "id": "7f6ddb64-c55e-56b9-8753-3c22b0734f1f",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        100.495865,
+        13.743409
+      ]
+    },
+    "valid_at": "2026-09-16T20:00:00Z",
+    "route_sample_index": 0,
+    "eta_at": null,
+    "temperature_c": 25.5,
+    "apparent_temperature_c": 31.3,
+    "precipitation_mm": 0.2,
+    "precipitation_probability": null,
+    "snowfall_cm": null,
+    "wind_speed_kmh": 4.5,
+    "wind_gust_kmh": 13.0,
+    "visibility_m": null,
+    "weather_code": 53,
+    "weather_category": "DRIZZLE",
+    "severity": "MINOR",
+    "is_current": true,
+    "quality": {
+      "status": "FRESH",
+      "score": 0.9,
+      "flags": [
+        "MISSING"
+      ],
+      "coverage": null,
+      "completeness": 0.7,
+      "freshness_seconds": 877,
+      "conflicts": [],
+      "notes": [
+        "visibility_m not returned by provider"
+      ],
+      "weights_version": "1.0.0"
+    },
+    "source": {
+      "source_id": "9682b0dd-23f7-5e19-b59f-92ae9fa5d6ab",
+      "provider": "open_meteo",
+      "provider_record_id": null,
+      "authority": "LICENSED_PROVIDER",
+      "source_url": "https://open-meteo.com/en/docs",
+      "license": "CC BY 4.0",
+      "attribution": "Weather data by Open-Meteo.com",
+      "observed_at": "2026-09-16T20:00:00Z",
+      "published_at": null,
+      "fetched_at": "2026-09-16T20:14:37Z",
+      "expires_at": "2026-09-16T20:29:37Z",
+      "content_hash": "261183182258a86c5bd1cad4c67008d8e933bc7dee14ace344f2e1b9dcd17e3c",
+      "schema_version": "1.0.0"
+    }
+  }
+}

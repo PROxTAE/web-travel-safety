@@ -1,0 +1,109 @@
+{
+  "$defs": {
+    "DeliveryChannel": {
+      "enum": [
+        "IN_APP",
+        "EMAIL",
+        "SMS",
+        "PUSH"
+      ],
+      "title": "DeliveryChannel",
+      "type": "string"
+    },
+    "Severity": {
+      "enum": [
+        "INFO",
+        "MINOR",
+        "MODERATE",
+        "SEVERE",
+        "EXTREME",
+        "UNKNOWN"
+      ],
+      "title": "Severity",
+      "type": "string"
+    }
+  },
+  "$id": "https://smart-travel-assistant.local/schemas/1.0.0/AlertSubscription.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "channel": {
+      "$ref": "#/$defs/DeliveryChannel"
+    },
+    "consent_id": {
+      "format": "uuid",
+      "title": "Consent Id",
+      "type": "string"
+    },
+    "cooldown_until": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Cooldown Until"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "id": {
+      "format": "uuid",
+      "title": "Id",
+      "type": "string"
+    },
+    "locale": {
+      "default": "en-US",
+      "title": "Locale",
+      "type": "string"
+    },
+    "revoked_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Revoked At"
+    },
+    "severity_threshold": {
+      "$ref": "#/$defs/Severity",
+      "default": "MODERATE"
+    },
+    "status": {
+      "enum": [
+        "ACTIVE",
+        "PAUSED",
+        "REVOKED"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "trip_id": {
+      "format": "uuid",
+      "title": "Trip Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "trip_id",
+    "channel",
+    "consent_id",
+    "status",
+    "created_at"
+  ],
+  "title": "AlertSubscription",
+  "type": "object",
+  "x-contract-version": "1.0.0"
+}

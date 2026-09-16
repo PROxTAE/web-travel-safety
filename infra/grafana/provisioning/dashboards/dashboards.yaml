@@ -1,0 +1,7 @@
+apiVersion: 1
+providers:
+  - name: smart-travel
+    folder: Smart Travel
+    type: file
+    options:
+      path: /etc/grafana/provisioning/dashboards

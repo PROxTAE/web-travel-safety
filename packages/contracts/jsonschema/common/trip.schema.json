@@ -1,0 +1,316 @@
+{
+  "$defs": {
+    "LocationRef": {
+      "additionalProperties": false,
+      "properties": {
+        "admin1": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Admin1"
+        },
+        "confirmed_by_user": {
+          "default": false,
+          "title": "Confirmed By User",
+          "type": "boolean"
+        },
+        "coordinates": {
+          "$ref": "#/$defs/Point"
+        },
+        "country_code": {
+          "pattern": "^[A-Z]{2}$",
+          "title": "Country Code",
+          "type": "string"
+        },
+        "display_name": {
+          "maxLength": 256,
+          "minLength": 1,
+          "title": "Display Name",
+          "type": "string"
+        },
+        "place_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Place Id",
+          "type": "string"
+        },
+        "provider": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Provider",
+          "type": "string"
+        },
+        "timezone": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Timezone",
+          "type": "string"
+        }
+      },
+      "required": [
+        "place_id",
+        "display_name",
+        "coordinates",
+        "country_code",
+        "timezone",
+        "provider"
+      ],
+      "title": "LocationRef",
+      "type": "object"
+    },
+    "Point": {
+      "additionalProperties": false,
+      "properties": {
+        "coordinates": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 2,
+          "title": "Coordinates",
+          "type": "array"
+        },
+        "type": {
+          "const": "Point",
+          "default": "Point",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "coordinates"
+      ],
+      "title": "Point",
+      "type": "object"
+    },
+    "TravelMode": {
+      "enum": [
+        "FLIGHT",
+        "TRAIN",
+        "BUS",
+        "CAR",
+        "WALK",
+        "BICYCLE",
+        "MULTIMODAL"
+      ],
+      "title": "TravelMode",
+      "type": "string"
+    },
+    "TravelPreference": {
+      "additionalProperties": false,
+      "properties": {
+        "accessibility": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 10,
+          "title": "Accessibility",
+          "type": "array"
+        },
+        "avoid_tolls": {
+          "default": false,
+          "title": "Avoid Tolls",
+          "type": "boolean"
+        },
+        "max_extra_duration_minutes": {
+          "default": 90,
+          "maximum": 1440,
+          "minimum": 0,
+          "title": "Max Extra Duration Minutes",
+          "type": "integer"
+        },
+        "prefer_lower_cost": {
+          "default": false,
+          "title": "Prefer Lower Cost",
+          "type": "boolean"
+        },
+        "prefer_lower_emissions": {
+          "default": false,
+          "title": "Prefer Lower Emissions",
+          "type": "boolean"
+        },
+        "prefer_safer_route": {
+          "default": true,
+          "title": "Prefer Safer Route",
+          "type": "boolean"
+        }
+      },
+      "title": "TravelPreference",
+      "type": "object"
+    }
+  },
+  "$id": "https://smart-travel-assistant.local/schemas/1.0.0/Trip.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "deleted_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Deleted At"
+    },
+    "departure_time": {
+      "format": "date-time",
+      "title": "Departure Time",
+      "type": "string"
+    },
+    "destination": {
+      "$ref": "#/$defs/LocationRef"
+    },
+    "id": {
+      "format": "uuid",
+      "title": "Id",
+      "type": "string"
+    },
+    "latest_recommendation_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Latest Recommendation Id"
+    },
+    "latest_request_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Latest Request Id"
+    },
+    "origin": {
+      "$ref": "#/$defs/LocationRef"
+    },
+    "preferences": {
+      "$ref": "#/$defs/TravelPreference"
+    },
+    "previous_route_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Previous Route Id"
+    },
+    "return_time": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Return Time"
+    },
+    "revision": {
+      "title": "Revision",
+      "type": "integer"
+    },
+    "risk_acknowledged_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Risk Acknowledged At"
+    },
+    "selected_route_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Selected Route Id"
+    },
+    "status": {
+      "default": "ACTIVE",
+      "enum": [
+        "DRAFT",
+        "ACTIVE",
+        "COMPLETED",
+        "ARCHIVED",
+        "DELETED"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "timezone": {
+      "title": "Timezone",
+      "type": "string"
+    },
+    "travel_modes": {
+      "items": {
+        "$ref": "#/$defs/TravelMode"
+      },
+      "title": "Travel Modes",
+      "type": "array"
+    },
+    "updated_at": {
+      "format": "date-time",
+      "title": "Updated At",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "revision",
+    "origin",
+    "destination",
+    "departure_time",
+    "travel_modes",
+    "preferences",
+    "timezone",
+    "created_at",
+    "updated_at"
+  ],
+  "title": "Trip",
+  "type": "object",
+  "x-contract-version": "1.0.0"
+}

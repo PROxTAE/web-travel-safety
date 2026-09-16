@@ -1,0 +1,247 @@
+{
+  "$defs": {
+    "RunStage": {
+      "enum": [
+        "VALIDATING",
+        "FETCHING_EXTERNAL_DATA",
+        "INTEGRATING_DATA",
+        "ASSESSING_RISK",
+        "RETRIEVING_GUIDANCE",
+        "EVALUATING_ROUTES",
+        "MAKING_DECISION",
+        "EXPLAINING",
+        "FORMATTING_RESPONSE"
+      ],
+      "title": "RunStage",
+      "type": "string"
+    },
+    "RunStatus": {
+      "enum": [
+        "QUEUED",
+        "RUNNING",
+        "NEEDS_INPUT",
+        "COMPLETED",
+        "PARTIAL",
+        "FAILED",
+        "CANCELLED"
+      ],
+      "title": "RunStatus",
+      "type": "string"
+    }
+  },
+  "$id": "https://smart-travel-assistant.local/schemas/1.0.0/RunProgressEvent.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Payload of an SSE event. No prompts, raw provider bodies, coordinates or PII.",
+  "properties": {
+    "error_code": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Error Code"
+    },
+    "error_message": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Error Message"
+    },
+    "event_id": {
+      "minimum": 0,
+      "title": "Event Id",
+      "type": "integer"
+    },
+    "event_type": {
+      "enum": [
+        "run.accepted",
+        "run.progress",
+        "run.needs_input",
+        "run.degraded",
+        "run.completed",
+        "run.failed",
+        "heartbeat"
+      ],
+      "title": "Event Type",
+      "type": "string"
+    },
+    "message_key": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Message Key"
+    },
+    "missing_fields": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Missing Fields"
+    },
+    "occurred_at": {
+      "format": "date-time",
+      "title": "Occurred At",
+      "type": "string"
+    },
+    "percent": {
+      "anyOf": [
+        {
+          "maximum": 100,
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Percent"
+    },
+    "prompt_key": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Prompt Key"
+    },
+    "reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Reason"
+    },
+    "recommendation_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Recommendation Id"
+    },
+    "request_id": {
+      "format": "uuid",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "result_url": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Result Url"
+    },
+    "retryable": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Retryable"
+    },
+    "retrying": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Retrying"
+    },
+    "service": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Service"
+    },
+    "stage": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/RunStage"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "status": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/RunStatus"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "event_id",
+    "event_type",
+    "request_id",
+    "occurred_at"
+  ],
+  "title": "RunProgressEvent",
+  "type": "object",
+  "x-contract-version": "1.0.0"
+}

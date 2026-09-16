@@ -1,0 +1,29 @@
+{
+  "$id": "https://smart-travel-assistant.local/schemas/1.0.0/TravelWindow.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "arrival_at": {
+      "format": "date-time",
+      "title": "Arrival At",
+      "type": "string"
+    },
+    "departure_at": {
+      "format": "date-time",
+      "title": "Departure At",
+      "type": "string"
+    },
+    "timezone": {
+      "title": "Timezone",
+      "type": "string"
+    }
+  },
+  "required": [
+    "departure_at",
+    "arrival_at",
+    "timezone"
+  ],
+  "title": "TravelWindow",
+  "type": "object",
+  "x-contract-version": "1.0.0"
+}

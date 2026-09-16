@@ -1,0 +1,26 @@
+{
+  "_fixture": {
+    "model": "LocationRef",
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Bangkok&count=1",
+    "captured_at": "2026-09-16T20:14:37Z",
+    "schema_version": "1.0.0",
+    "license": "Open-Meteo CC BY 4.0 (non-commercial)",
+    "redaction": "none required; public place record"
+  },
+  "data": {
+    "place_id": "1609350",
+    "display_name": "Bangkok, Thailand",
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [
+        100.50144,
+        13.75398
+      ]
+    },
+    "country_code": "TH",
+    "admin1": "Bangkok",
+    "timezone": "Asia/Bangkok",
+    "provider": "open_meteo",
+    "confirmed_by_user": true
+  }
+}

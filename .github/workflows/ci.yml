@@ -1,0 +1,123 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 3 * * *"
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  UV_FROZEN: "1"
+  PNPM_VERSION: "10"
+
+jobs:
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: runtime mock switch scan
+        run: |
+          ! grep -rnE "(USE_MOCK|mockMode|fakeRecommendation|hardcodedWeather|sampleCurrentData)" apps services --include='*.py' --include='*.ts' --include='*.tsx'
+
+  contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with: { python-version: "3.12" }
+      - run: cd packages/contracts && uv sync --frozen
+      - name: generate + check clean tree
+        run: |
+          cd packages/contracts && uv run python scripts/generate.py
+          git diff --exit-code -- packages/contracts/jsonschema packages/contracts/generated
+      - run: cd packages/contracts && uv run pytest -q
+
+  python:
+    runs-on: ubuntu-latest
+    needs: contracts
+    strategy:
+      fail-fast: false
+      matrix:
+        service: [python-common, api, agent, external-data, data-integration, risk-knowledge, decision-engine, recommendation]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with: { python-version: "3.12" }
+      - name: resolve path
+        id: p
+        run: |
+          if [ "${{ matrix.service }}" = "python-common" ]; then echo "dir=packages/python-common" >> $GITHUB_OUTPUT; else echo "dir=services/${{ matrix.service }}" >> $GITHUB_OUTPUT; fi
+      - run: cd ${{ steps.p.outputs.dir }} && uv sync --frozen --all-extras
+      - run: cd ${{ steps.p.outputs.dir }} && uv run ruff check . && uv run ruff format --check .
+      - run: cd ${{ steps.p.outputs.dir }} && (test -d app && uv run mypy app || true)
+      - run: cd ${{ steps.p.outputs.dir }} && uv run pytest -q -m "not integration and not canary"
+
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: 10 }
+      - uses: actions/setup-node@v4
+        with: { node-version: "22", cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter web lint
+      - run: pnpm --filter web typecheck
+      - run: pnpm --filter web test
+      - run: pnpm --filter web build
+
+  compose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: cp .env.example .env
+      - run: docker compose -f compose.yaml -f compose.dev.yaml config --quiet
+      - run: docker compose -f compose.yaml --profile observability --profile notifications --profile training config --quiet
+
+  images:
+    runs-on: ubuntu-latest
+    needs: [python, web]
+    if: github.event_name == 'pull_request'
+    strategy:
+      matrix:
+        service: [api, agent, external-data, data-integration, decision-engine, recommendation]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: services/${{ matrix.service }}/Dockerfile
+          push: false
+          load: true
+          tags: sta/${{ matrix.service }}:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - uses: aquasecurity/trivy-action@0.29.0
+        with:
+          image-ref: sta/${{ matrix.service }}:ci
+          format: table
+          exit-code: "1"
+          severity: CRITICAL
+          ignore-unfixed: true
+
+  # Real-provider canaries are quota-limited: run on schedule only, never per PR.
+  canary:
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with: { python-version: "3.12" }
+      - run: cd services/external-data && uv sync --frozen && uv run pytest -q -m canary
+        env:
+          ORS_API_KEY: ${{ secrets.ORS_API_KEY }}

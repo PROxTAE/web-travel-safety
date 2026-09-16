@@ -1,0 +1,381 @@
+{
+  "$defs": {
+    "DataConflict": {
+      "additionalProperties": false,
+      "properties": {
+        "field_path": {
+          "title": "Field Path",
+          "type": "string"
+        },
+        "resolution": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Resolution"
+        },
+        "source_ids": {
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "values": {
+          "items": {},
+          "title": "Values",
+          "type": "array"
+        }
+      },
+      "required": [
+        "field_path",
+        "values",
+        "source_ids"
+      ],
+      "title": "DataConflict",
+      "type": "object"
+    },
+    "DataQuality": {
+      "additionalProperties": false,
+      "properties": {
+        "completeness": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Completeness"
+        },
+        "conflicts": {
+          "items": {
+            "$ref": "#/$defs/DataConflict"
+          },
+          "title": "Conflicts",
+          "type": "array"
+        },
+        "coverage": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Coverage"
+        },
+        "flags": {
+          "items": {
+            "$ref": "#/$defs/QualityFlag"
+          },
+          "title": "Flags",
+          "type": "array"
+        },
+        "freshness_seconds": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Freshness Seconds"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "score": {
+          "default": 1.0,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Score",
+          "type": "number"
+        },
+        "status": {
+          "$ref": "#/$defs/DataStatus",
+          "default": "FRESH"
+        },
+        "weights_version": {
+          "default": "1.0.0",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "title": "Weights Version",
+          "type": "string"
+        }
+      },
+      "title": "DataQuality",
+      "type": "object"
+    },
+    "DataStatus": {
+      "enum": [
+        "FRESH",
+        "STALE",
+        "UNAVAILABLE",
+        "CONFLICTING",
+        "PARTIAL"
+      ],
+      "title": "DataStatus",
+      "type": "string"
+    },
+    "ModelRef": {
+      "additionalProperties": false,
+      "properties": {
+        "checksum": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Checksum"
+        },
+        "feature_schema_version": {
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "title": "Feature Schema Version",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "thresholds_version": {
+          "default": "1.0.0",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "title": "Thresholds Version",
+          "type": "string"
+        },
+        "version": {
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "version",
+        "feature_schema_version"
+      ],
+      "title": "ModelRef",
+      "type": "object"
+    },
+    "QualityFlag": {
+      "enum": [
+        "MISSING",
+        "STALE",
+        "CONFLICTING",
+        "INFERRED",
+        "INCOMPLETE",
+        "OUTSIDE_COVERAGE"
+      ],
+      "title": "QualityFlag",
+      "type": "string"
+    },
+    "ReasonCode": {
+      "description": "Controlled vocabulary for risk/decision reasons (LLM may only paraphrase these).",
+      "enum": [
+        "SEVERE_WEATHER_CORRIDOR",
+        "HEAVY_PRECIPITATION",
+        "HIGH_WIND",
+        "LOW_VISIBILITY",
+        "EXTREME_TEMPERATURE",
+        "EARTHQUAKE_NEAR_CORRIDOR",
+        "ACTIVE_DISASTER_EVENT",
+        "OFFICIAL_ALERT_ACTIVE",
+        "OFFICIAL_CLOSURE",
+        "TRANSPORT_DISRUPTION",
+        "TRANSPORT_DELAY",
+        "SAFER_ROUTE_AVAILABLE",
+        "NO_SAFER_ROUTE",
+        "RISK_DECREASES_LATER",
+        "LOW_DATA_COVERAGE",
+        "STALE_DATA",
+        "CONFLICTING_SOURCES",
+        "INSUFFICIENT_EVIDENCE",
+        "NO_RELIABLE_KNOWLEDGE_EVIDENCE",
+        "MODEL_UNAVAILABLE",
+        "PROVIDER_UNAVAILABLE",
+        "CONDITIONS_NORMAL"
+      ],
+      "title": "ReasonCode",
+      "type": "string"
+    },
+    "RiskLevel": {
+      "enum": [
+        "LOW",
+        "MEDIUM",
+        "HIGH",
+        "UNKNOWN"
+      ],
+      "title": "RiskLevel",
+      "type": "string"
+    },
+    "SafetyOverride": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "$ref": "#/$defs/ReasonCode"
+        },
+        "event_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Event Ids",
+          "type": "array"
+        },
+        "minimum_risk": {
+          "$ref": "#/$defs/RiskLevel"
+        },
+        "policy_version": {
+          "default": "1.0.0",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "title": "Policy Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "minimum_risk"
+      ],
+      "title": "SafetyOverride",
+      "type": "object"
+    }
+  },
+  "$id": "https://smart-travel-assistant.local/schemas/1.0.0/RiskAssessment.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "format": "uuid",
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "feature_contributions": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "title": "Feature Contributions",
+      "type": "object"
+    },
+    "later_window_delay_minutes": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Later Window Delay Minutes"
+    },
+    "later_window_risk_level": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/RiskLevel"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "model": {
+      "$ref": "#/$defs/ModelRef"
+    },
+    "probability_high": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Probability High",
+      "type": "number"
+    },
+    "quality": {
+      "$ref": "#/$defs/DataQuality"
+    },
+    "reason_codes": {
+      "items": {
+        "$ref": "#/$defs/ReasonCode"
+      },
+      "title": "Reason Codes",
+      "type": "array"
+    },
+    "risk_level": {
+      "$ref": "#/$defs/RiskLevel"
+    },
+    "route_id": {
+      "format": "uuid",
+      "title": "Route Id",
+      "type": "string"
+    },
+    "safety_overrides": {
+      "items": {
+        "$ref": "#/$defs/SafetyOverride"
+      },
+      "title": "Safety Overrides",
+      "type": "array"
+    },
+    "score": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Score",
+      "type": "number"
+    },
+    "snapshot_id": {
+      "format": "uuid",
+      "title": "Snapshot Id",
+      "type": "string"
+    },
+    "time_dependent": {
+      "default": false,
+      "title": "Time Dependent",
+      "type": "boolean"
+    },
+    "uncertainty": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Uncertainty",
+      "type": "number"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "snapshot_id",
+    "route_id",
+    "score",
+    "probability_high",
+    "risk_level",
+    "uncertainty",
+    "model",
+    "created_at"
+  ],
+  "title": "RiskAssessment",
+  "type": "object",
+  "x-contract-version": "1.0.0"
+}

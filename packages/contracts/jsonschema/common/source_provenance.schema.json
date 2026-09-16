@@ -1,0 +1,145 @@
+{
+  "$defs": {
+    "SourceAuthority": {
+      "enum": [
+        "OFFICIAL",
+        "INTERGOVERNMENTAL",
+        "LICENSED_PROVIDER",
+        "COMMUNITY",
+        "UNKNOWN"
+      ],
+      "title": "SourceAuthority",
+      "type": "string"
+    }
+  },
+  "$id": "https://smart-travel-assistant.local/schemas/1.0.0/SourceProvenance.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "attribution": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Attribution"
+    },
+    "authority": {
+      "$ref": "#/$defs/SourceAuthority",
+      "default": "UNKNOWN"
+    },
+    "content_hash": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Content Hash",
+      "type": "string"
+    },
+    "expires_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Expires At"
+    },
+    "fetched_at": {
+      "format": "date-time",
+      "title": "Fetched At",
+      "type": "string"
+    },
+    "license": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "License"
+    },
+    "observed_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Observed At"
+    },
+    "provider": {
+      "title": "Provider",
+      "type": "string"
+    },
+    "provider_record_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Provider Record Id"
+    },
+    "published_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Published At"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_id": {
+      "format": "uuid",
+      "title": "Source Id",
+      "type": "string"
+    },
+    "source_url": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Source Url"
+    }
+  },
+  "required": [
+    "source_id",
+    "provider",
+    "fetched_at",
+    "content_hash"
+  ],
+  "title": "SourceProvenance",
+  "type": "object",
+  "x-contract-version": "1.0.0"
+}

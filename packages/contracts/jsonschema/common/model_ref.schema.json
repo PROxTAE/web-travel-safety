@@ -1,0 +1,46 @@
+{
+  "$id": "https://smart-travel-assistant.local/schemas/1.0.0/ModelRef.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "checksum": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Checksum"
+    },
+    "feature_schema_version": {
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "title": "Feature Schema Version",
+      "type": "string"
+    },
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "thresholds_version": {
+      "default": "1.0.0",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "title": "Thresholds Version",
+      "type": "string"
+    },
+    "version": {
+      "title": "Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "version",
+    "feature_schema_version"
+  ],
+  "title": "ModelRef",
+  "type": "object",
+  "x-contract-version": "1.0.0"
+}

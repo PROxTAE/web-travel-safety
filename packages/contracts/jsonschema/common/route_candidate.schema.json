@@ -1,0 +1,648 @@
+{
+  "$defs": {
+    "DataConflict": {
+      "additionalProperties": false,
+      "properties": {
+        "field_path": {
+          "title": "Field Path",
+          "type": "string"
+        },
+        "resolution": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Resolution"
+        },
+        "source_ids": {
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "values": {
+          "items": {},
+          "title": "Values",
+          "type": "array"
+        }
+      },
+      "required": [
+        "field_path",
+        "values",
+        "source_ids"
+      ],
+      "title": "DataConflict",
+      "type": "object"
+    },
+    "DataQuality": {
+      "additionalProperties": false,
+      "properties": {
+        "completeness": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Completeness"
+        },
+        "conflicts": {
+          "items": {
+            "$ref": "#/$defs/DataConflict"
+          },
+          "title": "Conflicts",
+          "type": "array"
+        },
+        "coverage": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Coverage"
+        },
+        "flags": {
+          "items": {
+            "$ref": "#/$defs/QualityFlag"
+          },
+          "title": "Flags",
+          "type": "array"
+        },
+        "freshness_seconds": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Freshness Seconds"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "score": {
+          "default": 1.0,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Score",
+          "type": "number"
+        },
+        "status": {
+          "$ref": "#/$defs/DataStatus",
+          "default": "FRESH"
+        },
+        "weights_version": {
+          "default": "1.0.0",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "title": "Weights Version",
+          "type": "string"
+        }
+      },
+      "title": "DataQuality",
+      "type": "object"
+    },
+    "DataStatus": {
+      "enum": [
+        "FRESH",
+        "STALE",
+        "UNAVAILABLE",
+        "CONFLICTING",
+        "PARTIAL"
+      ],
+      "title": "DataStatus",
+      "type": "string"
+    },
+    "LineString": {
+      "additionalProperties": false,
+      "properties": {
+        "coordinates": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 3,
+            "minItems": 2,
+            "type": "array"
+          },
+          "minItems": 2,
+          "title": "Coordinates",
+          "type": "array"
+        },
+        "type": {
+          "const": "LineString",
+          "default": "LineString",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "coordinates"
+      ],
+      "title": "LineString",
+      "type": "object"
+    },
+    "QualityFlag": {
+      "enum": [
+        "MISSING",
+        "STALE",
+        "CONFLICTING",
+        "INFERRED",
+        "INCOMPLETE",
+        "OUTSIDE_COVERAGE"
+      ],
+      "title": "QualityFlag",
+      "type": "string"
+    },
+    "RiskLevel": {
+      "enum": [
+        "LOW",
+        "MEDIUM",
+        "HIGH",
+        "UNKNOWN"
+      ],
+      "title": "RiskLevel",
+      "type": "string"
+    },
+    "RouteExposure": {
+      "additionalProperties": false,
+      "properties": {
+        "closed": {
+          "default": false,
+          "title": "Closed",
+          "type": "boolean"
+        },
+        "hazard_event_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Hazard Event Ids",
+          "type": "array"
+        },
+        "max_hazard_severity": {
+          "$ref": "#/$defs/Severity",
+          "default": "UNKNOWN"
+        },
+        "min_hazard_distance_km": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Min Hazard Distance Km"
+        },
+        "score": {
+          "default": 0.0,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Score",
+          "type": "number"
+        },
+        "severe_weather_minutes": {
+          "default": 0.0,
+          "title": "Severe Weather Minutes",
+          "type": "number"
+        },
+        "weather_window_ids": {
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "title": "Weather Window Ids",
+          "type": "array"
+        }
+      },
+      "title": "RouteExposure",
+      "type": "object"
+    },
+    "RouteLabel": {
+      "enum": [
+        "ORIGINAL",
+        "RECOMMENDED",
+        "FASTEST",
+        "LOWEST_RISK",
+        "ALTERNATIVE"
+      ],
+      "title": "RouteLabel",
+      "type": "string"
+    },
+    "RouteSegment": {
+      "additionalProperties": false,
+      "properties": {
+        "distance_m": {
+          "minimum": 0,
+          "title": "Distance M",
+          "type": "number"
+        },
+        "duration_seconds": {
+          "minimum": 0,
+          "title": "Duration Seconds",
+          "type": "number"
+        },
+        "eta_end": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Eta End"
+        },
+        "eta_start": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Eta Start"
+        },
+        "geometry": {
+          "$ref": "#/$defs/LineString"
+        },
+        "index": {
+          "title": "Index",
+          "type": "integer"
+        },
+        "instruction": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Instruction"
+        },
+        "mode": {
+          "$ref": "#/$defs/TravelMode"
+        },
+        "operator": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Operator"
+        },
+        "service_number": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Service Number"
+        }
+      },
+      "required": [
+        "index",
+        "mode",
+        "geometry",
+        "distance_m",
+        "duration_seconds"
+      ],
+      "title": "RouteSegment",
+      "type": "object"
+    },
+    "Severity": {
+      "enum": [
+        "INFO",
+        "MINOR",
+        "MODERATE",
+        "SEVERE",
+        "EXTREME",
+        "UNKNOWN"
+      ],
+      "title": "Severity",
+      "type": "string"
+    },
+    "SourceAuthority": {
+      "enum": [
+        "OFFICIAL",
+        "INTERGOVERNMENTAL",
+        "LICENSED_PROVIDER",
+        "COMMUNITY",
+        "UNKNOWN"
+      ],
+      "title": "SourceAuthority",
+      "type": "string"
+    },
+    "SourceProvenance": {
+      "additionalProperties": false,
+      "properties": {
+        "attribution": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Attribution"
+        },
+        "authority": {
+          "$ref": "#/$defs/SourceAuthority",
+          "default": "UNKNOWN"
+        },
+        "content_hash": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "expires_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expires At"
+        },
+        "fetched_at": {
+          "format": "date-time",
+          "title": "Fetched At",
+          "type": "string"
+        },
+        "license": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License"
+        },
+        "observed_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Observed At"
+        },
+        "provider": {
+          "title": "Provider",
+          "type": "string"
+        },
+        "provider_record_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Provider Record Id"
+        },
+        "published_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Published At"
+        },
+        "schema_version": {
+          "default": "1.0.0",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "source_id": {
+          "format": "uuid",
+          "title": "Source Id",
+          "type": "string"
+        },
+        "source_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Url"
+        }
+      },
+      "required": [
+        "source_id",
+        "provider",
+        "fetched_at",
+        "content_hash"
+      ],
+      "title": "SourceProvenance",
+      "type": "object"
+    },
+    "TravelMode": {
+      "enum": [
+        "FLIGHT",
+        "TRAIN",
+        "BUS",
+        "CAR",
+        "WALK",
+        "BICYCLE",
+        "MULTIMODAL"
+      ],
+      "title": "TravelMode",
+      "type": "string"
+    }
+  },
+  "$id": "https://smart-travel-assistant.local/schemas/1.0.0/RouteCandidate.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "distance_m": {
+      "minimum": 0,
+      "title": "Distance M",
+      "type": "number"
+    },
+    "duration_seconds": {
+      "minimum": 0,
+      "title": "Duration Seconds",
+      "type": "number"
+    },
+    "exposure": {
+      "$ref": "#/$defs/RouteExposure"
+    },
+    "geometry": {
+      "$ref": "#/$defs/LineString"
+    },
+    "label": {
+      "$ref": "#/$defs/RouteLabel",
+      "default": "ALTERNATIVE"
+    },
+    "labels": {
+      "description": "A route may honestly hold several labels",
+      "items": {
+        "$ref": "#/$defs/RouteLabel"
+      },
+      "title": "Labels",
+      "type": "array"
+    },
+    "mode": {
+      "$ref": "#/$defs/TravelMode"
+    },
+    "provider_route_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Provider Route Id"
+    },
+    "quality": {
+      "$ref": "#/$defs/DataQuality"
+    },
+    "rank": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Rank"
+    },
+    "risk_level": {
+      "$ref": "#/$defs/RiskLevel",
+      "default": "UNKNOWN"
+    },
+    "risk_score": {
+      "anyOf": [
+        {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Risk Score"
+    },
+    "route_id": {
+      "format": "uuid",
+      "title": "Route Id",
+      "type": "string"
+    },
+    "segments": {
+      "items": {
+        "$ref": "#/$defs/RouteSegment"
+      },
+      "title": "Segments",
+      "type": "array"
+    },
+    "sources": {
+      "items": {
+        "$ref": "#/$defs/SourceProvenance"
+      },
+      "title": "Sources",
+      "type": "array"
+    },
+    "trade_offs": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Trade Offs",
+      "type": "array"
+    },
+    "transfers": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Transfers",
+      "type": "integer"
+    },
+    "usable": {
+      "default": true,
+      "title": "Usable",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "route_id",
+    "mode",
+    "geometry",
+    "distance_m",
+    "duration_seconds"
+  ],
+  "title": "RouteCandidate",
+  "type": "object",
+  "x-contract-version": "1.0.0"
+}

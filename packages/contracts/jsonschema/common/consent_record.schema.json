@@ -1,0 +1,84 @@
+{
+  "$defs": {
+    "ConsentType": {
+      "enum": [
+        "LOCATION_ONCE",
+        "LOCATION_LIVE",
+        "ALERT_NOTIFICATION",
+        "ANALYTICS",
+        "EMERGENCY_PROFILE"
+      ],
+      "title": "ConsentType",
+      "type": "string"
+    }
+  },
+  "$id": "https://smart-travel-assistant.local/schemas/1.0.0/ConsentRecord.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "expires_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Expires At"
+    },
+    "granted": {
+      "title": "Granted",
+      "type": "boolean"
+    },
+    "granted_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Granted At"
+    },
+    "id": {
+      "format": "uuid",
+      "title": "Id",
+      "type": "string"
+    },
+    "policy_version": {
+      "title": "Policy Version",
+      "type": "string"
+    },
+    "revoked_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Revoked At"
+    },
+    "type": {
+      "$ref": "#/$defs/ConsentType"
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "granted",
+    "policy_version"
+  ],
+  "title": "ConsentRecord",
+  "type": "object",
+  "x-contract-version": "1.0.0"
+}

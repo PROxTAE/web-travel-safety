@@ -1,0 +1,70 @@
+{
+  "$defs": {
+    "DataConflict": {
+      "additionalProperties": false,
+      "properties": {
+        "field_path": {
+          "title": "Field Path",
+          "type": "string"
+        },
+        "resolution": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Resolution"
+        },
+        "source_ids": {
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "values": {
+          "items": {},
+          "title": "Values",
+          "type": "array"
+        }
+      },
+      "required": [
+        "field_path",
+        "values",
+        "source_ids"
+      ],
+      "title": "DataConflict",
+      "type": "object"
+    }
+  },
+  "$id": "https://smart-travel-assistant.local/schemas/1.0.0/ConflictSummary.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "conflicts": {
+      "items": {
+        "$ref": "#/$defs/DataConflict"
+      },
+      "title": "Conflicts",
+      "type": "array"
+    },
+    "count": {
+      "default": 0,
+      "title": "Count",
+      "type": "integer"
+    },
+    "safety_critical": {
+      "default": 0,
+      "title": "Safety Critical",
+      "type": "integer"
+    }
+  },
+  "title": "ConflictSummary",
+  "type": "object",
+  "x-contract-version": "1.0.0"
+}

@@ -1,0 +1,85 @@
+{
+  "$defs": {
+    "FeedbackCategory": {
+      "enum": [
+        "HELPFUL",
+        "INCORRECT",
+        "STALE",
+        "UNSAFE",
+        "ROUTE_ISSUE",
+        "SOURCE_ISSUE",
+        "OTHER"
+      ],
+      "title": "FeedbackCategory",
+      "type": "string"
+    }
+  },
+  "$id": "https://smart-travel-assistant.local/schemas/1.0.0/FeedbackEvent.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "category": {
+      "$ref": "#/$defs/FeedbackCategory"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "id": {
+      "format": "uuid",
+      "title": "Id",
+      "type": "string"
+    },
+    "recommendation_id": {
+      "format": "uuid",
+      "title": "Recommendation Id",
+      "type": "string"
+    },
+    "review_status": {
+      "default": "NONE",
+      "enum": [
+        "NONE",
+        "QUEUED",
+        "IN_REVIEW",
+        "RESOLVED"
+      ],
+      "title": "Review Status",
+      "type": "string"
+    },
+    "safety_review_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Safety Review Id"
+    },
+    "text_redacted": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Text Redacted"
+    }
+  },
+  "required": [
+    "id",
+    "recommendation_id",
+    "category",
+    "created_at"
+  ],
+  "title": "FeedbackEvent",
+  "type": "object",
+  "x-contract-version": "1.0.0"
+}

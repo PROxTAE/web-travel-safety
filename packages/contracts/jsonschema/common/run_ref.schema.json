@@ -1,0 +1,79 @@
+{
+  "$defs": {
+    "RunStatus": {
+      "enum": [
+        "QUEUED",
+        "RUNNING",
+        "NEEDS_INPUT",
+        "COMPLETED",
+        "PARTIAL",
+        "FAILED",
+        "CANCELLED"
+      ],
+      "title": "RunStatus",
+      "type": "string"
+    }
+  },
+  "$id": "https://smart-travel-assistant.local/schemas/1.0.0/RunRef.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "conversation_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Conversation Id"
+    },
+    "events_url": {
+      "title": "Events Url",
+      "type": "string"
+    },
+    "poll_url": {
+      "title": "Poll Url",
+      "type": "string"
+    },
+    "recommendation_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Recommendation Id"
+    },
+    "request_id": {
+      "format": "uuid",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/RunStatus"
+    },
+    "submitted_at": {
+      "format": "date-time",
+      "title": "Submitted At",
+      "type": "string"
+    }
+  },
+  "required": [
+    "request_id",
+    "status",
+    "events_url",
+    "poll_url",
+    "submitted_at"
+  ],
+  "title": "RunRef",
+  "type": "object",
+  "x-contract-version": "1.0.0"
+}

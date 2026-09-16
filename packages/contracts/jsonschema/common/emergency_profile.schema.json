@@ -1,0 +1,148 @@
+{
+  "$defs": {
+    "EmergencyContactPerson": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "maxLength": 120,
+          "title": "Name",
+          "type": "string"
+        },
+        "phone": {
+          "maxLength": 32,
+          "title": "Phone",
+          "type": "string"
+        },
+        "relationship": {
+          "anyOf": [
+            {
+              "maxLength": 60,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Relationship"
+        }
+      },
+      "required": [
+        "name",
+        "phone"
+      ],
+      "title": "EmergencyContactPerson",
+      "type": "object"
+    }
+  },
+  "$id": "https://smart-travel-assistant.local/schemas/1.0.0/EmergencyProfile.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "allergies": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 20,
+      "title": "Allergies",
+      "type": "array"
+    },
+    "blood_type": {
+      "anyOf": [
+        {
+          "maxLength": 8,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Blood Type"
+    },
+    "contacts": {
+      "items": {
+        "$ref": "#/$defs/EmergencyContactPerson"
+      },
+      "maxItems": 5,
+      "title": "Contacts",
+      "type": "array"
+    },
+    "insurance_phone": {
+      "anyOf": [
+        {
+          "maxLength": 32,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Insurance Phone"
+    },
+    "insurance_policy_ref": {
+      "anyOf": [
+        {
+          "maxLength": 120,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Insurance Policy Ref"
+    },
+    "insurance_provider": {
+      "anyOf": [
+        {
+          "maxLength": 120,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Insurance Provider"
+    },
+    "medical_notes": {
+      "anyOf": [
+        {
+          "maxLength": 2000,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Medical Notes"
+    },
+    "medications": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 20,
+      "title": "Medications",
+      "type": "array"
+    },
+    "updated_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Updated At"
+    }
+  },
+  "title": "EmergencyProfile",
+  "type": "object",
+  "x-contract-version": "1.0.0"
+}

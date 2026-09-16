@@ -1,0 +1,5017 @@
+{
+  "$defs": {
+    "ActionCode": {
+      "enum": [
+        "NORMAL",
+        "CHANGE_ROUTE",
+        "DELAY",
+        "AVOID"
+      ],
+      "title": "ActionCode",
+      "type": "string"
+    },
+    "AgentRunRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "budget_override": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "type": "integer"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Budget Override"
+        },
+        "conversation_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Conversation Id"
+        },
+        "resume_from_request_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Resume From Request Id"
+        },
+        "travel_request": {
+          "$ref": "#/$defs/TravelRequest"
+        }
+      },
+      "required": [
+        "travel_request"
+      ],
+      "title": "AgentRunRequest",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "AlertItem": {
+      "additionalProperties": false,
+      "properties": {
+        "alert_id": {
+          "title": "Alert Id",
+          "type": "string"
+        },
+        "area": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Area"
+        },
+        "effective_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Effective At"
+        },
+        "ends_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ends At"
+        },
+        "event_type": {
+          "$ref": "#/$defs/DisasterEventType"
+        },
+        "fetched_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fetched At"
+        },
+        "observed_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Observed At"
+        },
+        "official": {
+          "title": "Official",
+          "type": "boolean"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity"
+        },
+        "source_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Url"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "required": [
+        "alert_id",
+        "title",
+        "severity",
+        "event_type",
+        "official"
+      ],
+      "title": "AlertItem",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "AlertSubscription": {
+      "additionalProperties": false,
+      "properties": {
+        "channel": {
+          "$ref": "#/$defs/DeliveryChannel"
+        },
+        "consent_id": {
+          "format": "uuid",
+          "title": "Consent Id",
+          "type": "string"
+        },
+        "cooldown_until": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cooldown Until"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "id": {
+          "format": "uuid",
+          "title": "Id",
+          "type": "string"
+        },
+        "locale": {
+          "default": "en-US",
+          "title": "Locale",
+          "type": "string"
+        },
+        "revoked_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Revoked At"
+        },
+        "severity_threshold": {
+          "$ref": "#/$defs/Severity",
+          "default": "MODERATE"
+        },
+        "status": {
+          "enum": [
+            "ACTIVE",
+            "PAUSED",
+            "REVOKED"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "trip_id": {
+          "format": "uuid",
+          "title": "Trip Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "trip_id",
+        "channel",
+        "consent_id",
+        "status",
+        "created_at"
+      ],
+      "title": "AlertSubscription",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "BBox": {
+      "additionalProperties": false,
+      "description": "[min_lon, min_lat, max_lon, max_lat]",
+      "properties": {
+        "max_lat": {
+          "maximum": 90,
+          "minimum": -90,
+          "title": "Max Lat",
+          "type": "number"
+        },
+        "max_lon": {
+          "maximum": 180,
+          "minimum": -180,
+          "title": "Max Lon",
+          "type": "number"
+        },
+        "min_lat": {
+          "maximum": 90,
+          "minimum": -90,
+          "title": "Min Lat",
+          "type": "number"
+        },
+        "min_lon": {
+          "maximum": 180,
+          "minimum": -180,
+          "title": "Min Lon",
+          "type": "number"
+        }
+      },
+      "required": [
+        "min_lon",
+        "min_lat",
+        "max_lon",
+        "max_lat"
+      ],
+      "title": "BBox",
+      "type": "object"
+    },
+    "ConflictSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "conflicts": {
+          "items": {
+            "$ref": "#/$defs/DataConflict"
+          },
+          "title": "Conflicts",
+          "type": "array"
+        },
+        "count": {
+          "default": 0,
+          "title": "Count",
+          "type": "integer"
+        },
+        "safety_critical": {
+          "default": 0,
+          "title": "Safety Critical",
+          "type": "integer"
+        }
+      },
+      "title": "ConflictSummary",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "ConsentRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "expires_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expires At"
+        },
+        "granted": {
+          "title": "Granted",
+          "type": "boolean"
+        },
+        "granted_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Granted At"
+        },
+        "id": {
+          "format": "uuid",
+          "title": "Id",
+          "type": "string"
+        },
+        "policy_version": {
+          "title": "Policy Version",
+          "type": "string"
+        },
+        "revoked_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Revoked At"
+        },
+        "type": {
+          "$ref": "#/$defs/ConsentType"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "granted",
+        "policy_version"
+      ],
+      "title": "ConsentRecord",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "ConsentType": {
+      "enum": [
+        "LOCATION_ONCE",
+        "LOCATION_LIVE",
+        "ALERT_NOTIFICATION",
+        "ANALYTICS",
+        "EMERGENCY_PROFILE"
+      ],
+      "title": "ConsentType",
+      "type": "string"
+    },
+    "ContextQuery": {
+      "additionalProperties": false,
+      "description": "Input to external-data /internal/v1/context/query.",
+      "properties": {
+        "avoid_geometries": {
+          "items": {
+            "$ref": "#/$defs/Polygon"
+          },
+          "title": "Avoid Geometries",
+          "type": "array"
+        },
+        "departure_time": {
+          "format": "date-time",
+          "title": "Departure Time",
+          "type": "string"
+        },
+        "destination": {
+          "$ref": "#/$defs/LocationRef"
+        },
+        "include": {
+          "items": {
+            "enum": [
+              "weather",
+              "routes",
+              "transport",
+              "disasters"
+            ],
+            "type": "string"
+          },
+          "title": "Include",
+          "type": "array"
+        },
+        "locale": {
+          "default": "en-US",
+          "title": "Locale",
+          "type": "string"
+        },
+        "max_weather_samples": {
+          "default": 12,
+          "maximum": 40,
+          "minimum": 2,
+          "title": "Max Weather Samples",
+          "type": "integer"
+        },
+        "origin": {
+          "$ref": "#/$defs/LocationRef"
+        },
+        "preferences": {
+          "$ref": "#/$defs/TravelPreference"
+        },
+        "request_id": {
+          "format": "uuid",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "travel_modes": {
+          "items": {
+            "$ref": "#/$defs/TravelMode"
+          },
+          "title": "Travel Modes",
+          "type": "array"
+        },
+        "trip_id": {
+          "format": "uuid",
+          "title": "Trip Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "request_id",
+        "trip_id",
+        "origin",
+        "destination",
+        "departure_time",
+        "travel_modes"
+      ],
+      "title": "ContextQuery",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "Conversation": {
+      "additionalProperties": false,
+      "properties": {
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "id": {
+          "format": "uuid",
+          "title": "Id",
+          "type": "string"
+        },
+        "last_request_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Request Id"
+        },
+        "message_count": {
+          "default": 0,
+          "title": "Message Count",
+          "type": "integer"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "trip_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Trip Id"
+        },
+        "updated_at": {
+          "format": "date-time",
+          "title": "Updated At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "created_at",
+        "updated_at"
+      ],
+      "title": "Conversation",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "ConversationMessage": {
+      "additionalProperties": false,
+      "properties": {
+        "conversation_id": {
+          "format": "uuid",
+          "title": "Conversation Id",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "id": {
+          "format": "uuid",
+          "title": "Id",
+          "type": "string"
+        },
+        "recommendation_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Recommendation Id"
+        },
+        "request_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Request Id"
+        },
+        "role": {
+          "enum": [
+            "user",
+            "assistant",
+            "system"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Text"
+        }
+      },
+      "required": [
+        "id",
+        "conversation_id",
+        "role",
+        "created_at"
+      ],
+      "title": "ConversationMessage",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "DataConflict": {
+      "additionalProperties": false,
+      "properties": {
+        "field_path": {
+          "title": "Field Path",
+          "type": "string"
+        },
+        "resolution": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Resolution"
+        },
+        "source_ids": {
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "values": {
+          "items": {},
+          "title": "Values",
+          "type": "array"
+        }
+      },
+      "required": [
+        "field_path",
+        "values",
+        "source_ids"
+      ],
+      "title": "DataConflict",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "DataQuality": {
+      "additionalProperties": false,
+      "properties": {
+        "completeness": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Completeness"
+        },
+        "conflicts": {
+          "items": {
+            "$ref": "#/$defs/DataConflict"
+          },
+          "title": "Conflicts",
+          "type": "array"
+        },
+        "coverage": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Coverage"
+        },
+        "flags": {
+          "items": {
+            "$ref": "#/$defs/QualityFlag"
+          },
+          "title": "Flags",
+          "type": "array"
+        },
+        "freshness_seconds": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Freshness Seconds"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "score": {
+          "default": 1.0,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Score",
+          "type": "number"
+        },
+        "status": {
+          "$ref": "#/$defs/DataStatus",
+          "default": "FRESH"
+        },
+        "weights_version": {
+          "default": "1.0.0",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "title": "Weights Version",
+          "type": "string"
+        }
+      },
+      "title": "DataQuality",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "DataStatus": {
+      "enum": [
+        "FRESH",
+        "STALE",
+        "UNAVAILABLE",
+        "CONFLICTING",
+        "PARTIAL"
+      ],
+      "title": "DataStatus",
+      "type": "string"
+    },
+    "DecisionRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_package": {
+          "$ref": "#/$defs/EvidencePackage"
+        },
+        "llm_enabled": {
+          "default": true,
+          "title": "Llm Enabled",
+          "type": "boolean"
+        },
+        "locale": {
+          "default": "en-US",
+          "title": "Locale",
+          "type": "string"
+        },
+        "travel_request": {
+          "$ref": "#/$defs/TravelRequest"
+        }
+      },
+      "required": [
+        "travel_request",
+        "evidence_package"
+      ],
+      "title": "DecisionRequest",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "DecisionResult": {
+      "additionalProperties": false,
+      "properties": {
+        "action_code": {
+          "$ref": "#/$defs/ActionCode"
+        },
+        "citations": {
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "title": "Citations",
+          "type": "array"
+        },
+        "confidence": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "decision_id": {
+          "format": "uuid",
+          "title": "Decision Id",
+          "type": "string"
+        },
+        "escalation_reasons": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Escalation Reasons",
+          "type": "array"
+        },
+        "escalation_required": {
+          "default": false,
+          "title": "Escalation Required",
+          "type": "boolean"
+        },
+        "immediate_actions": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 8,
+          "title": "Immediate Actions",
+          "type": "array"
+        },
+        "limitations": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 12,
+          "title": "Limitations",
+          "type": "array"
+        },
+        "locale": {
+          "default": "en-US",
+          "title": "Locale",
+          "type": "string"
+        },
+        "reason_codes": {
+          "items": {
+            "$ref": "#/$defs/ReasonCode"
+          },
+          "title": "Reason Codes",
+          "type": "array"
+        },
+        "reasons": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 8,
+          "title": "Reasons",
+          "type": "array"
+        },
+        "request_id": {
+          "format": "uuid",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "risk_level": {
+          "$ref": "#/$defs/RiskLevel"
+        },
+        "rules_fired": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Rules Fired",
+          "type": "array"
+        },
+        "selected_route_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Selected Route Id"
+        },
+        "snapshot_id": {
+          "format": "uuid",
+          "title": "Snapshot Id",
+          "type": "string"
+        },
+        "suggested_delay_minutes": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Suggested Delay Minutes"
+        },
+        "summary": {
+          "maxLength": 600,
+          "title": "Summary",
+          "type": "string"
+        },
+        "validation": {
+          "$ref": "#/$defs/DecisionValidation"
+        },
+        "versions": {
+          "$ref": "#/$defs/VersionInfo"
+        }
+      },
+      "required": [
+        "decision_id",
+        "request_id",
+        "snapshot_id",
+        "action_code",
+        "risk_level",
+        "confidence",
+        "summary",
+        "versions",
+        "created_at"
+      ],
+      "title": "DecisionResult",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "DecisionValidation": {
+      "additionalProperties": false,
+      "description": "Wire field ``schema`` is exposed via alias because ``schema`` shadows a BaseModel attribute.",
+      "properties": {
+        "banned_phrases": {
+          "default": true,
+          "title": "Banned Phrases",
+          "type": "boolean"
+        },
+        "citations": {
+          "default": true,
+          "title": "Citations",
+          "type": "boolean"
+        },
+        "fallback_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fallback Reason"
+        },
+        "locked_action": {
+          "default": true,
+          "title": "Locked Action",
+          "type": "boolean"
+        },
+        "numbers": {
+          "default": true,
+          "title": "Numbers",
+          "type": "boolean"
+        },
+        "schema": {
+          "default": true,
+          "title": "Schema",
+          "type": "boolean"
+        },
+        "used_fallback": {
+          "default": false,
+          "title": "Used Fallback",
+          "type": "boolean"
+        }
+      },
+      "title": "DecisionValidation",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "DeliveryChannel": {
+      "enum": [
+        "IN_APP",
+        "EMAIL",
+        "SMS",
+        "PUSH"
+      ],
+      "title": "DeliveryChannel",
+      "type": "string"
+    },
+    "DisasterEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "closure": {
+          "default": false,
+          "description": "Official closure / no-go; hard constraint for routes",
+          "title": "Closure",
+          "type": "boolean"
+        },
+        "country_codes": {
+          "items": {
+            "pattern": "^[A-Z]{2}$",
+            "type": "string"
+          },
+          "title": "Country Codes",
+          "type": "array"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "maxLength": 4000,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "effective_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Effective At"
+        },
+        "ends_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ends At"
+        },
+        "event_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "event_type": {
+          "$ref": "#/$defs/DisasterEventType"
+        },
+        "geometry": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Point"
+            },
+            {
+              "$ref": "#/$defs/LineString"
+            },
+            {
+              "$ref": "#/$defs/Polygon"
+            },
+            {
+              "$ref": "#/$defs/MultiPolygon"
+            }
+          ],
+          "title": "Geometry"
+        },
+        "instruction": {
+          "anyOf": [
+            {
+              "maxLength": 2000,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Instruction"
+        },
+        "magnitude": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Magnitude"
+        },
+        "official": {
+          "default": false,
+          "title": "Official",
+          "type": "boolean"
+        },
+        "quality": {
+          "$ref": "#/$defs/DataQuality"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity",
+          "default": "UNKNOWN"
+        },
+        "source": {
+          "$ref": "#/$defs/SourceProvenance"
+        },
+        "title": {
+          "maxLength": 300,
+          "title": "Title",
+          "type": "string"
+        },
+        "updated_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Updated At"
+        }
+      },
+      "required": [
+        "event_id",
+        "event_type",
+        "title",
+        "geometry",
+        "source"
+      ],
+      "title": "DisasterEvent",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "DisasterEventType": {
+      "enum": [
+        "EARTHQUAKE",
+        "CYCLONE",
+        "STORM",
+        "FLOOD",
+        "WILDFIRE",
+        "VOLCANO",
+        "LANDSLIDE",
+        "EXTREME_TEMPERATURE",
+        "HEALTH",
+        "TRANSPORT_CLOSURE",
+        "OTHER"
+      ],
+      "title": "DisasterEventType",
+      "type": "string"
+    },
+    "EmergencyContactPerson": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "maxLength": 120,
+          "title": "Name",
+          "type": "string"
+        },
+        "phone": {
+          "maxLength": 32,
+          "title": "Phone",
+          "type": "string"
+        },
+        "relationship": {
+          "anyOf": [
+            {
+              "maxLength": 60,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Relationship"
+        }
+      },
+      "required": [
+        "name",
+        "phone"
+      ],
+      "title": "EmergencyContactPerson",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "EmergencyInstruction": {
+      "additionalProperties": false,
+      "properties": {
+        "citation_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Citation Id"
+        },
+        "step": {
+          "title": "Step",
+          "type": "integer"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "step",
+        "text"
+      ],
+      "title": "EmergencyInstruction",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "EmergencyProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "allergies": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Allergies",
+          "type": "array"
+        },
+        "blood_type": {
+          "anyOf": [
+            {
+              "maxLength": 8,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Blood Type"
+        },
+        "contacts": {
+          "items": {
+            "$ref": "#/$defs/EmergencyContactPerson"
+          },
+          "maxItems": 5,
+          "title": "Contacts",
+          "type": "array"
+        },
+        "insurance_phone": {
+          "anyOf": [
+            {
+              "maxLength": 32,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Insurance Phone"
+        },
+        "insurance_policy_ref": {
+          "anyOf": [
+            {
+              "maxLength": 120,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Insurance Policy Ref"
+        },
+        "insurance_provider": {
+          "anyOf": [
+            {
+              "maxLength": 120,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Insurance Provider"
+        },
+        "medical_notes": {
+          "anyOf": [
+            {
+              "maxLength": 2000,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Medical Notes"
+        },
+        "medications": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Medications",
+          "type": "array"
+        },
+        "updated_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Updated At"
+        }
+      },
+      "title": "EmergencyProfile",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "EvidencePackage": {
+      "additionalProperties": false,
+      "properties": {
+        "conflict_summary": {
+          "$ref": "#/$defs/ConflictSummary"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "degraded_services": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Degraded Services",
+          "type": "array"
+        },
+        "disaster_facts": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Disaster Facts",
+          "type": "array"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/RetrievedEvidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "knowledge_collection_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Knowledge Collection Version"
+        },
+        "limitations": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        },
+        "official_alerts": {
+          "items": {
+            "$ref": "#/$defs/DisasterEvent"
+          },
+          "title": "Official Alerts",
+          "type": "array"
+        },
+        "package_id": {
+          "format": "uuid",
+          "title": "Package Id",
+          "type": "string"
+        },
+        "quality_summary": {
+          "$ref": "#/$defs/QualitySummary"
+        },
+        "request_id": {
+          "format": "uuid",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "risk_assessments": {
+          "items": {
+            "$ref": "#/$defs/RiskAssessment"
+          },
+          "title": "Risk Assessments",
+          "type": "array"
+        },
+        "routes": {
+          "items": {
+            "$ref": "#/$defs/RouteCandidate"
+          },
+          "title": "Routes",
+          "type": "array"
+        },
+        "snapshot_id": {
+          "format": "uuid",
+          "title": "Snapshot Id",
+          "type": "string"
+        },
+        "transport_facts": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Transport Facts",
+          "type": "array"
+        },
+        "trip_revision": {
+          "default": 1,
+          "title": "Trip Revision",
+          "type": "integer"
+        },
+        "weather_facts": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Weather Facts",
+          "type": "array"
+        }
+      },
+      "required": [
+        "package_id",
+        "request_id",
+        "snapshot_id",
+        "risk_assessments",
+        "routes",
+        "evidence",
+        "quality_summary",
+        "conflict_summary",
+        "official_alerts",
+        "created_at"
+      ],
+      "title": "EvidencePackage",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "EvidencePackageRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "locale": {
+          "default": "en-US",
+          "title": "Locale",
+          "type": "string"
+        },
+        "question": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Question"
+        },
+        "snapshot": {
+          "$ref": "#/$defs/IntegratedTravelContext"
+        }
+      },
+      "required": [
+        "snapshot"
+      ],
+      "title": "EvidencePackageRequest",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "ExternalContext": {
+      "additionalProperties": false,
+      "description": "Output of external-data /internal/v1/context/query — all canonical records + provider health.",
+      "properties": {
+        "bbox": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BBox"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "context_id": {
+          "format": "uuid",
+          "title": "Context Id",
+          "type": "string"
+        },
+        "degraded_services": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Degraded Services",
+          "type": "array"
+        },
+        "disaster_events": {
+          "items": {
+            "$ref": "#/$defs/DisasterEvent"
+          },
+          "title": "Disaster Events",
+          "type": "array"
+        },
+        "fetched_at": {
+          "format": "date-time",
+          "title": "Fetched At",
+          "type": "string"
+        },
+        "official_alerts": {
+          "items": {
+            "$ref": "#/$defs/DisasterEvent"
+          },
+          "title": "Official Alerts",
+          "type": "array"
+        },
+        "provider_health": {
+          "items": {
+            "$ref": "#/$defs/ProviderHealth"
+          },
+          "title": "Provider Health",
+          "type": "array"
+        },
+        "request_id": {
+          "format": "uuid",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "routes": {
+          "items": {
+            "$ref": "#/$defs/RouteCandidate"
+          },
+          "title": "Routes",
+          "type": "array"
+        },
+        "transport": {
+          "items": {
+            "$ref": "#/$defs/TransportStatus"
+          },
+          "title": "Transport",
+          "type": "array"
+        },
+        "unavailable_capabilities": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Unavailable Capabilities",
+          "type": "array"
+        },
+        "weather": {
+          "items": {
+            "$ref": "#/$defs/WeatherForecastPoint"
+          },
+          "title": "Weather",
+          "type": "array"
+        }
+      },
+      "required": [
+        "context_id",
+        "request_id",
+        "routes",
+        "weather",
+        "transport",
+        "disaster_events",
+        "official_alerts",
+        "provider_health",
+        "fetched_at"
+      ],
+      "title": "ExternalContext",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "FeedbackCategory": {
+      "enum": [
+        "HELPFUL",
+        "INCORRECT",
+        "STALE",
+        "UNSAFE",
+        "ROUTE_ISSUE",
+        "SOURCE_ISSUE",
+        "OTHER"
+      ],
+      "title": "FeedbackCategory",
+      "type": "string"
+    },
+    "FeedbackEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "category": {
+          "$ref": "#/$defs/FeedbackCategory"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "id": {
+          "format": "uuid",
+          "title": "Id",
+          "type": "string"
+        },
+        "recommendation_id": {
+          "format": "uuid",
+          "title": "Recommendation Id",
+          "type": "string"
+        },
+        "review_status": {
+          "default": "NONE",
+          "enum": [
+            "NONE",
+            "QUEUED",
+            "IN_REVIEW",
+            "RESOLVED"
+          ],
+          "title": "Review Status",
+          "type": "string"
+        },
+        "safety_review_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Safety Review Id"
+        },
+        "text_redacted": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Text Redacted"
+        }
+      },
+      "required": [
+        "id",
+        "recommendation_id",
+        "category",
+        "created_at"
+      ],
+      "title": "FeedbackEvent",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "Freshness": {
+      "additionalProperties": false,
+      "properties": {
+        "expires_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expires At"
+        },
+        "fetched_at": {
+          "format": "date-time",
+          "title": "Fetched At",
+          "type": "string"
+        },
+        "observed_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Observed At"
+        }
+      },
+      "required": [
+        "fetched_at"
+      ],
+      "title": "Freshness",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "IntegratedTravelContext": {
+      "additionalProperties": false,
+      "properties": {
+        "conflict_summary": {
+          "$ref": "#/$defs/ConflictSummary"
+        },
+        "content_hash": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "corridor_buffer_m": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Corridor Buffer M"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "disaster_events": {
+          "items": {
+            "$ref": "#/$defs/DisasterEvent"
+          },
+          "title": "Disaster Events",
+          "type": "array"
+        },
+        "feature_schema_version": {
+          "default": "1.0.0",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "title": "Feature Schema Version",
+          "type": "string"
+        },
+        "features": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": "Features",
+          "type": "object"
+        },
+        "official_alerts": {
+          "items": {
+            "$ref": "#/$defs/DisasterEvent"
+          },
+          "title": "Official Alerts",
+          "type": "array"
+        },
+        "provider_health": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Provider Health",
+          "type": "object"
+        },
+        "quality_summary": {
+          "$ref": "#/$defs/QualitySummary"
+        },
+        "request_id": {
+          "format": "uuid",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "route_candidates": {
+          "items": {
+            "$ref": "#/$defs/RouteCandidate"
+          },
+          "title": "Route Candidates",
+          "type": "array"
+        },
+        "route_corridor_geojson": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Polygon"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "schema_version": {
+          "default": "1.0.0",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "snapshot_id": {
+          "format": "uuid",
+          "title": "Snapshot Id",
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "supersedes_snapshot_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Supersedes Snapshot Id"
+        },
+        "transform_version": {
+          "default": "1.0.0",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "title": "Transform Version",
+          "type": "string"
+        },
+        "transport": {
+          "items": {
+            "$ref": "#/$defs/TransportStatus"
+          },
+          "title": "Transport",
+          "type": "array"
+        },
+        "travel_modes": {
+          "items": {
+            "$ref": "#/$defs/TravelMode"
+          },
+          "title": "Travel Modes",
+          "type": "array"
+        },
+        "travel_window": {
+          "$ref": "#/$defs/TravelWindow"
+        },
+        "trip_id": {
+          "format": "uuid",
+          "title": "Trip Id",
+          "type": "string"
+        },
+        "trip_revision": {
+          "default": 1,
+          "title": "Trip Revision",
+          "type": "integer"
+        },
+        "weather": {
+          "items": {
+            "$ref": "#/$defs/WeatherForecastPoint"
+          },
+          "title": "Weather",
+          "type": "array"
+        }
+      },
+      "required": [
+        "snapshot_id",
+        "request_id",
+        "trip_id",
+        "travel_window",
+        "travel_modes",
+        "route_candidates",
+        "weather",
+        "transport",
+        "disaster_events",
+        "official_alerts",
+        "features",
+        "quality_summary",
+        "conflict_summary",
+        "source_ids",
+        "created_at",
+        "content_hash"
+      ],
+      "title": "IntegratedTravelContext",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "Intent": {
+      "enum": [
+        "PLAN_TRIP",
+        "CHECK_SAFETY",
+        "ASK_INFORMATION",
+        "FOLLOW_UP",
+        "EMERGENCY"
+      ],
+      "title": "Intent",
+      "type": "string"
+    },
+    "LineString": {
+      "additionalProperties": false,
+      "properties": {
+        "coordinates": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 3,
+            "minItems": 2,
+            "type": "array"
+          },
+          "minItems": 2,
+          "title": "Coordinates",
+          "type": "array"
+        },
+        "type": {
+          "const": "LineString",
+          "default": "LineString",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "coordinates"
+      ],
+      "title": "LineString",
+      "type": "object"
+    },
+    "LocationRef": {
+      "additionalProperties": false,
+      "properties": {
+        "admin1": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Admin1"
+        },
+        "confirmed_by_user": {
+          "default": false,
+          "title": "Confirmed By User",
+          "type": "boolean"
+        },
+        "coordinates": {
+          "$ref": "#/$defs/Point"
+        },
+        "country_code": {
+          "pattern": "^[A-Z]{2}$",
+          "title": "Country Code",
+          "type": "string"
+        },
+        "display_name": {
+          "maxLength": 256,
+          "minLength": 1,
+          "title": "Display Name",
+          "type": "string"
+        },
+        "place_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Place Id",
+          "type": "string"
+        },
+        "provider": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Provider",
+          "type": "string"
+        },
+        "timezone": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Timezone",
+          "type": "string"
+        }
+      },
+      "required": [
+        "place_id",
+        "display_name",
+        "coordinates",
+        "country_code",
+        "timezone",
+        "provider"
+      ],
+      "title": "LocationRef",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "ModelRef": {
+      "additionalProperties": false,
+      "properties": {
+        "checksum": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Checksum"
+        },
+        "feature_schema_version": {
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "title": "Feature Schema Version",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "thresholds_version": {
+          "default": "1.0.0",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "title": "Thresholds Version",
+          "type": "string"
+        },
+        "version": {
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "version",
+        "feature_schema_version"
+      ],
+      "title": "ModelRef",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "MultiPolygon": {
+      "additionalProperties": false,
+      "properties": {
+        "coordinates": {
+          "items": {
+            "items": {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "maxItems": 3,
+                "minItems": 2,
+                "type": "array"
+              },
+              "type": "array"
+            },
+            "type": "array"
+          },
+          "minItems": 1,
+          "title": "Coordinates",
+          "type": "array"
+        },
+        "type": {
+          "const": "MultiPolygon",
+          "default": "MultiPolygon",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "coordinates"
+      ],
+      "title": "MultiPolygon",
+      "type": "object"
+    },
+    "OfficialContact": {
+      "additionalProperties": false,
+      "properties": {
+        "authority": {
+          "$ref": "#/$defs/SourceAuthority"
+        },
+        "availability": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Availability"
+        },
+        "country_code": {
+          "pattern": "^[A-Z]{2}$",
+          "title": "Country Code",
+          "type": "string"
+        },
+        "effective_at": {
+          "format": "date-time",
+          "title": "Effective At",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "phone": {
+          "title": "Phone",
+          "type": "string"
+        },
+        "phone_e164": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Phone E164"
+        },
+        "review_due_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Review Due At"
+        },
+        "service_type": {
+          "enum": [
+            "POLICE",
+            "MEDICAL",
+            "FIRE",
+            "TOURIST_POLICE",
+            "GENERAL_EMERGENCY",
+            "EMBASSY",
+            "DISASTER"
+          ],
+          "title": "Service Type",
+          "type": "string"
+        },
+        "source_url": {
+          "title": "Source Url",
+          "type": "string"
+        },
+        "subdivision": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Subdivision"
+        },
+        "verified_at": {
+          "format": "date-time",
+          "title": "Verified At",
+          "type": "string"
+        },
+        "website": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Website"
+        }
+      },
+      "required": [
+        "country_code",
+        "service_type",
+        "label",
+        "phone",
+        "source_url",
+        "authority",
+        "effective_at",
+        "verified_at"
+      ],
+      "title": "OfficialContact",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "Point": {
+      "additionalProperties": false,
+      "properties": {
+        "coordinates": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 2,
+          "title": "Coordinates",
+          "type": "array"
+        },
+        "type": {
+          "const": "Point",
+          "default": "Point",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "coordinates"
+      ],
+      "title": "Point",
+      "type": "object"
+    },
+    "Polygon": {
+      "additionalProperties": false,
+      "properties": {
+        "coordinates": {
+          "items": {
+            "items": {
+              "items": {
+                "type": "number"
+              },
+              "maxItems": 3,
+              "minItems": 2,
+              "type": "array"
+            },
+            "type": "array"
+          },
+          "minItems": 1,
+          "title": "Coordinates",
+          "type": "array"
+        },
+        "type": {
+          "const": "Polygon",
+          "default": "Polygon",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "coordinates"
+      ],
+      "title": "Polygon",
+      "type": "object"
+    },
+    "ProviderHealth": {
+      "additionalProperties": false,
+      "properties": {
+        "checked_at": {
+          "format": "date-time",
+          "title": "Checked At",
+          "type": "string"
+        },
+        "coverage_note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Coverage Note"
+        },
+        "enabled": {
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "last_error_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Error Code"
+        },
+        "latency_ms": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Latency Ms"
+        },
+        "provider": {
+          "title": "Provider",
+          "type": "string"
+        },
+        "quota_remaining": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Quota Remaining"
+        },
+        "status": {
+          "enum": [
+            "UP",
+            "DEGRADED",
+            "DOWN",
+            "UNAVAILABLE",
+            "UNKNOWN"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "provider",
+        "kind",
+        "status",
+        "enabled",
+        "checked_at"
+      ],
+      "title": "ProviderHealth",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "ProviderKind": {
+      "enum": [
+        "GEOCODING",
+        "WEATHER",
+        "ROUTE",
+        "FLIGHT",
+        "TRANSIT",
+        "DISASTER",
+        "EMERGENCY_DIRECTORY",
+        "PLACES"
+      ],
+      "title": "ProviderKind",
+      "type": "string"
+    },
+    "QualityFlag": {
+      "enum": [
+        "MISSING",
+        "STALE",
+        "CONFLICTING",
+        "INFERRED",
+        "INCOMPLETE",
+        "OUTSIDE_COVERAGE"
+      ],
+      "title": "QualityFlag",
+      "type": "string"
+    },
+    "QualityGate": {
+      "enum": [
+        "PASS",
+        "DEGRADED",
+        "BLOCK"
+      ],
+      "title": "QualityGate",
+      "type": "string"
+    },
+    "QualitySummary": {
+      "additionalProperties": false,
+      "properties": {
+        "degraded_services": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Degraded Services",
+          "type": "array"
+        },
+        "disaster": {
+          "$ref": "#/$defs/DataQuality"
+        },
+        "gate": {
+          "$ref": "#/$defs/QualityGate"
+        },
+        "overall": {
+          "$ref": "#/$defs/DataQuality"
+        },
+        "reasons": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reasons",
+          "type": "array"
+        },
+        "route": {
+          "$ref": "#/$defs/DataQuality"
+        },
+        "transport": {
+          "$ref": "#/$defs/DataQuality"
+        },
+        "weather": {
+          "$ref": "#/$defs/DataQuality"
+        }
+      },
+      "required": [
+        "gate",
+        "overall",
+        "weather",
+        "transport",
+        "disaster",
+        "route"
+      ],
+      "title": "QualitySummary",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "ReasonCode": {
+      "description": "Controlled vocabulary for risk/decision reasons (LLM may only paraphrase these).",
+      "enum": [
+        "SEVERE_WEATHER_CORRIDOR",
+        "HEAVY_PRECIPITATION",
+        "HIGH_WIND",
+        "LOW_VISIBILITY",
+        "EXTREME_TEMPERATURE",
+        "EARTHQUAKE_NEAR_CORRIDOR",
+        "ACTIVE_DISASTER_EVENT",
+        "OFFICIAL_ALERT_ACTIVE",
+        "OFFICIAL_CLOSURE",
+        "TRANSPORT_DISRUPTION",
+        "TRANSPORT_DELAY",
+        "SAFER_ROUTE_AVAILABLE",
+        "NO_SAFER_ROUTE",
+        "RISK_DECREASES_LATER",
+        "LOW_DATA_COVERAGE",
+        "STALE_DATA",
+        "CONFLICTING_SOURCES",
+        "INSUFFICIENT_EVIDENCE",
+        "NO_RELIABLE_KNOWLEDGE_EVIDENCE",
+        "MODEL_UNAVAILABLE",
+        "PROVIDER_UNAVAILABLE",
+        "CONDITIONS_NORMAL"
+      ],
+      "title": "ReasonCode",
+      "type": "string"
+    },
+    "RecommendationCreateRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "decision": {
+          "$ref": "#/$defs/DecisionResult"
+        },
+        "evidence_package": {
+          "$ref": "#/$defs/EvidencePackage"
+        },
+        "previous_recommendation_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Previous Recommendation Id"
+        },
+        "snapshot_created_at": {
+          "format": "date-time",
+          "title": "Snapshot Created At",
+          "type": "string"
+        },
+        "snapshot_sources": {
+          "items": {
+            "$ref": "#/$defs/SourceProvenance"
+          },
+          "title": "Snapshot Sources",
+          "type": "array"
+        },
+        "transport_summary": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Transport Summary"
+        },
+        "travel_request": {
+          "$ref": "#/$defs/TravelRequest"
+        },
+        "weather_summary": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Weather Summary"
+        }
+      },
+      "required": [
+        "travel_request",
+        "decision",
+        "evidence_package",
+        "snapshot_created_at",
+        "snapshot_sources"
+      ],
+      "title": "RecommendationCreateRequest",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "RecommendationResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "action_code": {
+          "$ref": "#/$defs/ActionCode"
+        },
+        "alerts": {
+          "items": {
+            "$ref": "#/$defs/AlertItem"
+          },
+          "title": "Alerts",
+          "type": "array"
+        },
+        "alternatives": {
+          "items": {
+            "$ref": "#/$defs/RouteCandidate"
+          },
+          "title": "Alternatives",
+          "type": "array"
+        },
+        "confidence": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "conversation_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Conversation Id"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "decision_id": {
+          "format": "uuid",
+          "title": "Decision Id",
+          "type": "string"
+        },
+        "degraded_services": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Degraded Services",
+          "type": "array"
+        },
+        "emergency_instructions": {
+          "items": {
+            "$ref": "#/$defs/EmergencyInstruction"
+          },
+          "title": "Emergency Instructions",
+          "type": "array"
+        },
+        "escalation_required": {
+          "default": false,
+          "title": "Escalation Required",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/RetrievedEvidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "expires_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expires At"
+        },
+        "freshness": {
+          "$ref": "#/$defs/Freshness"
+        },
+        "immediate_actions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Immediate Actions",
+          "type": "array"
+        },
+        "limitations": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        },
+        "locale": {
+          "default": "en-US",
+          "title": "Locale",
+          "type": "string"
+        },
+        "official_contacts": {
+          "items": {
+            "$ref": "#/$defs/OfficialContact"
+          },
+          "title": "Official Contacts",
+          "type": "array"
+        },
+        "primary_route": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RouteCandidate"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "reason_codes": {
+          "items": {
+            "$ref": "#/$defs/ReasonCode"
+          },
+          "title": "Reason Codes",
+          "type": "array"
+        },
+        "reasons": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reasons",
+          "type": "array"
+        },
+        "recommendation_id": {
+          "format": "uuid",
+          "title": "Recommendation Id",
+          "type": "string"
+        },
+        "request_id": {
+          "format": "uuid",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "risk_level": {
+          "$ref": "#/$defs/RiskLevel"
+        },
+        "short_summary": {
+          "maxLength": 600,
+          "title": "Short Summary",
+          "type": "string"
+        },
+        "snapshot_id": {
+          "format": "uuid",
+          "title": "Snapshot Id",
+          "type": "string"
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/SourceProvenance"
+          },
+          "title": "Sources",
+          "type": "array"
+        },
+        "status": {
+          "$ref": "#/$defs/RunStatus"
+        },
+        "supersedes_recommendation_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Supersedes Recommendation Id"
+        },
+        "transport_summary": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Transport Summary"
+        },
+        "trip_id": {
+          "format": "uuid",
+          "title": "Trip Id",
+          "type": "string"
+        },
+        "versions": {
+          "$ref": "#/$defs/VersionInfo"
+        },
+        "weather_summary": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Weather Summary"
+        }
+      },
+      "required": [
+        "recommendation_id",
+        "request_id",
+        "trip_id",
+        "decision_id",
+        "snapshot_id",
+        "status",
+        "action_code",
+        "risk_level",
+        "confidence",
+        "short_summary",
+        "freshness",
+        "versions",
+        "created_at"
+      ],
+      "title": "RecommendationResponse",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "RetrievedEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "authority": {
+          "$ref": "#/$defs/SourceAuthority"
+        },
+        "collection_version": {
+          "title": "Collection Version",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "document_id": {
+          "title": "Document Id",
+          "type": "string"
+        },
+        "effective_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Effective At"
+        },
+        "evidence_id": {
+          "format": "uuid",
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "expires_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expires At"
+        },
+        "hazards": {
+          "items": {
+            "$ref": "#/$defs/DisasterEventType"
+          },
+          "title": "Hazards",
+          "type": "array"
+        },
+        "language": {
+          "title": "Language",
+          "type": "string"
+        },
+        "page": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Page"
+        },
+        "passage": {
+          "maxLength": 4000,
+          "title": "Passage",
+          "type": "string"
+        },
+        "rerank_score": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rerank Score"
+        },
+        "retrieval_score": {
+          "title": "Retrieval Score",
+          "type": "number"
+        },
+        "section": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Section"
+        },
+        "source_url": {
+          "title": "Source Url",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "required": [
+        "evidence_id",
+        "document_id",
+        "authority",
+        "title",
+        "source_url",
+        "language",
+        "passage",
+        "retrieval_score",
+        "collection_version",
+        "content_hash"
+      ],
+      "title": "RetrievedEvidence",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "RiskAssessment": {
+      "additionalProperties": false,
+      "properties": {
+        "assessment_id": {
+          "format": "uuid",
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "feature_contributions": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Feature Contributions",
+          "type": "object"
+        },
+        "later_window_delay_minutes": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Later Window Delay Minutes"
+        },
+        "later_window_risk_level": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RiskLevel"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "model": {
+          "$ref": "#/$defs/ModelRef"
+        },
+        "probability_high": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Probability High",
+          "type": "number"
+        },
+        "quality": {
+          "$ref": "#/$defs/DataQuality"
+        },
+        "reason_codes": {
+          "items": {
+            "$ref": "#/$defs/ReasonCode"
+          },
+          "title": "Reason Codes",
+          "type": "array"
+        },
+        "risk_level": {
+          "$ref": "#/$defs/RiskLevel"
+        },
+        "route_id": {
+          "format": "uuid",
+          "title": "Route Id",
+          "type": "string"
+        },
+        "safety_overrides": {
+          "items": {
+            "$ref": "#/$defs/SafetyOverride"
+          },
+          "title": "Safety Overrides",
+          "type": "array"
+        },
+        "score": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Score",
+          "type": "number"
+        },
+        "snapshot_id": {
+          "format": "uuid",
+          "title": "Snapshot Id",
+          "type": "string"
+        },
+        "time_dependent": {
+          "default": false,
+          "title": "Time Dependent",
+          "type": "boolean"
+        },
+        "uncertainty": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Uncertainty",
+          "type": "number"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "snapshot_id",
+        "route_id",
+        "score",
+        "probability_high",
+        "risk_level",
+        "uncertainty",
+        "model",
+        "created_at"
+      ],
+      "title": "RiskAssessment",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "RiskLevel": {
+      "enum": [
+        "LOW",
+        "MEDIUM",
+        "HIGH",
+        "UNKNOWN"
+      ],
+      "title": "RiskLevel",
+      "type": "string"
+    },
+    "RouteCandidate": {
+      "additionalProperties": false,
+      "properties": {
+        "distance_m": {
+          "minimum": 0,
+          "title": "Distance M",
+          "type": "number"
+        },
+        "duration_seconds": {
+          "minimum": 0,
+          "title": "Duration Seconds",
+          "type": "number"
+        },
+        "exposure": {
+          "$ref": "#/$defs/RouteExposure"
+        },
+        "geometry": {
+          "$ref": "#/$defs/LineString"
+        },
+        "label": {
+          "$ref": "#/$defs/RouteLabel",
+          "default": "ALTERNATIVE"
+        },
+        "labels": {
+          "description": "A route may honestly hold several labels",
+          "items": {
+            "$ref": "#/$defs/RouteLabel"
+          },
+          "title": "Labels",
+          "type": "array"
+        },
+        "mode": {
+          "$ref": "#/$defs/TravelMode"
+        },
+        "provider_route_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Provider Route Id"
+        },
+        "quality": {
+          "$ref": "#/$defs/DataQuality"
+        },
+        "rank": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rank"
+        },
+        "risk_level": {
+          "$ref": "#/$defs/RiskLevel",
+          "default": "UNKNOWN"
+        },
+        "risk_score": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Risk Score"
+        },
+        "route_id": {
+          "format": "uuid",
+          "title": "Route Id",
+          "type": "string"
+        },
+        "segments": {
+          "items": {
+            "$ref": "#/$defs/RouteSegment"
+          },
+          "title": "Segments",
+          "type": "array"
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/SourceProvenance"
+          },
+          "title": "Sources",
+          "type": "array"
+        },
+        "trade_offs": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Trade Offs",
+          "type": "array"
+        },
+        "transfers": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Transfers",
+          "type": "integer"
+        },
+        "usable": {
+          "default": true,
+          "title": "Usable",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "route_id",
+        "mode",
+        "geometry",
+        "distance_m",
+        "duration_seconds"
+      ],
+      "title": "RouteCandidate",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "RouteExposure": {
+      "additionalProperties": false,
+      "properties": {
+        "closed": {
+          "default": false,
+          "title": "Closed",
+          "type": "boolean"
+        },
+        "hazard_event_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Hazard Event Ids",
+          "type": "array"
+        },
+        "max_hazard_severity": {
+          "$ref": "#/$defs/Severity",
+          "default": "UNKNOWN"
+        },
+        "min_hazard_distance_km": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Min Hazard Distance Km"
+        },
+        "score": {
+          "default": 0.0,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Score",
+          "type": "number"
+        },
+        "severe_weather_minutes": {
+          "default": 0.0,
+          "title": "Severe Weather Minutes",
+          "type": "number"
+        },
+        "weather_window_ids": {
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "title": "Weather Window Ids",
+          "type": "array"
+        }
+      },
+      "title": "RouteExposure",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "RouteLabel": {
+      "enum": [
+        "ORIGINAL",
+        "RECOMMENDED",
+        "FASTEST",
+        "LOWEST_RISK",
+        "ALTERNATIVE"
+      ],
+      "title": "RouteLabel",
+      "type": "string"
+    },
+    "RouteSegment": {
+      "additionalProperties": false,
+      "properties": {
+        "distance_m": {
+          "minimum": 0,
+          "title": "Distance M",
+          "type": "number"
+        },
+        "duration_seconds": {
+          "minimum": 0,
+          "title": "Duration Seconds",
+          "type": "number"
+        },
+        "eta_end": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Eta End"
+        },
+        "eta_start": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Eta Start"
+        },
+        "geometry": {
+          "$ref": "#/$defs/LineString"
+        },
+        "index": {
+          "title": "Index",
+          "type": "integer"
+        },
+        "instruction": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Instruction"
+        },
+        "mode": {
+          "$ref": "#/$defs/TravelMode"
+        },
+        "operator": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Operator"
+        },
+        "service_number": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Service Number"
+        }
+      },
+      "required": [
+        "index",
+        "mode",
+        "geometry",
+        "distance_m",
+        "duration_seconds"
+      ],
+      "title": "RouteSegment",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "RunProgressEvent": {
+      "additionalProperties": false,
+      "description": "Payload of an SSE event. No prompts, raw provider bodies, coordinates or PII.",
+      "properties": {
+        "error_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Error Code"
+        },
+        "error_message": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Error Message"
+        },
+        "event_id": {
+          "minimum": 0,
+          "title": "Event Id",
+          "type": "integer"
+        },
+        "event_type": {
+          "enum": [
+            "run.accepted",
+            "run.progress",
+            "run.needs_input",
+            "run.degraded",
+            "run.completed",
+            "run.failed",
+            "heartbeat"
+          ],
+          "title": "Event Type",
+          "type": "string"
+        },
+        "message_key": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Message Key"
+        },
+        "missing_fields": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Fields"
+        },
+        "occurred_at": {
+          "format": "date-time",
+          "title": "Occurred At",
+          "type": "string"
+        },
+        "percent": {
+          "anyOf": [
+            {
+              "maximum": 100,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Percent"
+        },
+        "prompt_key": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prompt Key"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reason"
+        },
+        "recommendation_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Recommendation Id"
+        },
+        "request_id": {
+          "format": "uuid",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "result_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result Url"
+        },
+        "retryable": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Retryable"
+        },
+        "retrying": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Retrying"
+        },
+        "service": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Service"
+        },
+        "stage": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RunStage"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "status": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RunStatus"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "event_id",
+        "event_type",
+        "request_id",
+        "occurred_at"
+      ],
+      "title": "RunProgressEvent",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "RunRef": {
+      "additionalProperties": false,
+      "properties": {
+        "conversation_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Conversation Id"
+        },
+        "events_url": {
+          "title": "Events Url",
+          "type": "string"
+        },
+        "poll_url": {
+          "title": "Poll Url",
+          "type": "string"
+        },
+        "recommendation_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Recommendation Id"
+        },
+        "request_id": {
+          "format": "uuid",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/RunStatus"
+        },
+        "submitted_at": {
+          "format": "date-time",
+          "title": "Submitted At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "request_id",
+        "status",
+        "events_url",
+        "poll_url",
+        "submitted_at"
+      ],
+      "title": "RunRef",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "RunStage": {
+      "enum": [
+        "VALIDATING",
+        "FETCHING_EXTERNAL_DATA",
+        "INTEGRATING_DATA",
+        "ASSESSING_RISK",
+        "RETRIEVING_GUIDANCE",
+        "EVALUATING_ROUTES",
+        "MAKING_DECISION",
+        "EXPLAINING",
+        "FORMATTING_RESPONSE"
+      ],
+      "title": "RunStage",
+      "type": "string"
+    },
+    "RunState": {
+      "additionalProperties": false,
+      "properties": {
+        "completed_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Completed At"
+        },
+        "conversation_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Conversation Id"
+        },
+        "decision_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Decision Id"
+        },
+        "degraded_services": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Degraded Services",
+          "type": "array"
+        },
+        "error_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Error Code"
+        },
+        "error_message": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Error Message"
+        },
+        "intent": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Intent"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "llm_call_count": {
+          "default": 0,
+          "title": "Llm Call Count",
+          "type": "integer"
+        },
+        "missing_fields": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Missing Fields",
+          "type": "array"
+        },
+        "recommendation_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Recommendation Id"
+        },
+        "request_id": {
+          "format": "uuid",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "snapshot_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Snapshot Id"
+        },
+        "stage": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RunStage"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "started_at": {
+          "format": "date-time",
+          "title": "Started At",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/RunStatus"
+        },
+        "step_count": {
+          "default": 0,
+          "title": "Step Count",
+          "type": "integer"
+        },
+        "tool_call_count": {
+          "default": 0,
+          "title": "Tool Call Count",
+          "type": "integer"
+        },
+        "trip_id": {
+          "format": "uuid",
+          "title": "Trip Id",
+          "type": "string"
+        },
+        "updated_at": {
+          "format": "date-time",
+          "title": "Updated At",
+          "type": "string"
+        },
+        "versions": {
+          "$ref": "#/$defs/VersionInfo"
+        }
+      },
+      "required": [
+        "request_id",
+        "trip_id",
+        "status",
+        "versions",
+        "started_at",
+        "updated_at"
+      ],
+      "title": "RunState",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "RunStatus": {
+      "enum": [
+        "QUEUED",
+        "RUNNING",
+        "NEEDS_INPUT",
+        "COMPLETED",
+        "PARTIAL",
+        "FAILED",
+        "CANCELLED"
+      ],
+      "title": "RunStatus",
+      "type": "string"
+    },
+    "SafetyOverride": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "$ref": "#/$defs/ReasonCode"
+        },
+        "event_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Event Ids",
+          "type": "array"
+        },
+        "minimum_risk": {
+          "$ref": "#/$defs/RiskLevel"
+        },
+        "policy_version": {
+          "default": "1.0.0",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "title": "Policy Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "minimum_risk"
+      ],
+      "title": "SafetyOverride",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "Severity": {
+      "enum": [
+        "INFO",
+        "MINOR",
+        "MODERATE",
+        "SEVERE",
+        "EXTREME",
+        "UNKNOWN"
+      ],
+      "title": "Severity",
+      "type": "string"
+    },
+    "SnapshotCreateRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "corridor_buffer_m": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Corridor Buffer M"
+        },
+        "external_context": {
+          "$ref": "#/$defs/ExternalContext"
+        },
+        "travel_request": {
+          "$ref": "#/$defs/TravelRequest"
+        }
+      },
+      "required": [
+        "travel_request",
+        "external_context"
+      ],
+      "title": "SnapshotCreateRequest",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "SourceAuthority": {
+      "enum": [
+        "OFFICIAL",
+        "INTERGOVERNMENTAL",
+        "LICENSED_PROVIDER",
+        "COMMUNITY",
+        "UNKNOWN"
+      ],
+      "title": "SourceAuthority",
+      "type": "string"
+    },
+    "SourceProvenance": {
+      "additionalProperties": false,
+      "properties": {
+        "attribution": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Attribution"
+        },
+        "authority": {
+          "$ref": "#/$defs/SourceAuthority",
+          "default": "UNKNOWN"
+        },
+        "content_hash": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "expires_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expires At"
+        },
+        "fetched_at": {
+          "format": "date-time",
+          "title": "Fetched At",
+          "type": "string"
+        },
+        "license": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License"
+        },
+        "observed_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Observed At"
+        },
+        "provider": {
+          "title": "Provider",
+          "type": "string"
+        },
+        "provider_record_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Provider Record Id"
+        },
+        "published_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Published At"
+        },
+        "schema_version": {
+          "default": "1.0.0",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "source_id": {
+          "format": "uuid",
+          "title": "Source Id",
+          "type": "string"
+        },
+        "source_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Url"
+        }
+      },
+      "required": [
+        "source_id",
+        "provider",
+        "fetched_at",
+        "content_hash"
+      ],
+      "title": "SourceProvenance",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "TimeWindow": {
+      "additionalProperties": false,
+      "properties": {
+        "end": {
+          "format": "date-time",
+          "title": "End",
+          "type": "string"
+        },
+        "start": {
+          "format": "date-time",
+          "title": "Start",
+          "type": "string"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ],
+      "title": "TimeWindow",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "TransportServiceStatus": {
+      "enum": [
+        "ON_TIME",
+        "DELAYED",
+        "CANCELLED",
+        "DISRUPTED",
+        "UNKNOWN"
+      ],
+      "title": "TransportServiceStatus",
+      "type": "string"
+    },
+    "TransportStatus": {
+      "additionalProperties": false,
+      "properties": {
+        "cancellation": {
+          "default": false,
+          "title": "Cancellation",
+          "type": "boolean"
+        },
+        "delay_minutes": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Delay Minutes"
+        },
+        "destination_stop": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Destination Stop"
+        },
+        "estimated_arrival": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Estimated Arrival"
+        },
+        "estimated_departure": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Estimated Departure"
+        },
+        "id": {
+          "format": "uuid",
+          "title": "Id",
+          "type": "string"
+        },
+        "message": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Message"
+        },
+        "mode": {
+          "$ref": "#/$defs/TravelMode"
+        },
+        "operator": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Operator"
+        },
+        "origin_stop": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Origin Stop"
+        },
+        "quality": {
+          "$ref": "#/$defs/DataQuality"
+        },
+        "scheduled_arrival": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scheduled Arrival"
+        },
+        "scheduled_departure": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scheduled Departure"
+        },
+        "service_number": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Service Number"
+        },
+        "source": {
+          "$ref": "#/$defs/SourceProvenance"
+        },
+        "status": {
+          "$ref": "#/$defs/TransportServiceStatus",
+          "default": "UNKNOWN"
+        }
+      },
+      "required": [
+        "id",
+        "mode",
+        "source"
+      ],
+      "title": "TransportStatus",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "TravelMode": {
+      "enum": [
+        "FLIGHT",
+        "TRAIN",
+        "BUS",
+        "CAR",
+        "WALK",
+        "BICYCLE",
+        "MULTIMODAL"
+      ],
+      "title": "TravelMode",
+      "type": "string"
+    },
+    "TravelPreference": {
+      "additionalProperties": false,
+      "properties": {
+        "accessibility": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 10,
+          "title": "Accessibility",
+          "type": "array"
+        },
+        "avoid_tolls": {
+          "default": false,
+          "title": "Avoid Tolls",
+          "type": "boolean"
+        },
+        "max_extra_duration_minutes": {
+          "default": 90,
+          "maximum": 1440,
+          "minimum": 0,
+          "title": "Max Extra Duration Minutes",
+          "type": "integer"
+        },
+        "prefer_lower_cost": {
+          "default": false,
+          "title": "Prefer Lower Cost",
+          "type": "boolean"
+        },
+        "prefer_lower_emissions": {
+          "default": false,
+          "title": "Prefer Lower Emissions",
+          "type": "boolean"
+        },
+        "prefer_safer_route": {
+          "default": true,
+          "title": "Prefer Safer Route",
+          "type": "boolean"
+        }
+      },
+      "title": "TravelPreference",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "TravelRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "avoid_geometries": {
+          "items": {
+            "$ref": "#/$defs/Polygon"
+          },
+          "maxItems": 5,
+          "title": "Avoid Geometries",
+          "type": "array"
+        },
+        "conversation_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Conversation Id"
+        },
+        "departure_time": {
+          "format": "date-time",
+          "title": "Departure Time",
+          "type": "string"
+        },
+        "destination": {
+          "$ref": "#/$defs/LocationRef"
+        },
+        "intent_hint": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Intent"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "live_location_consent_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Live Location Consent Id"
+        },
+        "locale": {
+          "default": "en-US",
+          "pattern": "^[a-z]{2}(-[A-Z]{2})?$",
+          "title": "Locale",
+          "type": "string"
+        },
+        "origin": {
+          "$ref": "#/$defs/LocationRef"
+        },
+        "preferences": {
+          "$ref": "#/$defs/TravelPreference"
+        },
+        "question": {
+          "anyOf": [
+            {
+              "maxLength": 2000,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Question"
+        },
+        "request_id": {
+          "format": "uuid",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "return_time": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Return Time"
+        },
+        "supersedes_request_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Supersedes Request Id"
+        },
+        "timezone": {
+          "title": "Timezone",
+          "type": "string"
+        },
+        "travel_modes": {
+          "items": {
+            "$ref": "#/$defs/TravelMode"
+          },
+          "maxItems": 4,
+          "minItems": 1,
+          "title": "Travel Modes",
+          "type": "array"
+        },
+        "trip_id": {
+          "format": "uuid",
+          "title": "Trip Id",
+          "type": "string"
+        },
+        "trip_revision": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Trip Revision",
+          "type": "integer"
+        },
+        "user_scope_hash": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Pseudonymous owner hash; never the subject id",
+          "title": "User Scope Hash"
+        }
+      },
+      "required": [
+        "request_id",
+        "trip_id",
+        "origin",
+        "destination",
+        "departure_time",
+        "travel_modes",
+        "timezone"
+      ],
+      "title": "TravelRequest",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "TravelWindow": {
+      "additionalProperties": false,
+      "properties": {
+        "arrival_at": {
+          "format": "date-time",
+          "title": "Arrival At",
+          "type": "string"
+        },
+        "departure_at": {
+          "format": "date-time",
+          "title": "Departure At",
+          "type": "string"
+        },
+        "timezone": {
+          "title": "Timezone",
+          "type": "string"
+        }
+      },
+      "required": [
+        "departure_at",
+        "arrival_at",
+        "timezone"
+      ],
+      "title": "TravelWindow",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "Trip": {
+      "additionalProperties": false,
+      "properties": {
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "deleted_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Deleted At"
+        },
+        "departure_time": {
+          "format": "date-time",
+          "title": "Departure Time",
+          "type": "string"
+        },
+        "destination": {
+          "$ref": "#/$defs/LocationRef"
+        },
+        "id": {
+          "format": "uuid",
+          "title": "Id",
+          "type": "string"
+        },
+        "latest_recommendation_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Latest Recommendation Id"
+        },
+        "latest_request_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Latest Request Id"
+        },
+        "origin": {
+          "$ref": "#/$defs/LocationRef"
+        },
+        "preferences": {
+          "$ref": "#/$defs/TravelPreference"
+        },
+        "previous_route_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Previous Route Id"
+        },
+        "return_time": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Return Time"
+        },
+        "revision": {
+          "title": "Revision",
+          "type": "integer"
+        },
+        "risk_acknowledged_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Risk Acknowledged At"
+        },
+        "selected_route_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Selected Route Id"
+        },
+        "status": {
+          "default": "ACTIVE",
+          "enum": [
+            "DRAFT",
+            "ACTIVE",
+            "COMPLETED",
+            "ARCHIVED",
+            "DELETED"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "timezone": {
+          "title": "Timezone",
+          "type": "string"
+        },
+        "travel_modes": {
+          "items": {
+            "$ref": "#/$defs/TravelMode"
+          },
+          "title": "Travel Modes",
+          "type": "array"
+        },
+        "updated_at": {
+          "format": "date-time",
+          "title": "Updated At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "origin",
+        "destination",
+        "departure_time",
+        "travel_modes",
+        "preferences",
+        "timezone",
+        "created_at",
+        "updated_at"
+      ],
+      "title": "Trip",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "UserProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "consents": {
+          "items": {
+            "$ref": "#/$defs/ConsentRecord"
+          },
+          "title": "Consents",
+          "type": "array"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "display_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Display Name"
+        },
+        "has_emergency_profile": {
+          "default": false,
+          "title": "Has Emergency Profile",
+          "type": "boolean"
+        },
+        "id": {
+          "format": "uuid",
+          "title": "Id",
+          "type": "string"
+        },
+        "locale": {
+          "title": "Locale",
+          "type": "string"
+        },
+        "timezone": {
+          "title": "Timezone",
+          "type": "string"
+        },
+        "updated_at": {
+          "format": "date-time",
+          "title": "Updated At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "locale",
+        "timezone",
+        "created_at",
+        "updated_at"
+      ],
+      "title": "UserProfile",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "VersionInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "contract": {
+          "default": "1.0.0",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "title": "Contract",
+          "type": "string"
+        },
+        "feature_schema": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Feature Schema"
+        },
+        "graph": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Graph"
+        },
+        "knowledge_collection": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Knowledge Collection"
+        },
+        "llm_model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Llm Model"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model"
+        },
+        "policy": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Policy"
+        },
+        "prompt": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prompt"
+        }
+      },
+      "title": "VersionInfo",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    },
+    "WeatherForecastPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "apparent_temperature_c": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Apparent Temperature C"
+        },
+        "eta_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Eta At"
+        },
+        "id": {
+          "format": "uuid",
+          "title": "Id",
+          "type": "string"
+        },
+        "is_current": {
+          "default": false,
+          "title": "Is Current",
+          "type": "boolean"
+        },
+        "location": {
+          "$ref": "#/$defs/Point"
+        },
+        "precipitation_mm": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Precipitation Mm"
+        },
+        "precipitation_probability": {
+          "anyOf": [
+            {
+              "maximum": 100,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Precipitation Probability"
+        },
+        "quality": {
+          "$ref": "#/$defs/DataQuality"
+        },
+        "route_sample_index": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Route Sample Index"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity",
+          "default": "UNKNOWN"
+        },
+        "snowfall_cm": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Snowfall Cm"
+        },
+        "source": {
+          "$ref": "#/$defs/SourceProvenance"
+        },
+        "temperature_c": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Temperature C"
+        },
+        "valid_at": {
+          "format": "date-time",
+          "title": "Valid At",
+          "type": "string"
+        },
+        "visibility_m": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Visibility M"
+        },
+        "weather_category": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Weather Category"
+        },
+        "weather_code": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Weather Code"
+        },
+        "wind_gust_kmh": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Wind Gust Kmh"
+        },
+        "wind_speed_kmh": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Wind Speed Kmh"
+        }
+      },
+      "required": [
+        "id",
+        "location",
+        "valid_at",
+        "source"
+      ],
+      "title": "WeatherForecastPoint",
+      "type": "object",
+      "x-contract-version": "1.0.0"
+    }
+  },
+  "$id": "https://smart-travel-assistant.local/schemas/1.0.0/common.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Smart Travel Assistant common contracts",
+  "x-contract-version": "1.0.0"
+}

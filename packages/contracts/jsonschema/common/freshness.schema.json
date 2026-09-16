@@ -1,0 +1,44 @@
+{
+  "$id": "https://smart-travel-assistant.local/schemas/1.0.0/Freshness.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "expires_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Expires At"
+    },
+    "fetched_at": {
+      "format": "date-time",
+      "title": "Fetched At",
+      "type": "string"
+    },
+    "observed_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Observed At"
+    }
+  },
+  "required": [
+    "fetched_at"
+  ],
+  "title": "Freshness",
+  "type": "object",
+  "x-contract-version": "1.0.0"
+}
