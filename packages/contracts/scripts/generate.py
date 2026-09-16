@@ -45,7 +45,7 @@ def write_json_schemas() -> dict[str, Any]:
             combined_defs.setdefault(k, v)
         combined_defs[model.__name__] = {k: v for k, v in schema.items() if k not in ("$defs", "$schema", "$id")}
         path = SCHEMA_DIR / f"{_snake(model.__name__)}.schema.json"
-        path.write_text(json.dumps(schema, indent=2, ensure_ascii=False, sort_keys=True) + "\n", encoding="utf-8")
+        _write_json(path, schema)
         index[model.__name__] = path.name
     enum_defs = {}
     for name in dir(enums):
@@ -59,11 +59,15 @@ def write_json_schemas() -> dict[str, Any]:
         "x-contract-version": CONTRACT_VERSION,
         "$defs": {**enum_defs, **combined_defs},
     }
-    (SCHEMA_DIR / "common.schema.json").write_text(
-        json.dumps(combined, indent=2, ensure_ascii=False, sort_keys=True) + "\n", encoding="utf-8"
-    )
-    (SCHEMA_DIR / "index.json").write_text(json.dumps(index, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    _write_json(SCHEMA_DIR / "common.schema.json", combined)
+    _write_json(SCHEMA_DIR / "index.json", index)
     return combined
+
+
+def _write_json(path: Path, payload: Any) -> None:
+    path.write_text(
+        json.dumps(payload, indent=2, ensure_ascii=False, sort_keys=True) + "\n", encoding="utf-8", newline="\n"
+    )
 
 
 # ------------------------------------------------------------------ TypeScript
