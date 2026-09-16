@@ -173,6 +173,8 @@ class WeatherForecastPoint(ContractModel):
     weather_category: str | None = None
     severity: Severity = Severity.UNKNOWN
     is_current: bool = False
+    probe: Literal["PLANNED", "DELAYED"] = Field(default="PLANNED", description="DELAYED = same point sampled at ETA + delay probe")
+    probe_delay_minutes: int | None = None
     quality: DataQuality = Field(default_factory=DataQuality)
     source: SourceProvenance
 
@@ -313,6 +315,8 @@ class IntegratedTravelContext(ContractModel):
     disaster_events: list[DisasterEvent]
     official_alerts: list[DisasterEvent]
     features: dict[str, float | int | None]
+    features_delayed: dict[str, float | int | None] | None = Field(default=None, description="same schema computed on DELAYED probe weather")
+    delay_probe_minutes: int | None = None
     quality_summary: QualitySummary
     conflict_summary: ConflictSummary
     source_ids: list[UUID]

@@ -143,7 +143,10 @@ def build_snapshot(
 
     route_q = summarize_group([r.quality for r in routes], ttl=s.fresh_route_s, coverage=None, notes=[])
     weather_q = summarize_group(
-        [w.quality for w in validated.weather], ttl=s.fresh_weather_s, coverage=primary_coverage, notes=[]
+        [w.quality for w in validated.weather if w.probe == "PLANNED"],
+        ttl=s.fresh_weather_s,
+        coverage=primary_coverage,
+        notes=[],
     )
     transport_q = summarize_group(
         [t.quality for t in validated.transport], ttl=s.fresh_transport_s, coverage=None, notes=[]
