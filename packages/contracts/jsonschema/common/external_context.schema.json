@@ -1268,6 +1268,28 @@
           "default": null,
           "title": "Precipitation Probability"
         },
+        "probe": {
+          "default": "PLANNED",
+          "description": "DELAYED = same point sampled at ETA + delay probe",
+          "enum": [
+            "PLANNED",
+            "DELAYED"
+          ],
+          "title": "Probe",
+          "type": "string"
+        },
+        "probe_delay_minutes": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Probe Delay Minutes"
+        },
         "quality": {
           "$ref": "#/$defs/DataQuality"
         },

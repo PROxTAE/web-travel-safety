@@ -1,0 +1,34 @@
+# Real corridors used for the historical dataset. Cities are geocoded with Open-Meteo at build time.
+# Mix of monsoon, typhoon, earthquake and temperate regions; time+geography split is by `region`.
+version: "1.0.0"
+period: { start: "2025-11-01", end: "2026-08-31" }
+routes:
+  - { id: bkk-cnx, origin: "Bangkok", destination: "Chiang Mai", country: TH, mode: CAR, region: SEA }
+  - { id: bkk-hkt, origin: "Bangkok", destination: "Phuket", country: TH, mode: CAR, region: SEA }
+  - { id: bkk-kkc, origin: "Bangkok", destination: "Khon Kaen", country: TH, mode: TRAIN, region: SEA }
+  - { id: bkk-hhq, origin: "Bangkok", destination: "Hua Hin", country: TH, mode: TRAIN, region: SEA }
+  - { id: han-dad, origin: "Hanoi", destination: "Da Nang", country: VN, mode: TRAIN, region: SEA }
+  - { id: mnl-ceb, origin: "Manila", destination: "Cebu City", country: PH, mode: FLIGHT, region: SEA }
+  - { id: jkt-bdo, origin: "Jakarta", destination: "Bandung", country: ID, mode: TRAIN, region: SEA }
+  - { id: kul-pen, origin: "Kuala Lumpur", destination: "George Town", country: MY, mode: CAR, region: SEA }
+  - { id: tyo-osa, origin: "Tokyo", destination: "Osaka", country: JP, mode: TRAIN, region: EAST_ASIA }
+  - { id: tpe-khh, origin: "Taipei", destination: "Kaohsiung", country: TW, mode: TRAIN, region: EAST_ASIA }
+  - { id: sel-pus, origin: "Seoul", destination: "Busan", country: KR, mode: TRAIN, region: EAST_ASIA }
+  - { id: del-jai, origin: "Delhi", destination: "Jaipur", country: IN, mode: CAR, region: SOUTH_ASIA }
+  - { id: bom-pnq, origin: "Mumbai", destination: "Pune", country: IN, mode: CAR, region: SOUTH_ASIA }
+  - { id: dac-cgp, origin: "Dhaka", destination: "Chittagong", country: BD, mode: BUS, region: SOUTH_ASIA }
+  - { id: lax-sfo, origin: "Los Angeles", destination: "San Francisco", country: US, mode: CAR, region: NORTH_AMERICA }
+  - { id: mia-mco, origin: "Miami", destination: "Orlando", country: US, mode: CAR, region: NORTH_AMERICA }
+  - { id: hou-dfw, origin: "Houston", destination: "Dallas", country: US, mode: CAR, region: NORTH_AMERICA }
+  - { id: mex-pbc, origin: "Mexico City", destination: "Puebla", country: MX, mode: BUS, region: NORTH_AMERICA }
+  - { id: lon-man, origin: "London", destination: "Manchester", country: GB, mode: TRAIN, region: EUROPE }
+  - { id: mad-bcn, origin: "Madrid", destination: "Barcelona", country: ES, mode: TRAIN, region: EUROPE }
+  - { id: ath-the, origin: "Athens", destination: "Thessaloniki", country: GR, mode: CAR, region: EUROPE }
+  - { id: syd-cbr, origin: "Sydney", destination: "Canberra", country: AU, mode: CAR, region: OCEANIA }
+  - { id: nbo-mba, origin: "Nairobi", destination: "Mombasa", country: KE, mode: TRAIN, region: AFRICA }
+  - { id: lim-cuz, origin: "Lima", destination: "Cusco", country: PE, mode: FLIGHT, region: SOUTH_AMERICA }
+departure_local_hour: 9
+sample_points_per_route: 4
+split:
+  test_regions: [SOUTH_ASIA, OCEANIA]        # geography held out entirely
+  test_period_start: "2026-05-01"            # AND everything after this date is held out (time split)

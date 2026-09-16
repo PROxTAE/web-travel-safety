@@ -1,0 +1,9 @@
+version: 1.0.0
+derived_from: out-of-fold predictions on the training split (StratifiedKFold 5)
+objective:
+  high: recall >= 0.80
+  medium: recall >= 0.95
+high: 0.0139
+medium: 0.0084
+uncertainty_band: 0.1
+delay_improvement_min: 0.15

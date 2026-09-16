@@ -87,6 +87,8 @@ class WeatherSample(BaseModel):
     index: int
     point: Point
     eta_at: datetime
+    probe: str = "PLANNED"
+    probe_delay_minutes: int | None = None
 
 
 class OpenMeteoWeatherAdapter(BaseAdapter):
@@ -120,27 +122,32 @@ class OpenMeteoWeatherAdapter(BaseAdapter):
             return []
         now = datetime.now(UTC)
         horizon = now + timedelta(days=MAX_FORECAST_DAYS)
-        in_range = [s for s in samples if s.eta_at <= horizon]
-        out: list[WeatherForecastPoint] = []
-        for i in range(0, len(in_range), BATCH_SIZE):
-            batch = in_range[i : i + BATCH_SIZE]
-            out.extend(await self._query_batch(batch, now, deadline))
         for s in samples:
             if s.eta_at > horizon:
                 raise ProviderError(
                     ProviderErrorCode.OUTSIDE_COVERAGE,
                     f"forecast horizon is {MAX_FORECAST_DAYS} days; sample {s.index} is beyond it",
                 )
+        # group by unique point so PLANNED and DELAYED probes share one provider location
+        groups: dict[tuple[float, float], list[WeatherSample]] = {}
+        for s in samples:
+            groups.setdefault((round(s.point.lon, 4), round(s.point.lat, 4)), []).append(s)
+        keys = list(groups)
+        out: list[WeatherForecastPoint] = []
+        for i in range(0, len(keys), BATCH_SIZE):
+            batch_keys = keys[i : i + BATCH_SIZE]
+            out.extend(await self._query_batch({k: groups[k] for k in batch_keys}, now, deadline))
         return out
 
     async def _query_batch(
-        self, batch: list[WeatherSample], now: datetime, deadline: float | None
+        self, groups: dict[tuple[float, float], list[WeatherSample]], now: datetime, deadline: float | None
     ) -> list[WeatherForecastPoint]:
-        start = min(s.eta_at for s in batch).astimezone(UTC)
-        end = max(s.eta_at for s in batch).astimezone(UTC)
+        all_samples = [s for g in groups.values() for s in g]
+        start = min(s.eta_at for s in all_samples).astimezone(UTC)
+        end = max(s.eta_at for s in all_samples).astimezone(UTC)
         params: dict[str, Any] = {
-            "latitude": ",".join(f"{s.point.lat:.4f}" for s in batch),
-            "longitude": ",".join(f"{s.point.lon:.4f}" for s in batch),
+            "latitude": ",".join(f"{lat:.4f}" for _, lat in groups),
+            "longitude": ",".join(f"{lon:.4f}" for lon, _ in groups),
             "hourly": ",".join(HOURLY_FIELDS),
             "timezone": "UTC",
             "start_date": max(start, now).date().isoformat(),
@@ -152,84 +159,94 @@ class OpenMeteoWeatherAdapter(BaseAdapter):
         resp = await self._call(self.client, "GET", "/v1/forecast", params=params, deadline=deadline)
         raw = self._json(resp, self.descriptor.name)
         locations_raw = raw if isinstance(raw, list) else [raw]
-        if len(locations_raw) != len(batch):
+        if len(locations_raw) != len(groups):
             raise ProviderError(ProviderErrorCode.PROVIDER_SCHEMA_CHANGED, "forecast location count mismatch")
         fetched_at = datetime.now(UTC)
         out: list[WeatherForecastPoint] = []
-        for sample, loc_raw in zip(batch, locations_raw, strict=True):
+        for group_samples, loc_raw in zip(groups.values(), locations_raw, strict=True):
             loc = _Location.model_validate(loc_raw)
             if loc.hourly is None:
                 raise ProviderError(ProviderErrorCode.PROVIDER_SCHEMA_CHANGED, "hourly block missing")
-            idx, aligned_time, exact = _align(loc.hourly.time, sample.eta_at)
-            if idx is None:
-                continue
-            values = {f: _pick(getattr(loc.hourly, f, None), idx) for f in HOURLY_FIELDS}
-            missing = [f for f, v in values.items() if v is None]
-            code = values["weather_code"]
-            category, base_sev = wmo_category(int(code) if code is not None else None)
-            sev = escalate_weather_severity(
-                base_sev,
-                wind_gust_kmh=values["wind_gusts_10m"],
-                precipitation_mm=values["precipitation"],
-                visibility_m=values["visibility"],
-            )
-            flags = [] if exact else [QualityFlag.INFERRED]
-            notes = (
-                []
-                if exact
-                else [f"nearest hourly slot {aligned_time.isoformat()} used for ETA {sample.eta_at.isoformat()}"]
-            )
-            record_raw = {"time": loc.hourly.time[idx], **{k: values[k] for k in HOURLY_FIELDS}}
-            src = provenance(
-                provider=self.descriptor.name,
-                record_id=None,
-                authority=SourceAuthority.LICENSED_PROVIDER,
-                source_url=self.descriptor.docs_url,
-                license_=self.descriptor.license,
-                attribution=self.descriptor.attribution,
-                observed_at=None,  # forecasts are model output, not observations
-                published_at=None,
+            for sample in group_samples:
+                point = self._point_from_hourly(loc, sample, fetched_at)
+                if point is not None:
+                    out.append(point)
+        return out
+
+    def _point_from_hourly(
+        self, loc: _Location, sample: WeatherSample, fetched_at: datetime
+    ) -> WeatherForecastPoint | None:
+        assert loc.hourly is not None
+        idx, aligned_time, exact = _align(loc.hourly.time, sample.eta_at)
+        if idx is None:
+            return None
+        values = {f: _pick(getattr(loc.hourly, f, None), idx) for f in HOURLY_FIELDS}
+        missing = [f for f, v in values.items() if v is None]
+        code = values["weather_code"]
+        category, base_sev = wmo_category(int(code) if code is not None else None)
+        sev = escalate_weather_severity(
+            base_sev,
+            wind_gust_kmh=values["wind_gusts_10m"],
+            precipitation_mm=values["precipitation"],
+            visibility_m=values["visibility"],
+        )
+        flags = [] if exact else [QualityFlag.INFERRED]
+        notes = (
+            []
+            if exact
+            else [f"nearest hourly slot {aligned_time.isoformat()} used for ETA {sample.eta_at.isoformat()}"]
+        )
+        record_raw = {"time": loc.hourly.time[idx], **{k: values[k] for k in HOURLY_FIELDS}}
+        src = provenance(
+            provider=self.descriptor.name,
+            record_id=None,
+            authority=SourceAuthority.LICENSED_PROVIDER,
+            source_url=self.descriptor.docs_url,
+            license_=self.descriptor.license,
+            attribution=self.descriptor.attribution,
+            observed_at=None,  # forecasts are model output, not observations
+            published_at=None,
+            fetched_at=fetched_at,
+            ttl_seconds=self.ttl_hourly,
+            raw={"lat": loc.latitude, "lon": loc.longitude, **record_raw},
+        )
+        return WeatherForecastPoint(
+            id=deterministic_id(
+                self.descriptor.name,
+                f"{loc.latitude:.4f},{loc.longitude:.4f}",
+                loc.hourly.time[idx],
+                str(sample.index),
+                sample.probe,
+            ),
+            location=Point(coordinates=[loc.longitude, loc.latitude]),
+            valid_at=aligned_time,
+            route_sample_index=sample.index,
+            eta_at=sample.eta_at,
+            temperature_c=values["temperature_2m"],
+            apparent_temperature_c=values["apparent_temperature"],
+            precipitation_mm=values["precipitation"],
+            precipitation_probability=values["precipitation_probability"],
+            snowfall_cm=values["snowfall"],
+            wind_speed_kmh=values["wind_speed_10m"],
+            wind_gust_kmh=values["wind_gusts_10m"],
+            visibility_m=values["visibility"],
+            weather_code=int(code) if code is not None else None,
+            weather_category=category,
+            severity=sev,
+            is_current=False,
+            probe="DELAYED" if sample.probe == "DELAYED" else "PLANNED",
+            probe_delay_minutes=sample.probe_delay_minutes,
+            quality=quality(
+                observed_at=aligned_time,
                 fetched_at=fetched_at,
                 ttl_seconds=self.ttl_hourly,
-                raw={"lat": loc.latitude, "lon": loc.longitude, **record_raw},
-            )
-            out.append(
-                WeatherForecastPoint(
-                    id=deterministic_id(
-                        self.descriptor.name,
-                        f"{loc.latitude:.4f},{loc.longitude:.4f}",
-                        loc.hourly.time[idx],
-                        str(sample.index),
-                    ),
-                    location=Point(coordinates=[loc.longitude, loc.latitude]),
-                    valid_at=aligned_time,
-                    route_sample_index=sample.index,
-                    eta_at=sample.eta_at,
-                    temperature_c=values["temperature_2m"],
-                    apparent_temperature_c=values["apparent_temperature"],
-                    precipitation_mm=values["precipitation"],
-                    precipitation_probability=values["precipitation_probability"],
-                    snowfall_cm=values["snowfall"],
-                    wind_speed_kmh=values["wind_speed_10m"],
-                    wind_gust_kmh=values["wind_gusts_10m"],
-                    visibility_m=values["visibility"],
-                    weather_code=int(code) if code is not None else None,
-                    weather_category=category,
-                    severity=sev,
-                    is_current=False,
-                    quality=quality(
-                        observed_at=aligned_time,
-                        fetched_at=fetched_at,
-                        ttl_seconds=self.ttl_hourly,
-                        missing_fields=missing,
-                        total_fields=len(HOURLY_FIELDS),
-                        extra_flags=flags,
-                        notes=["forecast valid_at used as observed_at"] + notes,
-                    ),
-                    source=src,
-                )
-            )
-        return out
+                missing_fields=missing,
+                total_fields=len(HOURLY_FIELDS),
+                extra_flags=flags,
+                notes=["forecast valid_at used as observed_at"] + notes,
+            ),
+            source=src,
+        )
 
     async def current(self, point: Point, *, deadline: float | None = None) -> WeatherForecastPoint:
         params: dict[str, Any] = {

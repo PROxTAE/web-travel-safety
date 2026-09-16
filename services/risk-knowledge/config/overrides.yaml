@@ -1,0 +1,41 @@
+# Deterministic safety overrides (Part A). Applied AFTER the model; they can only raise risk, never lower it.
+# Each rule: id, reason_code, minimum_risk, condition on snapshot features/events.
+version: "1.0.0"
+rules:
+  - id: OFFICIAL_CLOSURE
+    reason_code: OFFICIAL_CLOSURE
+    minimum_risk: HIGH
+    when: official_closure_count >= 1
+  - id: OFFICIAL_ALERT_SEVERE
+    reason_code: OFFICIAL_ALERT_ACTIVE
+    minimum_risk: HIGH
+    when: official_alert_max_severity_rank >= 4     # SEVERE or EXTREME official alert intersects corridor+time
+  - id: OFFICIAL_ALERT_MODERATE
+    reason_code: OFFICIAL_ALERT_ACTIVE
+    minimum_risk: MEDIUM
+    when: official_alert_max_severity_rank == 3
+  - id: EXTREME_WEATHER
+    reason_code: SEVERE_WEATHER_CORRIDOR
+    minimum_risk: HIGH
+    when: weather_max_severity_rank >= 5
+  - id: SEVERE_WEATHER
+    reason_code: SEVERE_WEATHER_CORRIDOR
+    minimum_risk: MEDIUM
+    when: weather_max_severity_rank == 4
+  - id: STRONG_QUAKE_NEAR_CORRIDOR
+    reason_code: EARTHQUAKE_NEAR_CORRIDOR
+    minimum_risk: HIGH
+    when: earthquake_max_magnitude_near_corridor >= 6.0
+  - id: MODERATE_QUAKE_NEAR_CORRIDOR
+    reason_code: EARTHQUAKE_NEAR_CORRIDOR
+    minimum_risk: MEDIUM
+    when: earthquake_max_magnitude_near_corridor >= 5.0
+  - id: TRANSPORT_DISRUPTION
+    reason_code: TRANSPORT_DISRUPTION
+    minimum_risk: MEDIUM
+    when: delayed_segment_count >= 1
+# Evidence sufficiency: when critical evidence is missing the level cannot be LOW.
+insufficient_evidence:
+  weather_coverage_below: 0.5
+  missing_critical_at_least: 1
+  result_when_low: UNKNOWN

@@ -10,7 +10,7 @@ import asyncio
 import time
 from collections.abc import Awaitable
 from dataclasses import dataclass, field
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from typing import Any, TypeVar
 from uuid import uuid4
 
@@ -37,7 +37,7 @@ from app.adapters.eonet import EonetAdapter
 from app.adapters.gdacs import GdacsAdapter
 from app.adapters.gtfs import GtfsRealtimeAdapter
 from app.adapters.open_meteo_geocoding import OpenMeteoGeocodingAdapter
-from app.adapters.open_meteo_weather import OpenMeteoWeatherAdapter
+from app.adapters.open_meteo_weather import OpenMeteoWeatherAdapter, WeatherSample
 from app.adapters.openrouteservice import PROFILE_BY_MODE, OpenRouteServiceAdapter
 from app.adapters.usgs import UsgsAdapter
 from app.cache.provider_cache import NegativeCachedError, ProviderCache
@@ -232,7 +232,18 @@ class QueryService:
             departure_time=q.departure_time,
             max_samples=min(q.max_weather_samples, self.s.route_max_weather_samples),
         )
-        query_key = {"samples": [(s.point.coordinates, s.eta_at.strftime("%Y-%m-%dT%H")) for s in samples]}
+        delayed = [
+            WeatherSample(
+                index=x.index,
+                point=x.point,
+                eta_at=x.eta_at + timedelta(minutes=self.s.delay_probe_minutes),
+                probe="DELAYED",
+                probe_delay_minutes=self.s.delay_probe_minutes,
+            )
+            for x in samples
+        ]
+        samples = samples + delayed
+        query_key = {"samples": [(x.point.coordinates, x.eta_at.strftime("%Y-%m-%dT%H"), x.probe) for x in samples]}
 
         async def fetch() -> list[WeatherForecastPoint]:
             return await self.a.weather.forecast_for_samples(samples, deadline=deadline)

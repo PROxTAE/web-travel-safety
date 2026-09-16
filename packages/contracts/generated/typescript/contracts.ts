@@ -239,6 +239,8 @@ export interface EvidencePackageRequest {
   snapshot: IntegratedTravelContext;
   locale?: string;
   question?: string | null;
+  /** destination country for knowledge geography filter */
+  country_code?: string | null;
 }
 
 /** Output of external-data /internal/v1/context/query — all canonical records + provider health. */
@@ -294,6 +296,9 @@ export interface IntegratedTravelContext {
   disaster_events: DisasterEvent[];
   official_alerts: DisasterEvent[];
   features: Record<string, number | number | null>;
+  /** same schema computed on DELAYED probe weather */
+  features_delayed?: Record<string, number | number | null> | null;
+  delay_probe_minutes?: number | null;
   quality_summary: QualitySummary;
   conflict_summary: ConflictSummary;
   source_ids: string[];
@@ -756,6 +761,9 @@ export interface WeatherForecastPoint {
   weather_category?: string | null;
   severity?: Severity;
   is_current?: boolean;
+  /** DELAYED = same point sampled at ETA + delay probe */
+  probe?: "PLANNED" | "DELAYED";
+  probe_delay_minutes?: number | null;
   quality?: DataQuality;
   source: SourceProvenance;
 }

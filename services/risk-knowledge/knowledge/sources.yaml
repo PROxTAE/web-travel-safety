@@ -1,0 +1,113 @@
+# Approved knowledge sources (Part B). Only government / UN / recognized authorities.
+# Every entry needs authority, effective/expiry (review), license, reviewer and review_status.
+# checksum is filled by `python -m app.cli.index_knowledge` at ingestion and re-verified on each index.
+collection_version: "2026.09.1"
+allowed_domains: ["www.ready.gov", "www.who.int"]
+documents:
+  - document_id: fema-ready-floods
+    title: "Floods — Ready.gov (FEMA)"
+    authority: OFFICIAL
+    organization: "U.S. Department of Homeland Security / FEMA"
+    source_url: https://www.ready.gov/floods
+    country: GLOBAL          # guidance is generic (US-authored); tagged GLOBAL for procedural steps
+    hazards: [FLOOD, STORM]
+    languages: [en]
+    effective_at: 2025-01-01
+    expires_at: 2027-01-01
+    review_due_at: 2026-12-01
+    license: "U.S. Government work, public domain"
+    ingestion_method: html
+    reviewer: team-lead
+    review_status: APPROVED
+  - document_id: fema-ready-earthquakes
+    title: "Earthquakes — Ready.gov (FEMA)"
+    authority: OFFICIAL
+    organization: "U.S. Department of Homeland Security / FEMA"
+    source_url: https://www.ready.gov/earthquakes
+    country: GLOBAL
+    hazards: [EARTHQUAKE, LANDSLIDE]
+    languages: [en]
+    effective_at: 2025-01-01
+    expires_at: 2027-01-01
+    review_due_at: 2026-12-01
+    license: "U.S. Government work, public domain"
+    ingestion_method: html
+    reviewer: team-lead
+    review_status: APPROVED
+  - document_id: fema-ready-hurricanes
+    title: "Hurricanes — Ready.gov (FEMA)"
+    authority: OFFICIAL
+    organization: "U.S. Department of Homeland Security / FEMA"
+    source_url: https://www.ready.gov/hurricanes
+    country: GLOBAL
+    hazards: [CYCLONE, STORM, FLOOD]
+    languages: [en]
+    effective_at: 2025-01-01
+    expires_at: 2027-01-01
+    review_due_at: 2026-12-01
+    license: "U.S. Government work, public domain"
+    ingestion_method: html
+    reviewer: team-lead
+    review_status: APPROVED
+  - document_id: fema-ready-wildfires
+    title: "Wildfires — Ready.gov (FEMA)"
+    authority: OFFICIAL
+    organization: "U.S. Department of Homeland Security / FEMA"
+    source_url: https://www.ready.gov/wildfires
+    country: GLOBAL
+    hazards: [WILDFIRE]
+    languages: [en]
+    effective_at: 2025-01-01
+    expires_at: 2027-01-01
+    review_due_at: 2026-12-01
+    license: "U.S. Government work, public domain"
+    ingestion_method: html
+    reviewer: team-lead
+    review_status: APPROVED
+  - document_id: fema-ready-thunderstorms
+    title: "Thunderstorms & Lightning — Ready.gov (FEMA)"
+    authority: OFFICIAL
+    organization: "U.S. Department of Homeland Security / FEMA"
+    source_url: https://www.ready.gov/thunderstorms-lightning
+    country: GLOBAL
+    hazards: [STORM]
+    languages: [en]
+    effective_at: 2025-01-01
+    expires_at: 2027-01-01
+    review_due_at: 2026-12-01
+    license: "U.S. Government work, public domain"
+    ingestion_method: html
+    reviewer: team-lead
+    review_status: APPROVED
+  - document_id: fema-ready-heat
+    title: "Extreme Heat — Ready.gov (FEMA)"
+    authority: OFFICIAL
+    organization: "U.S. Department of Homeland Security / FEMA"
+    source_url: https://www.ready.gov/heat
+    country: GLOBAL
+    hazards: [EXTREME_TEMPERATURE]
+    languages: [en]
+    effective_at: 2025-01-01
+    expires_at: 2027-01-01
+    review_due_at: 2026-12-01
+    license: "U.S. Government work, public domain"
+    ingestion_method: html
+    reviewer: team-lead
+    review_status: APPROVED
+  - document_id: who-floods
+    title: "Floods — WHO health topic"
+    authority: INTERGOVERNMENTAL
+    organization: "World Health Organization"
+    source_url: https://www.who.int/health-topics/floods
+    country: GLOBAL
+    hazards: [FLOOD, HEALTH]
+    languages: [en]
+    effective_at: 2025-01-01
+    expires_at: 2027-01-01
+    review_due_at: 2026-12-01
+    license: "WHO terms of use (attribution, non-commercial reproduction permitted)"
+    ingestion_method: html
+    reviewer: team-lead
+    review_status: APPROVED
+# Thai-language official guidance (DDPM / TMD) is pending: their PDFs have no stable URLs for allowlisting.
+# Until approved, Thai queries retrieve English official passages; UI labels the language honestly.

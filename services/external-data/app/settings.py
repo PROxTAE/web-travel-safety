@@ -51,6 +51,7 @@ class Settings(BaseServiceSettings):
     disaster_bbox_buffer_deg: float = 1.0
     earthquake_min_magnitude: float = 2.5
     route_max_weather_samples: int = 12
+    delay_probe_minutes: int = 360  # second weather probe at ETA + 6 h for DELAY reasoning
     places_max_radius_m: int = 20000
     places_max_results: int = 20
 
