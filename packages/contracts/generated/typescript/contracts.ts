@@ -287,7 +287,7 @@ export interface IntegratedTravelContext {
   travel_window: TravelWindow;
   travel_modes: TravelMode[];
   route_candidates: RouteCandidate[];
-  route_corridor_geojson?: Polygon | null;
+  route_corridor_geojson?: Polygon | MultiPolygon | null;
   corridor_buffer_m?: number | null;
   weather: WeatherForecastPoint[];
   transport: TransportStatus[];

@@ -1,0 +1,43 @@
+# Feature schema v1 — shared by online inference (risk-knowledge) and offline training.
+# Every feature: unit, nullable, definition, owner. Missing values are null and get a *_missing indicator.
+# Leakage rule: only data available at prediction time (snapshot creation) may be used.
+version: "1.0.0"
+owner: "คน 5 (builder) + คน 6 (consumer)"
+features:
+  route_distance_km:            { unit: km,      nullable: false, definition: "primary route geodesic length" }
+  route_duration_hours:         { unit: h,       nullable: false, definition: "primary route duration from provider or assumption" }
+  travel_mode_encoded:          { unit: code,    nullable: false, definition: "FLIGHT=0 TRAIN=1 BUS=2 CAR=3 WALK=4 BICYCLE=5 MULTIMODAL=6" }
+  route_geometry_inferred:      { unit: bool,    nullable: false, definition: "1 if primary route geometry is a computed approximation" }
+  weather_max_precip_probability: { unit: "%",   nullable: true,  definition: "max precipitation probability over matched corridor samples" }
+  weather_max_precip_mm:        { unit: mm,      nullable: true,  definition: "max hourly precipitation over matched samples" }
+  weather_max_wind_gust_kmh:    { unit: km/h,    nullable: true,  definition: "max wind gust over matched samples" }
+  weather_min_visibility_m:     { unit: m,       nullable: true,  definition: "min visibility over matched samples" }
+  weather_max_temperature_c:    { unit: "°C",    nullable: true,  definition: "max temperature over matched samples" }
+  weather_min_temperature_c:    { unit: "°C",    nullable: true,  definition: "min temperature over matched samples" }
+  weather_max_severity_rank:    { unit: rank,    nullable: true,  definition: "max Severity rank (INFO=1..EXTREME=5) over matched samples" }
+  severe_weather_exposure_minutes: { unit: min,  nullable: false, definition: "minutes of travel whose matched sample severity >= SEVERE" }
+  weather_coverage_ratio:       { unit: ratio,   nullable: false, definition: "matched samples / route samples" }
+  earthquake_max_magnitude_near_corridor: { unit: M, nullable: true, definition: "max USGS/GDACS quake magnitude with geometry inside corridor (buffer by severity) and active window overlap" }
+  earthquake_min_distance_km:   { unit: km,      nullable: true,  definition: "min distance from route line to any earthquake in bbox" }
+  active_official_alert_count:  { unit: count,   nullable: false, definition: "official alerts intersecting corridor and travel window" }
+  active_disaster_event_count:  { unit: count,   nullable: false, definition: "all disaster events intersecting corridor and travel window" }
+  max_disaster_severity_rank:   { unit: rank,    nullable: true,  definition: "max severity rank among corridor events" }
+  official_closure_count:       { unit: count,   nullable: false, definition: "events flagged closure=true intersecting corridor/time" }
+  closed_segment_count:         { unit: count,   nullable: false, definition: "route segments intersecting a closure event" }
+  delayed_segment_count:        { unit: count,   nullable: false, definition: "transport records DELAYED/DISRUPTED/CANCELLED matched to the trip" }
+  max_delay_minutes:            { unit: min,     nullable: true,  definition: "max delay among matched transport records" }
+  transport_realtime_coverage_ratio: { unit: ratio, nullable: false, definition: "transport records with FRESH realtime evidence / records" }
+  source_quality_mean:          { unit: score,   nullable: false, definition: "mean DataQuality.score over all records" }
+  source_quality_min:           { unit: score,   nullable: false, definition: "min DataQuality.score over all records" }
+  stale_source_ratio:           { unit: ratio,   nullable: false, definition: "records with STALE flag / records" }
+  conflict_count:               { unit: count,   nullable: false, definition: "unresolved field conflicts" }
+  missing_critical_count:       { unit: count,   nullable: false, definition: "count of null critical features (weather + route)" }
+  departure_hour_local:         { unit: hour,    nullable: false, definition: "local departure hour 0-23" }
+  month:                        { unit: month,   nullable: false, definition: "departure month 1-12 (trip timezone)" }
+  route_region_h3_res3_count:   { unit: count,   nullable: false, definition: "number of distinct H3 res-3 cells covered by the corridor" }
+critical:
+  - route_distance_km
+  - route_duration_hours
+  - weather_coverage_ratio
+  - weather_max_precip_mm
+  - weather_max_wind_gust_kmh

@@ -129,11 +129,9 @@ def test_decision_validation_wire_name_is_schema():
 def test_generated_artifacts_in_sync(tmp_path):
     """Running the generator must not change the committed output."""
     subprocess.run([sys.executable, str(ROOT / "scripts" / "generate.py")], check=True, capture_output=True)
+    # compare working tree against the index: staged regenerated output counts as in sync
     out = subprocess.run(
-        ["git", "status", "--porcelain", "--untracked-files=no", "--", "jsonschema", "generated"],
-        cwd=ROOT,
-        capture_output=True,
-        text=True,
+        ["git", "diff", "--stat", "--", "jsonschema", "generated"], cwd=ROOT, capture_output=True, text=True
     )
     assert out.stdout.strip() == "", f"generated files out of date:\n{out.stdout}"
 

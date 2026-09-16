@@ -1821,10 +1821,14 @@
               "$ref": "#/$defs/Polygon"
             },
             {
+              "$ref": "#/$defs/MultiPolygon"
+            },
+            {
               "type": "null"
             }
           ],
-          "default": null
+          "default": null,
+          "title": "Route Corridor Geojson"
         },
         "schema_version": {
           "default": "1.0.0",
