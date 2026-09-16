@@ -1,0 +1,63 @@
+{
+  "_fixture": {
+    "source": "https://earthquake.usgs.gov/fdsnws/event/1/query (SE Asia bbox, 30d, M2.5+, limit 5)",
+    "captured_at": "2026-09-16T20:33:12.123772Z",
+    "schema_version": "1.0.0",
+    "license": "public domain",
+    "redaction": "none; official events"
+  },
+  "data": {
+    "type": "FeatureCollection",
+    "metadata": {
+      "generated": 1789590791000,
+      "url": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2026-08-17&minlatitude=5&maxlatitude=22&minlongitude=95&maxlongitude=110&minmagnitude=2.5&limit=5",
+      "title": "USGS Earthquakes",
+      "status": 200,
+      "api": "2.7.0",
+      "limit": 5,
+      "offset": 1
+    },
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {
+          "mag": 4.6,
+          "place": "38 km ENE of Tharyarwady, Burma (Myanmar)",
+          "time": 1787456696575,
+          "updated": 1789256421040,
+          "tz": null,
+          "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000tmwk",
+          "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000tmwk&format=geojson",
+          "felt": null,
+          "cdi": null,
+          "mmi": null,
+          "alert": null,
+          "status": "reviewed",
+          "tsunami": 0,
+          "sig": 326,
+          "net": "us",
+          "code": "6000tmwk",
+          "ids": ",us6000tmwk,",
+          "sources": ",us,",
+          "types": ",origin,phase-data,",
+          "nst": 28,
+          "dmin": 2.31,
+          "rms": 0.94,
+          "gap": 96,
+          "magType": "mb",
+          "type": "earthquake",
+          "title": "M 4.6 - 38 km ENE of Tharyarwady, Burma (Myanmar)"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            96.1264,
+            17.7899,
+            10
+          ]
+        },
+        "id": "us6000tmwk"
+      }
+    ]
+  }
+}
