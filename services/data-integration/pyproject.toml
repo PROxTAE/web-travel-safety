@@ -1,0 +1,73 @@
+[project]
+name = "sta-data-integration"
+version = "1.0.0"
+description = "Canonical normalization, dedup, conflict resolution, route corridor alignment, features and immutable snapshots"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "sta-common",
+  "sta-contracts",
+  "fastapi>=0.115,<1",
+  "uvicorn[standard]>=0.32,<1",
+  "pydantic>=2.9,<3",
+  "pydantic-settings>=2.6,<3",
+  "httpx>=0.27,<1",
+  "sqlalchemy[asyncio]>=2.0.36,<3",
+  "asyncpg>=0.30,<1",
+  "alembic>=1.14,<2",
+  "redis>=5.2,<6",
+  "orjson>=3.10,<4",
+  "pyyaml>=6,<7",
+  "geoalchemy2>=0.16,<1",
+  "polars>=1.12,<2",
+  "numpy>=2,<3",
+  "h3>=4,<5",
+  "tzdata>=2024.2",
+  "pyproj>=3.7,<4",
+  "shapely>=2.0,<3",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3,<9",
+  "pytest-asyncio>=0.24,<1",
+  "respx>=0.21,<1",
+  "ruff>=0.8,<1",
+  "mypy>=1.13,<2",
+  "types-PyYAML",
+  "hypothesis>=6.115,<7",
+]
+
+[tool.uv.sources]
+sta-common = { path = "../../packages/python-common", editable = true }
+sta-contracts = { path = "../../packages/contracts", editable = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+extend-exclude = ["migrations/versions"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "ASYNC", "S", "N", "W"]
+ignore = ["S101", "B008"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S", "ASYNC", "E501"]
+"migrations/*" = ["E501"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+ignore_missing_imports = true
+plugins = ["pydantic.mypy"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+markers = ["integration: needs running infra", "canary: calls real providers"]

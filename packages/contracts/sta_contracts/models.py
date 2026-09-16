@@ -35,7 +35,7 @@ from sta_contracts.enums import (
     TransportServiceStatus,
     TravelMode,
 )
-from sta_contracts.geo import BBox, Geometry, LineString, Point, Polygon
+from sta_contracts.geo import BBox, Geometry, LineString, MultiPolygon, Point, Polygon
 
 SemVer = Annotated[str, Field(pattern=r"^\d+\.\d+\.\d+$")]
 CountryCode = Annotated[str, Field(pattern=r"^[A-Z]{2}$")]
@@ -306,7 +306,7 @@ class IntegratedTravelContext(ContractModel):
     travel_window: TravelWindow
     travel_modes: list[TravelMode]
     route_candidates: list[RouteCandidate]
-    route_corridor_geojson: Polygon | None = None
+    route_corridor_geojson: Polygon | MultiPolygon | None = None
     corridor_buffer_m: float | None = None
     weather: list[WeatherForecastPoint]
     transport: list[TransportStatus]
