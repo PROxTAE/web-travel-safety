@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Decision policy table",
+  "type": "object",
+  "required": ["version", "approved_by", "approved_at", "thresholds", "rules"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "approved_by": { "type": "string", "minLength": 1 },
+    "approved_at": { "type": "string" },
+    "thresholds": {
+      "type": "object",
+      "required": ["materially_safer_delta", "max_extra_duration_ratio", "delay_improvement_min", "medium_caution_probability", "min_confidence_for_normal", "near_threshold_uncertainty"],
+      "additionalProperties": { "type": "number" }
+    },
+    "rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "priority", "when", "action", "escalate", "reason_codes", "specificity"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^[A-Z0-9_]+$" },
+          "priority": { "type": "integer", "minimum": 1 },
+          "when": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "gate": { "enum": ["PASS", "DEGRADED", "BLOCK"] },
+              "gate_in": { "type": "array", "items": { "enum": ["PASS", "DEGRADED", "BLOCK"] } },
+              "original_closed": { "type": "boolean" },
+              "usable_alternative": { "type": "boolean" },
+              "safety_critical_conflicts": { "type": "boolean" },
+              "primary_level_in": { "type": "array", "items": { "enum": ["LOW", "MEDIUM", "HIGH", "UNKNOWN"] } },
+              "materially_safer_available": { "type": "boolean" },
+              "time_dependent": { "type": "boolean" },
+              "later_level_below": { "enum": ["LOW", "MEDIUM", "HIGH"] }
+            }
+          },
+          "action": { "enum": ["NORMAL", "CHANGE_ROUTE", "DELAY", "AVOID"] },
+          "select": { "enum": ["best_alternative", "primary"] },
+          "escalate": { "type": "boolean" },
+          "reason_codes": { "type": "array", "items": { "type": "string" } },
+          "specificity": { "type": "number", "minimum": 0, "maximum": 1 }
+        }
+      }
+    }
+  }
+}

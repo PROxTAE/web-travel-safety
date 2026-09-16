@@ -1,0 +1,110 @@
+# Decision policy v1.0.0 — deterministic, first-match by priority (lower number = higher priority).
+# Facts are derived by app/policy/evaluator.py from the EvidencePackage (never from free text).
+# Every threshold is numeric and lives here. Changing this file requires a new version + approval record.
+version: "1.0.0"
+approved_by: team-lead
+approved_at: "2026-09-17"
+thresholds:
+  materially_safer_delta: 0.15          # p(primary) - p(alternative) >= delta => "materially safer"
+  max_extra_duration_ratio: 0.5         # alternative may take at most +50% time to count as usable option
+  delay_improvement_min: 0.15           # p(now) - p(later) >= this => time-dependent
+  medium_caution_probability: 0.45      # MEDIUM at/above this p gets a stronger caution wording (still NORMAL)
+  min_confidence_for_normal: 0.55       # NORMAL below this confidence escalates instead
+  near_threshold_uncertainty: 0.6       # uncertainty >= this => "near threshold" escalation input
+rules:
+  - id: BLOCKED_QUALITY_GATE
+    priority: 10
+    when: { gate: BLOCK }
+    action: AVOID
+    escalate: true
+    reason_codes: [INSUFFICIENT_EVIDENCE]
+    specificity: 0.9
+  - id: OFFICIAL_CLOSURE_NO_ALTERNATIVE
+    priority: 20
+    when: { original_closed: true, usable_alternative: false }
+    action: AVOID
+    escalate: false
+    reason_codes: [OFFICIAL_CLOSURE]
+    specificity: 1.0
+  - id: OFFICIAL_CLOSURE_WITH_ALTERNATIVE
+    priority: 30
+    when: { original_closed: true, usable_alternative: true }
+    action: CHANGE_ROUTE
+    select: best_alternative
+    escalate: false
+    reason_codes: [OFFICIAL_CLOSURE, SAFER_ROUTE_AVAILABLE]
+    specificity: 1.0
+  - id: CONFLICTING_OFFICIAL_SOURCES_HIGH
+    priority: 40
+    when: { safety_critical_conflicts: true, primary_level_in: [HIGH] }
+    action: AVOID
+    escalate: true
+    reason_codes: [CONFLICTING_SOURCES]
+    specificity: 0.8
+  - id: HIGH_WITH_SAFER_ROUTE
+    priority: 50
+    when: { primary_level_in: [HIGH], materially_safer_available: true }
+    action: CHANGE_ROUTE
+    select: best_alternative
+    escalate: false
+    reason_codes: [SAFER_ROUTE_AVAILABLE]
+    specificity: 0.9
+  - id: HIGH_TIME_DEPENDENT
+    priority: 60
+    when: { primary_level_in: [HIGH], time_dependent: true, later_level_below: HIGH }
+    action: DELAY
+    escalate: false
+    reason_codes: [RISK_DECREASES_LATER]
+    specificity: 0.85
+  - id: HIGH_NO_OPTION
+    priority: 70
+    when: { primary_level_in: [HIGH] }
+    action: AVOID
+    escalate: false
+    reason_codes: [NO_SAFER_ROUTE]
+    specificity: 0.8
+  - id: MEDIUM_WITH_SAFER_ROUTE
+    priority: 80
+    when: { primary_level_in: [MEDIUM], materially_safer_available: true }
+    action: CHANGE_ROUTE
+    select: best_alternative
+    escalate: false
+    reason_codes: [SAFER_ROUTE_AVAILABLE]
+    specificity: 0.8
+  - id: MEDIUM_TIME_DEPENDENT
+    priority: 90
+    when: { primary_level_in: [MEDIUM], time_dependent: true, later_level_below: MEDIUM }
+    action: DELAY
+    escalate: false
+    reason_codes: [RISK_DECREASES_LATER]
+    specificity: 0.75
+  - id: UNKNOWN_EVIDENCE
+    priority: 100
+    when: { primary_level_in: [UNKNOWN] }
+    action: DELAY
+    escalate: true
+    reason_codes: [INSUFFICIENT_EVIDENCE, LOW_DATA_COVERAGE]
+    specificity: 0.7
+  - id: MEDIUM_PROCEED_WITH_CAUTION
+    priority: 110
+    when: { primary_level_in: [MEDIUM] }
+    action: NORMAL
+    escalate: false
+    reason_codes: []
+    specificity: 0.6
+  - id: LOW_NORMAL
+    priority: 120
+    when: { primary_level_in: [LOW], gate_in: [PASS, DEGRADED] }
+    action: NORMAL
+    escalate: false
+    reason_codes: [CONDITIONS_NORMAL]
+    specificity: 0.7
+  - id: FALLBACK_CONSERVATIVE
+    priority: 999
+    when: {}
+    action: DELAY
+    escalate: true
+    reason_codes: [INSUFFICIENT_EVIDENCE]
+    specificity: 0.3
+# Monotonic safety: raising primary risk or adding an official restriction can only move the action
+# along NORMAL -> DELAY/CHANGE_ROUTE -> AVOID (verified by Hypothesis property tests).
