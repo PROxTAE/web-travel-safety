@@ -1,0 +1,350 @@
+{
+  "$defs": {
+    "ActionCode": {
+      "enum": [
+        "NORMAL",
+        "CHANGE_ROUTE",
+        "DELAY",
+        "AVOID"
+      ],
+      "title": "ActionCode",
+      "type": "string"
+    },
+    "DecisionValidation": {
+      "additionalProperties": false,
+      "description": "Wire field ``schema`` is exposed via alias because ``schema`` shadows a BaseModel attribute.",
+      "properties": {
+        "banned_phrases": {
+          "default": true,
+          "title": "Banned Phrases",
+          "type": "boolean"
+        },
+        "citations": {
+          "default": true,
+          "title": "Citations",
+          "type": "boolean"
+        },
+        "fallback_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fallback Reason"
+        },
+        "locked_action": {
+          "default": true,
+          "title": "Locked Action",
+          "type": "boolean"
+        },
+        "numbers": {
+          "default": true,
+          "title": "Numbers",
+          "type": "boolean"
+        },
+        "schema": {
+          "default": true,
+          "title": "Schema",
+          "type": "boolean"
+        },
+        "used_fallback": {
+          "default": false,
+          "title": "Used Fallback",
+          "type": "boolean"
+        }
+      },
+      "title": "DecisionValidation",
+      "type": "object"
+    },
+    "ReasonCode": {
+      "description": "Controlled vocabulary for risk/decision reasons (LLM may only paraphrase these).",
+      "enum": [
+        "SEVERE_WEATHER_CORRIDOR",
+        "HEAVY_PRECIPITATION",
+        "HIGH_WIND",
+        "LOW_VISIBILITY",
+        "EXTREME_TEMPERATURE",
+        "EARTHQUAKE_NEAR_CORRIDOR",
+        "ACTIVE_DISASTER_EVENT",
+        "OFFICIAL_ALERT_ACTIVE",
+        "OFFICIAL_CLOSURE",
+        "TRANSPORT_DISRUPTION",
+        "TRANSPORT_DELAY",
+        "SAFER_ROUTE_AVAILABLE",
+        "NO_SAFER_ROUTE",
+        "RISK_DECREASES_LATER",
+        "LOW_DATA_COVERAGE",
+        "STALE_DATA",
+        "CONFLICTING_SOURCES",
+        "INSUFFICIENT_EVIDENCE",
+        "NO_RELIABLE_KNOWLEDGE_EVIDENCE",
+        "MODEL_UNAVAILABLE",
+        "PROVIDER_UNAVAILABLE",
+        "CONDITIONS_NORMAL"
+      ],
+      "title": "ReasonCode",
+      "type": "string"
+    },
+    "RiskLevel": {
+      "enum": [
+        "LOW",
+        "MEDIUM",
+        "HIGH",
+        "UNKNOWN"
+      ],
+      "title": "RiskLevel",
+      "type": "string"
+    },
+    "VersionInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "contract": {
+          "default": "1.0.0",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "title": "Contract",
+          "type": "string"
+        },
+        "feature_schema": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Feature Schema"
+        },
+        "graph": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Graph"
+        },
+        "knowledge_collection": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Knowledge Collection"
+        },
+        "llm_model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Llm Model"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model"
+        },
+        "policy": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Policy"
+        },
+        "prompt": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prompt"
+        }
+      },
+      "title": "VersionInfo",
+      "type": "object"
+    }
+  },
+  "$id": "https://smart-travel-assistant.local/schemas/1.0.0/DecisionResult.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "action_code": {
+      "$ref": "#/$defs/ActionCode"
+    },
+    "citations": {
+      "items": {
+        "format": "uuid",
+        "type": "string"
+      },
+      "title": "Citations",
+      "type": "array"
+    },
+    "confidence": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Confidence",
+      "type": "number"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "decision_id": {
+      "format": "uuid",
+      "title": "Decision Id",
+      "type": "string"
+    },
+    "escalation_reasons": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Escalation Reasons",
+      "type": "array"
+    },
+    "escalation_required": {
+      "default": false,
+      "title": "Escalation Required",
+      "type": "boolean"
+    },
+    "immediate_actions": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 8,
+      "title": "Immediate Actions",
+      "type": "array"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 12,
+      "title": "Limitations",
+      "type": "array"
+    },
+    "locale": {
+      "default": "en-US",
+      "title": "Locale",
+      "type": "string"
+    },
+    "reason_codes": {
+      "items": {
+        "$ref": "#/$defs/ReasonCode"
+      },
+      "title": "Reason Codes",
+      "type": "array"
+    },
+    "reasons": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 8,
+      "title": "Reasons",
+      "type": "array"
+    },
+    "request_id": {
+      "format": "uuid",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "risk_level": {
+      "$ref": "#/$defs/RiskLevel"
+    },
+    "rules_fired": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Rules Fired",
+      "type": "array"
+    },
+    "selected_route_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Selected Route Id"
+    },
+    "snapshot_id": {
+      "format": "uuid",
+      "title": "Snapshot Id",
+      "type": "string"
+    },
+    "suggested_delay_minutes": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Suggested Delay Minutes"
+    },
+    "summary": {
+      "maxLength": 600,
+      "title": "Summary",
+      "type": "string"
+    },
+    "validation": {
+      "$ref": "#/$defs/DecisionValidation"
+    },
+    "versions": {
+      "$ref": "#/$defs/VersionInfo"
+    }
+  },
+  "required": [
+    "decision_id",
+    "request_id",
+    "snapshot_id",
+    "action_code",
+    "risk_level",
+    "confidence",
+    "summary",
+    "versions",
+    "created_at"
+  ],
+  "title": "DecisionResult",
+  "type": "object",
+  "x-contract-version": "1.0.0"
+}

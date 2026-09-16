@@ -1,0 +1,72 @@
+{
+  "$defs": {
+    "Severity": {
+      "enum": [
+        "INFO",
+        "MINOR",
+        "MODERATE",
+        "SEVERE",
+        "EXTREME",
+        "UNKNOWN"
+      ],
+      "title": "Severity",
+      "type": "string"
+    }
+  },
+  "$id": "https://smart-travel-assistant.local/schemas/1.0.0/RouteExposure.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "closed": {
+      "default": false,
+      "title": "Closed",
+      "type": "boolean"
+    },
+    "hazard_event_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Hazard Event Ids",
+      "type": "array"
+    },
+    "max_hazard_severity": {
+      "$ref": "#/$defs/Severity",
+      "default": "UNKNOWN"
+    },
+    "min_hazard_distance_km": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Min Hazard Distance Km"
+    },
+    "score": {
+      "default": 0.0,
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Score",
+      "type": "number"
+    },
+    "severe_weather_minutes": {
+      "default": 0.0,
+      "title": "Severe Weather Minutes",
+      "type": "number"
+    },
+    "weather_window_ids": {
+      "items": {
+        "format": "uuid",
+        "type": "string"
+      },
+      "title": "Weather Window Ids",
+      "type": "array"
+    }
+  },
+  "title": "RouteExposure",
+  "type": "object",
+  "x-contract-version": "1.0.0"
+}

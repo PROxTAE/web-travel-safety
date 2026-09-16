@@ -1,0 +1,35 @@
+{
+  "$id": "https://smart-travel-assistant.local/schemas/1.0.0/EmergencyInstruction.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "citation_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Citation Id"
+    },
+    "step": {
+      "title": "Step",
+      "type": "integer"
+    },
+    "text": {
+      "title": "Text",
+      "type": "string"
+    }
+  },
+  "required": [
+    "step",
+    "text"
+  ],
+  "title": "EmergencyInstruction",
+  "type": "object",
+  "x-contract-version": "1.0.0"
+}

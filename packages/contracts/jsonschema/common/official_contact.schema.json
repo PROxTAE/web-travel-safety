@@ -1,0 +1,137 @@
+{
+  "$defs": {
+    "SourceAuthority": {
+      "enum": [
+        "OFFICIAL",
+        "INTERGOVERNMENTAL",
+        "LICENSED_PROVIDER",
+        "COMMUNITY",
+        "UNKNOWN"
+      ],
+      "title": "SourceAuthority",
+      "type": "string"
+    }
+  },
+  "$id": "https://smart-travel-assistant.local/schemas/1.0.0/OfficialContact.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authority": {
+      "$ref": "#/$defs/SourceAuthority"
+    },
+    "availability": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Availability"
+    },
+    "country_code": {
+      "pattern": "^[A-Z]{2}$",
+      "title": "Country Code",
+      "type": "string"
+    },
+    "effective_at": {
+      "format": "date-time",
+      "title": "Effective At",
+      "type": "string"
+    },
+    "label": {
+      "title": "Label",
+      "type": "string"
+    },
+    "phone": {
+      "title": "Phone",
+      "type": "string"
+    },
+    "phone_e164": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Phone E164"
+    },
+    "review_due_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Review Due At"
+    },
+    "service_type": {
+      "enum": [
+        "POLICE",
+        "MEDICAL",
+        "FIRE",
+        "TOURIST_POLICE",
+        "GENERAL_EMERGENCY",
+        "EMBASSY",
+        "DISASTER"
+      ],
+      "title": "Service Type",
+      "type": "string"
+    },
+    "source_url": {
+      "title": "Source Url",
+      "type": "string"
+    },
+    "subdivision": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Subdivision"
+    },
+    "verified_at": {
+      "format": "date-time",
+      "title": "Verified At",
+      "type": "string"
+    },
+    "website": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Website"
+    }
+  },
+  "required": [
+    "country_code",
+    "service_type",
+    "label",
+    "phone",
+    "source_url",
+    "authority",
+    "effective_at",
+    "verified_at"
+  ],
+  "title": "OfficialContact",
+  "type": "object",
+  "x-contract-version": "1.0.0"
+}

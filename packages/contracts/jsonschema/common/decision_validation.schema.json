@@ -1,0 +1,53 @@
+{
+  "$id": "https://smart-travel-assistant.local/schemas/1.0.0/DecisionValidation.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Wire field ``schema`` is exposed via alias because ``schema`` shadows a BaseModel attribute.",
+  "properties": {
+    "banned_phrases": {
+      "default": true,
+      "title": "Banned Phrases",
+      "type": "boolean"
+    },
+    "citations": {
+      "default": true,
+      "title": "Citations",
+      "type": "boolean"
+    },
+    "fallback_reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Fallback Reason"
+    },
+    "locked_action": {
+      "default": true,
+      "title": "Locked Action",
+      "type": "boolean"
+    },
+    "numbers": {
+      "default": true,
+      "title": "Numbers",
+      "type": "boolean"
+    },
+    "schema": {
+      "default": true,
+      "title": "Schema",
+      "type": "boolean"
+    },
+    "used_fallback": {
+      "default": false,
+      "title": "Used Fallback",
+      "type": "boolean"
+    }
+  },
+  "title": "DecisionValidation",
+  "type": "object",
+  "x-contract-version": "1.0.0"
+}

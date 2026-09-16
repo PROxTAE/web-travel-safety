@@ -1,0 +1,51 @@
+# Local development overlay: host ports, hot reload, read-only source mounts, Mailpit UI.
+# Usage: docker compose -f compose.yaml -f compose.dev.yaml up -d
+services:
+  postgres:
+    ports: ["5432:5432"]
+  redis:
+    ports: ["6379:6379"]
+  qdrant:
+    ports: ["6333:6333"]
+  keycloak:
+    ports: ["8080:8080"]
+
+  web:
+    ports: ["3000:3000"]
+  api:
+    ports: ["8000:8000"]
+    volumes:
+      - ./services/api/app:/app/app:ro
+      - ./services/api/migrations:/app/migrations:ro
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+  agent:
+    ports: ["8001:8001"]
+    volumes: ["./services/agent/app:/app/app:ro"]
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8001", "--reload"]
+  external-data:
+    ports: ["8002:8002"]
+    volumes: ["./services/external-data/app:/app/app:ro"]
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8002", "--reload"]
+  data-integration:
+    ports: ["8003:8003"]
+    volumes: ["./services/data-integration/app:/app/app:ro"]
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8003", "--reload"]
+  risk-knowledge:
+    ports: ["8004:8004"]
+    volumes: ["./services/risk-knowledge/app:/app/app:ro"]
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8004", "--reload"]
+  decision-engine:
+    ports: ["8005:8005"]
+    volumes: ["./services/decision-engine/app:/app/app:ro"]
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8005", "--reload"]
+  recommendation:
+    ports: ["8006:8006"]
+    volumes: ["./services/recommendation/app:/app/app:ro"]
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8006", "--reload"]
+
+  prometheus:
+    ports: ["9090:9090"]
+  grafana:
+    ports: ["3001:3000"]
+  mailpit:
+    ports: ["8025:8025", "1025:1025"]

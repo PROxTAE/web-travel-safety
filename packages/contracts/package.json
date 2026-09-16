@@ -1,0 +1,8 @@
+{
+  "name": "@sta/contracts",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Generated TypeScript contract types (do not edit generated/ by hand)",
+  "main": "generated/typescript/index.ts",
+  "types": "generated/typescript/index.ts"
+}

@@ -1,0 +1,93 @@
+{
+  "$id": "https://smart-travel-assistant.local/schemas/1.0.0/ProviderHealth.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "checked_at": {
+      "format": "date-time",
+      "title": "Checked At",
+      "type": "string"
+    },
+    "coverage_note": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Coverage Note"
+    },
+    "enabled": {
+      "title": "Enabled",
+      "type": "boolean"
+    },
+    "kind": {
+      "title": "Kind",
+      "type": "string"
+    },
+    "last_error_code": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Last Error Code"
+    },
+    "latency_ms": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Latency Ms"
+    },
+    "provider": {
+      "title": "Provider",
+      "type": "string"
+    },
+    "quota_remaining": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Quota Remaining"
+    },
+    "status": {
+      "enum": [
+        "UP",
+        "DEGRADED",
+        "DOWN",
+        "UNAVAILABLE",
+        "UNKNOWN"
+      ],
+      "title": "Status",
+      "type": "string"
+    }
+  },
+  "required": [
+    "provider",
+    "kind",
+    "status",
+    "enabled",
+    "checked_at"
+  ],
+  "title": "ProviderHealth",
+  "type": "object",
+  "x-contract-version": "1.0.0"
+}

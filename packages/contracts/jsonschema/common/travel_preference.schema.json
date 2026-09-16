@@ -1,0 +1,45 @@
+{
+  "$id": "https://smart-travel-assistant.local/schemas/1.0.0/TravelPreference.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "accessibility": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 10,
+      "title": "Accessibility",
+      "type": "array"
+    },
+    "avoid_tolls": {
+      "default": false,
+      "title": "Avoid Tolls",
+      "type": "boolean"
+    },
+    "max_extra_duration_minutes": {
+      "default": 90,
+      "maximum": 1440,
+      "minimum": 0,
+      "title": "Max Extra Duration Minutes",
+      "type": "integer"
+    },
+    "prefer_lower_cost": {
+      "default": false,
+      "title": "Prefer Lower Cost",
+      "type": "boolean"
+    },
+    "prefer_lower_emissions": {
+      "default": false,
+      "title": "Prefer Lower Emissions",
+      "type": "boolean"
+    },
+    "prefer_safer_route": {
+      "default": true,
+      "title": "Prefer Safer Route",
+      "type": "boolean"
+    }
+  },
+  "title": "TravelPreference",
+  "type": "object",
+  "x-contract-version": "1.0.0"
+}

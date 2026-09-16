@@ -1,0 +1,163 @@
+{
+  "$defs": {
+    "DisasterEventType": {
+      "enum": [
+        "EARTHQUAKE",
+        "CYCLONE",
+        "STORM",
+        "FLOOD",
+        "WILDFIRE",
+        "VOLCANO",
+        "LANDSLIDE",
+        "EXTREME_TEMPERATURE",
+        "HEALTH",
+        "TRANSPORT_CLOSURE",
+        "OTHER"
+      ],
+      "title": "DisasterEventType",
+      "type": "string"
+    },
+    "SourceAuthority": {
+      "enum": [
+        "OFFICIAL",
+        "INTERGOVERNMENTAL",
+        "LICENSED_PROVIDER",
+        "COMMUNITY",
+        "UNKNOWN"
+      ],
+      "title": "SourceAuthority",
+      "type": "string"
+    }
+  },
+  "$id": "https://smart-travel-assistant.local/schemas/1.0.0/RetrievedEvidence.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authority": {
+      "$ref": "#/$defs/SourceAuthority"
+    },
+    "collection_version": {
+      "title": "Collection Version",
+      "type": "string"
+    },
+    "content_hash": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Content Hash",
+      "type": "string"
+    },
+    "document_id": {
+      "title": "Document Id",
+      "type": "string"
+    },
+    "effective_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Effective At"
+    },
+    "evidence_id": {
+      "format": "uuid",
+      "title": "Evidence Id",
+      "type": "string"
+    },
+    "expires_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Expires At"
+    },
+    "hazards": {
+      "items": {
+        "$ref": "#/$defs/DisasterEventType"
+      },
+      "title": "Hazards",
+      "type": "array"
+    },
+    "language": {
+      "title": "Language",
+      "type": "string"
+    },
+    "page": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Page"
+    },
+    "passage": {
+      "maxLength": 4000,
+      "title": "Passage",
+      "type": "string"
+    },
+    "rerank_score": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Rerank Score"
+    },
+    "retrieval_score": {
+      "title": "Retrieval Score",
+      "type": "number"
+    },
+    "section": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Section"
+    },
+    "source_url": {
+      "title": "Source Url",
+      "type": "string"
+    },
+    "title": {
+      "title": "Title",
+      "type": "string"
+    }
+  },
+  "required": [
+    "evidence_id",
+    "document_id",
+    "authority",
+    "title",
+    "source_url",
+    "language",
+    "passage",
+    "retrieval_score",
+    "collection_version",
+    "content_hash"
+  ],
+  "title": "RetrievedEvidence",
+  "type": "object",
+  "x-contract-version": "1.0.0"
+}

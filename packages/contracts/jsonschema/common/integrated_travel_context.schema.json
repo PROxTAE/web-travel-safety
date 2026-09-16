@@ -1,0 +1,1564 @@
+{
+  "$defs": {
+    "ConflictSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "conflicts": {
+          "items": {
+            "$ref": "#/$defs/DataConflict"
+          },
+          "title": "Conflicts",
+          "type": "array"
+        },
+        "count": {
+          "default": 0,
+          "title": "Count",
+          "type": "integer"
+        },
+        "safety_critical": {
+          "default": 0,
+          "title": "Safety Critical",
+          "type": "integer"
+        }
+      },
+      "title": "ConflictSummary",
+      "type": "object"
+    },
+    "DataConflict": {
+      "additionalProperties": false,
+      "properties": {
+        "field_path": {
+          "title": "Field Path",
+          "type": "string"
+        },
+        "resolution": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Resolution"
+        },
+        "source_ids": {
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "values": {
+          "items": {},
+          "title": "Values",
+          "type": "array"
+        }
+      },
+      "required": [
+        "field_path",
+        "values",
+        "source_ids"
+      ],
+      "title": "DataConflict",
+      "type": "object"
+    },
+    "DataQuality": {
+      "additionalProperties": false,
+      "properties": {
+        "completeness": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Completeness"
+        },
+        "conflicts": {
+          "items": {
+            "$ref": "#/$defs/DataConflict"
+          },
+          "title": "Conflicts",
+          "type": "array"
+        },
+        "coverage": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Coverage"
+        },
+        "flags": {
+          "items": {
+            "$ref": "#/$defs/QualityFlag"
+          },
+          "title": "Flags",
+          "type": "array"
+        },
+        "freshness_seconds": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Freshness Seconds"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "score": {
+          "default": 1.0,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Score",
+          "type": "number"
+        },
+        "status": {
+          "$ref": "#/$defs/DataStatus",
+          "default": "FRESH"
+        },
+        "weights_version": {
+          "default": "1.0.0",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "title": "Weights Version",
+          "type": "string"
+        }
+      },
+      "title": "DataQuality",
+      "type": "object"
+    },
+    "DataStatus": {
+      "enum": [
+        "FRESH",
+        "STALE",
+        "UNAVAILABLE",
+        "CONFLICTING",
+        "PARTIAL"
+      ],
+      "title": "DataStatus",
+      "type": "string"
+    },
+    "DisasterEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "closure": {
+          "default": false,
+          "description": "Official closure / no-go; hard constraint for routes",
+          "title": "Closure",
+          "type": "boolean"
+        },
+        "country_codes": {
+          "items": {
+            "pattern": "^[A-Z]{2}$",
+            "type": "string"
+          },
+          "title": "Country Codes",
+          "type": "array"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "maxLength": 4000,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "effective_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Effective At"
+        },
+        "ends_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ends At"
+        },
+        "event_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "event_type": {
+          "$ref": "#/$defs/DisasterEventType"
+        },
+        "geometry": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Point"
+            },
+            {
+              "$ref": "#/$defs/LineString"
+            },
+            {
+              "$ref": "#/$defs/Polygon"
+            },
+            {
+              "$ref": "#/$defs/MultiPolygon"
+            }
+          ],
+          "title": "Geometry"
+        },
+        "instruction": {
+          "anyOf": [
+            {
+              "maxLength": 2000,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Instruction"
+        },
+        "magnitude": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Magnitude"
+        },
+        "official": {
+          "default": false,
+          "title": "Official",
+          "type": "boolean"
+        },
+        "quality": {
+          "$ref": "#/$defs/DataQuality"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity",
+          "default": "UNKNOWN"
+        },
+        "source": {
+          "$ref": "#/$defs/SourceProvenance"
+        },
+        "title": {
+          "maxLength": 300,
+          "title": "Title",
+          "type": "string"
+        },
+        "updated_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Updated At"
+        }
+      },
+      "required": [
+        "event_id",
+        "event_type",
+        "title",
+        "geometry",
+        "source"
+      ],
+      "title": "DisasterEvent",
+      "type": "object"
+    },
+    "DisasterEventType": {
+      "enum": [
+        "EARTHQUAKE",
+        "CYCLONE",
+        "STORM",
+        "FLOOD",
+        "WILDFIRE",
+        "VOLCANO",
+        "LANDSLIDE",
+        "EXTREME_TEMPERATURE",
+        "HEALTH",
+        "TRANSPORT_CLOSURE",
+        "OTHER"
+      ],
+      "title": "DisasterEventType",
+      "type": "string"
+    },
+    "LineString": {
+      "additionalProperties": false,
+      "properties": {
+        "coordinates": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 3,
+            "minItems": 2,
+            "type": "array"
+          },
+          "minItems": 2,
+          "title": "Coordinates",
+          "type": "array"
+        },
+        "type": {
+          "const": "LineString",
+          "default": "LineString",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "coordinates"
+      ],
+      "title": "LineString",
+      "type": "object"
+    },
+    "MultiPolygon": {
+      "additionalProperties": false,
+      "properties": {
+        "coordinates": {
+          "items": {
+            "items": {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "maxItems": 3,
+                "minItems": 2,
+                "type": "array"
+              },
+              "type": "array"
+            },
+            "type": "array"
+          },
+          "minItems": 1,
+          "title": "Coordinates",
+          "type": "array"
+        },
+        "type": {
+          "const": "MultiPolygon",
+          "default": "MultiPolygon",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "coordinates"
+      ],
+      "title": "MultiPolygon",
+      "type": "object"
+    },
+    "Point": {
+      "additionalProperties": false,
+      "properties": {
+        "coordinates": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 2,
+          "title": "Coordinates",
+          "type": "array"
+        },
+        "type": {
+          "const": "Point",
+          "default": "Point",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "coordinates"
+      ],
+      "title": "Point",
+      "type": "object"
+    },
+    "Polygon": {
+      "additionalProperties": false,
+      "properties": {
+        "coordinates": {
+          "items": {
+            "items": {
+              "items": {
+                "type": "number"
+              },
+              "maxItems": 3,
+              "minItems": 2,
+              "type": "array"
+            },
+            "type": "array"
+          },
+          "minItems": 1,
+          "title": "Coordinates",
+          "type": "array"
+        },
+        "type": {
+          "const": "Polygon",
+          "default": "Polygon",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "coordinates"
+      ],
+      "title": "Polygon",
+      "type": "object"
+    },
+    "QualityFlag": {
+      "enum": [
+        "MISSING",
+        "STALE",
+        "CONFLICTING",
+        "INFERRED",
+        "INCOMPLETE",
+        "OUTSIDE_COVERAGE"
+      ],
+      "title": "QualityFlag",
+      "type": "string"
+    },
+    "QualityGate": {
+      "enum": [
+        "PASS",
+        "DEGRADED",
+        "BLOCK"
+      ],
+      "title": "QualityGate",
+      "type": "string"
+    },
+    "QualitySummary": {
+      "additionalProperties": false,
+      "properties": {
+        "degraded_services": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Degraded Services",
+          "type": "array"
+        },
+        "disaster": {
+          "$ref": "#/$defs/DataQuality"
+        },
+        "gate": {
+          "$ref": "#/$defs/QualityGate"
+        },
+        "overall": {
+          "$ref": "#/$defs/DataQuality"
+        },
+        "reasons": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reasons",
+          "type": "array"
+        },
+        "route": {
+          "$ref": "#/$defs/DataQuality"
+        },
+        "transport": {
+          "$ref": "#/$defs/DataQuality"
+        },
+        "weather": {
+          "$ref": "#/$defs/DataQuality"
+        }
+      },
+      "required": [
+        "gate",
+        "overall",
+        "weather",
+        "transport",
+        "disaster",
+        "route"
+      ],
+      "title": "QualitySummary",
+      "type": "object"
+    },
+    "RiskLevel": {
+      "enum": [
+        "LOW",
+        "MEDIUM",
+        "HIGH",
+        "UNKNOWN"
+      ],
+      "title": "RiskLevel",
+      "type": "string"
+    },
+    "RouteCandidate": {
+      "additionalProperties": false,
+      "properties": {
+        "distance_m": {
+          "minimum": 0,
+          "title": "Distance M",
+          "type": "number"
+        },
+        "duration_seconds": {
+          "minimum": 0,
+          "title": "Duration Seconds",
+          "type": "number"
+        },
+        "exposure": {
+          "$ref": "#/$defs/RouteExposure"
+        },
+        "geometry": {
+          "$ref": "#/$defs/LineString"
+        },
+        "label": {
+          "$ref": "#/$defs/RouteLabel",
+          "default": "ALTERNATIVE"
+        },
+        "labels": {
+          "description": "A route may honestly hold several labels",
+          "items": {
+            "$ref": "#/$defs/RouteLabel"
+          },
+          "title": "Labels",
+          "type": "array"
+        },
+        "mode": {
+          "$ref": "#/$defs/TravelMode"
+        },
+        "provider_route_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Provider Route Id"
+        },
+        "quality": {
+          "$ref": "#/$defs/DataQuality"
+        },
+        "rank": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rank"
+        },
+        "risk_level": {
+          "$ref": "#/$defs/RiskLevel",
+          "default": "UNKNOWN"
+        },
+        "risk_score": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Risk Score"
+        },
+        "route_id": {
+          "format": "uuid",
+          "title": "Route Id",
+          "type": "string"
+        },
+        "segments": {
+          "items": {
+            "$ref": "#/$defs/RouteSegment"
+          },
+          "title": "Segments",
+          "type": "array"
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/SourceProvenance"
+          },
+          "title": "Sources",
+          "type": "array"
+        },
+        "trade_offs": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Trade Offs",
+          "type": "array"
+        },
+        "transfers": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Transfers",
+          "type": "integer"
+        },
+        "usable": {
+          "default": true,
+          "title": "Usable",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "route_id",
+        "mode",
+        "geometry",
+        "distance_m",
+        "duration_seconds"
+      ],
+      "title": "RouteCandidate",
+      "type": "object"
+    },
+    "RouteExposure": {
+      "additionalProperties": false,
+      "properties": {
+        "closed": {
+          "default": false,
+          "title": "Closed",
+          "type": "boolean"
+        },
+        "hazard_event_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Hazard Event Ids",
+          "type": "array"
+        },
+        "max_hazard_severity": {
+          "$ref": "#/$defs/Severity",
+          "default": "UNKNOWN"
+        },
+        "min_hazard_distance_km": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Min Hazard Distance Km"
+        },
+        "score": {
+          "default": 0.0,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Score",
+          "type": "number"
+        },
+        "severe_weather_minutes": {
+          "default": 0.0,
+          "title": "Severe Weather Minutes",
+          "type": "number"
+        },
+        "weather_window_ids": {
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "title": "Weather Window Ids",
+          "type": "array"
+        }
+      },
+      "title": "RouteExposure",
+      "type": "object"
+    },
+    "RouteLabel": {
+      "enum": [
+        "ORIGINAL",
+        "RECOMMENDED",
+        "FASTEST",
+        "LOWEST_RISK",
+        "ALTERNATIVE"
+      ],
+      "title": "RouteLabel",
+      "type": "string"
+    },
+    "RouteSegment": {
+      "additionalProperties": false,
+      "properties": {
+        "distance_m": {
+          "minimum": 0,
+          "title": "Distance M",
+          "type": "number"
+        },
+        "duration_seconds": {
+          "minimum": 0,
+          "title": "Duration Seconds",
+          "type": "number"
+        },
+        "eta_end": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Eta End"
+        },
+        "eta_start": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Eta Start"
+        },
+        "geometry": {
+          "$ref": "#/$defs/LineString"
+        },
+        "index": {
+          "title": "Index",
+          "type": "integer"
+        },
+        "instruction": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Instruction"
+        },
+        "mode": {
+          "$ref": "#/$defs/TravelMode"
+        },
+        "operator": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Operator"
+        },
+        "service_number": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Service Number"
+        }
+      },
+      "required": [
+        "index",
+        "mode",
+        "geometry",
+        "distance_m",
+        "duration_seconds"
+      ],
+      "title": "RouteSegment",
+      "type": "object"
+    },
+    "Severity": {
+      "enum": [
+        "INFO",
+        "MINOR",
+        "MODERATE",
+        "SEVERE",
+        "EXTREME",
+        "UNKNOWN"
+      ],
+      "title": "Severity",
+      "type": "string"
+    },
+    "SourceAuthority": {
+      "enum": [
+        "OFFICIAL",
+        "INTERGOVERNMENTAL",
+        "LICENSED_PROVIDER",
+        "COMMUNITY",
+        "UNKNOWN"
+      ],
+      "title": "SourceAuthority",
+      "type": "string"
+    },
+    "SourceProvenance": {
+      "additionalProperties": false,
+      "properties": {
+        "attribution": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Attribution"
+        },
+        "authority": {
+          "$ref": "#/$defs/SourceAuthority",
+          "default": "UNKNOWN"
+        },
+        "content_hash": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "expires_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expires At"
+        },
+        "fetched_at": {
+          "format": "date-time",
+          "title": "Fetched At",
+          "type": "string"
+        },
+        "license": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License"
+        },
+        "observed_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Observed At"
+        },
+        "provider": {
+          "title": "Provider",
+          "type": "string"
+        },
+        "provider_record_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Provider Record Id"
+        },
+        "published_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Published At"
+        },
+        "schema_version": {
+          "default": "1.0.0",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "source_id": {
+          "format": "uuid",
+          "title": "Source Id",
+          "type": "string"
+        },
+        "source_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Url"
+        }
+      },
+      "required": [
+        "source_id",
+        "provider",
+        "fetched_at",
+        "content_hash"
+      ],
+      "title": "SourceProvenance",
+      "type": "object"
+    },
+    "TransportServiceStatus": {
+      "enum": [
+        "ON_TIME",
+        "DELAYED",
+        "CANCELLED",
+        "DISRUPTED",
+        "UNKNOWN"
+      ],
+      "title": "TransportServiceStatus",
+      "type": "string"
+    },
+    "TransportStatus": {
+      "additionalProperties": false,
+      "properties": {
+        "cancellation": {
+          "default": false,
+          "title": "Cancellation",
+          "type": "boolean"
+        },
+        "delay_minutes": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Delay Minutes"
+        },
+        "destination_stop": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Destination Stop"
+        },
+        "estimated_arrival": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Estimated Arrival"
+        },
+        "estimated_departure": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Estimated Departure"
+        },
+        "id": {
+          "format": "uuid",
+          "title": "Id",
+          "type": "string"
+        },
+        "message": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Message"
+        },
+        "mode": {
+          "$ref": "#/$defs/TravelMode"
+        },
+        "operator": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Operator"
+        },
+        "origin_stop": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Origin Stop"
+        },
+        "quality": {
+          "$ref": "#/$defs/DataQuality"
+        },
+        "scheduled_arrival": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scheduled Arrival"
+        },
+        "scheduled_departure": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scheduled Departure"
+        },
+        "service_number": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Service Number"
+        },
+        "source": {
+          "$ref": "#/$defs/SourceProvenance"
+        },
+        "status": {
+          "$ref": "#/$defs/TransportServiceStatus",
+          "default": "UNKNOWN"
+        }
+      },
+      "required": [
+        "id",
+        "mode",
+        "source"
+      ],
+      "title": "TransportStatus",
+      "type": "object"
+    },
+    "TravelMode": {
+      "enum": [
+        "FLIGHT",
+        "TRAIN",
+        "BUS",
+        "CAR",
+        "WALK",
+        "BICYCLE",
+        "MULTIMODAL"
+      ],
+      "title": "TravelMode",
+      "type": "string"
+    },
+    "TravelWindow": {
+      "additionalProperties": false,
+      "properties": {
+        "arrival_at": {
+          "format": "date-time",
+          "title": "Arrival At",
+          "type": "string"
+        },
+        "departure_at": {
+          "format": "date-time",
+          "title": "Departure At",
+          "type": "string"
+        },
+        "timezone": {
+          "title": "Timezone",
+          "type": "string"
+        }
+      },
+      "required": [
+        "departure_at",
+        "arrival_at",
+        "timezone"
+      ],
+      "title": "TravelWindow",
+      "type": "object"
+    },
+    "WeatherForecastPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "apparent_temperature_c": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Apparent Temperature C"
+        },
+        "eta_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Eta At"
+        },
+        "id": {
+          "format": "uuid",
+          "title": "Id",
+          "type": "string"
+        },
+        "is_current": {
+          "default": false,
+          "title": "Is Current",
+          "type": "boolean"
+        },
+        "location": {
+          "$ref": "#/$defs/Point"
+        },
+        "precipitation_mm": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Precipitation Mm"
+        },
+        "precipitation_probability": {
+          "anyOf": [
+            {
+              "maximum": 100,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Precipitation Probability"
+        },
+        "quality": {
+          "$ref": "#/$defs/DataQuality"
+        },
+        "route_sample_index": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Route Sample Index"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity",
+          "default": "UNKNOWN"
+        },
+        "snowfall_cm": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Snowfall Cm"
+        },
+        "source": {
+          "$ref": "#/$defs/SourceProvenance"
+        },
+        "temperature_c": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Temperature C"
+        },
+        "valid_at": {
+          "format": "date-time",
+          "title": "Valid At",
+          "type": "string"
+        },
+        "visibility_m": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Visibility M"
+        },
+        "weather_category": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Weather Category"
+        },
+        "weather_code": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Weather Code"
+        },
+        "wind_gust_kmh": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Wind Gust Kmh"
+        },
+        "wind_speed_kmh": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Wind Speed Kmh"
+        }
+      },
+      "required": [
+        "id",
+        "location",
+        "valid_at",
+        "source"
+      ],
+      "title": "WeatherForecastPoint",
+      "type": "object"
+    }
+  },
+  "$id": "https://smart-travel-assistant.local/schemas/1.0.0/IntegratedTravelContext.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "conflict_summary": {
+      "$ref": "#/$defs/ConflictSummary"
+    },
+    "content_hash": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Content Hash",
+      "type": "string"
+    },
+    "corridor_buffer_m": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Corridor Buffer M"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "disaster_events": {
+      "items": {
+        "$ref": "#/$defs/DisasterEvent"
+      },
+      "title": "Disaster Events",
+      "type": "array"
+    },
+    "feature_schema_version": {
+      "default": "1.0.0",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "title": "Feature Schema Version",
+      "type": "string"
+    },
+    "features": {
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "title": "Features",
+      "type": "object"
+    },
+    "official_alerts": {
+      "items": {
+        "$ref": "#/$defs/DisasterEvent"
+      },
+      "title": "Official Alerts",
+      "type": "array"
+    },
+    "provider_health": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Provider Health",
+      "type": "object"
+    },
+    "quality_summary": {
+      "$ref": "#/$defs/QualitySummary"
+    },
+    "request_id": {
+      "format": "uuid",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "route_candidates": {
+      "items": {
+        "$ref": "#/$defs/RouteCandidate"
+      },
+      "title": "Route Candidates",
+      "type": "array"
+    },
+    "route_corridor_geojson": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Polygon"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "snapshot_id": {
+      "format": "uuid",
+      "title": "Snapshot Id",
+      "type": "string"
+    },
+    "source_ids": {
+      "items": {
+        "format": "uuid",
+        "type": "string"
+      },
+      "title": "Source Ids",
+      "type": "array"
+    },
+    "supersedes_snapshot_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Supersedes Snapshot Id"
+    },
+    "transform_version": {
+      "default": "1.0.0",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "title": "Transform Version",
+      "type": "string"
+    },
+    "transport": {
+      "items": {
+        "$ref": "#/$defs/TransportStatus"
+      },
+      "title": "Transport",
+      "type": "array"
+    },
+    "travel_modes": {
+      "items": {
+        "$ref": "#/$defs/TravelMode"
+      },
+      "title": "Travel Modes",
+      "type": "array"
+    },
+    "travel_window": {
+      "$ref": "#/$defs/TravelWindow"
+    },
+    "trip_id": {
+      "format": "uuid",
+      "title": "Trip Id",
+      "type": "string"
+    },
+    "trip_revision": {
+      "default": 1,
+      "title": "Trip Revision",
+      "type": "integer"
+    },
+    "weather": {
+      "items": {
+        "$ref": "#/$defs/WeatherForecastPoint"
+      },
+      "title": "Weather",
+      "type": "array"
+    }
+  },
+  "required": [
+    "snapshot_id",
+    "request_id",
+    "trip_id",
+    "travel_window",
+    "travel_modes",
+    "route_candidates",
+    "weather",
+    "transport",
+    "disaster_events",
+    "official_alerts",
+    "features",
+    "quality_summary",
+    "conflict_summary",
+    "source_ids",
+    "created_at",
+    "content_hash"
+  ],
+  "title": "IntegratedTravelContext",
+  "type": "object",
+  "x-contract-version": "1.0.0"
+}

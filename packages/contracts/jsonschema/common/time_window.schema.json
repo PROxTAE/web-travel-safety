@@ -1,0 +1,24 @@
+{
+  "$id": "https://smart-travel-assistant.local/schemas/1.0.0/TimeWindow.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "end": {
+      "format": "date-time",
+      "title": "End",
+      "type": "string"
+    },
+    "start": {
+      "format": "date-time",
+      "title": "Start",
+      "type": "string"
+    }
+  },
+  "required": [
+    "start",
+    "end"
+  ],
+  "title": "TimeWindow",
+  "type": "object",
+  "x-contract-version": "1.0.0"
+}

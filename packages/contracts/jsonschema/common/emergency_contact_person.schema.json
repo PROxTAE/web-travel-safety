@@ -1,0 +1,37 @@
+{
+  "$id": "https://smart-travel-assistant.local/schemas/1.0.0/EmergencyContactPerson.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "maxLength": 120,
+      "title": "Name",
+      "type": "string"
+    },
+    "phone": {
+      "maxLength": 32,
+      "title": "Phone",
+      "type": "string"
+    },
+    "relationship": {
+      "anyOf": [
+        {
+          "maxLength": 60,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Relationship"
+    }
+  },
+  "required": [
+    "name",
+    "phone"
+  ],
+  "title": "EmergencyContactPerson",
+  "type": "object",
+  "x-contract-version": "1.0.0"
+}

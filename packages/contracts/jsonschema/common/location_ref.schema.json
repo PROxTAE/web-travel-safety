@@ -1,0 +1,95 @@
+{
+  "$defs": {
+    "Point": {
+      "additionalProperties": false,
+      "properties": {
+        "coordinates": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 2,
+          "title": "Coordinates",
+          "type": "array"
+        },
+        "type": {
+          "const": "Point",
+          "default": "Point",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "coordinates"
+      ],
+      "title": "Point",
+      "type": "object"
+    }
+  },
+  "$id": "https://smart-travel-assistant.local/schemas/1.0.0/LocationRef.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "admin1": {
+      "anyOf": [
+        {
+          "maxLength": 128,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Admin1"
+    },
+    "confirmed_by_user": {
+      "default": false,
+      "title": "Confirmed By User",
+      "type": "boolean"
+    },
+    "coordinates": {
+      "$ref": "#/$defs/Point"
+    },
+    "country_code": {
+      "pattern": "^[A-Z]{2}$",
+      "title": "Country Code",
+      "type": "string"
+    },
+    "display_name": {
+      "maxLength": 256,
+      "minLength": 1,
+      "title": "Display Name",
+      "type": "string"
+    },
+    "place_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Place Id",
+      "type": "string"
+    },
+    "provider": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Provider",
+      "type": "string"
+    },
+    "timezone": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Timezone",
+      "type": "string"
+    }
+  },
+  "required": [
+    "place_id",
+    "display_name",
+    "coordinates",
+    "country_code",
+    "timezone",
+    "provider"
+  ],
+  "title": "LocationRef",
+  "type": "object",
+  "x-contract-version": "1.0.0"
+}

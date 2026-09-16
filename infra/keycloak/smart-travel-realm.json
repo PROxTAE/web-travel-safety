@@ -1,0 +1,76 @@
+{
+  "realm": "smart-travel",
+  "enabled": true,
+  "displayName": "Smart Travel Assistant",
+  "sslRequired": "external",
+  "registrationAllowed": true,
+  "registrationEmailAsUsername": true,
+  "loginWithEmailAllowed": true,
+  "resetPasswordAllowed": true,
+  "bruteForceProtected": true,
+  "accessTokenLifespan": 900,
+  "ssoSessionIdleTimeout": 1800,
+  "ssoSessionMaxLifespan": 36000,
+  "defaultSignatureAlgorithm": "RS256",
+  "roles": {
+    "realm": [
+      { "name": "traveler", "description": "Default end-user role" },
+      { "name": "safety-reviewer", "description": "May read the safety review queue" },
+      { "name": "team-lead", "description": "Operational admin for policy/model rollbacks" }
+    ]
+  },
+  "defaultRoles": ["traveler", "offline_access", "uma_authorization"],
+  "clientScopes": [
+    {
+      "name": "smart-travel-api",
+      "description": "Adds the API audience to access tokens",
+      "protocol": "openid-connect",
+      "attributes": { "include.in.token.scope": "true", "display.on.consent.screen": "false" },
+      "protocolMappers": [
+        {
+          "name": "smart-travel-api-audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "included.client.audience": "smart-travel-api",
+            "id.token.claim": "false",
+            "access.token.claim": "true"
+          }
+        }
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "smart-travel-api",
+      "name": "Smart Travel Public API (audience only)",
+      "enabled": true,
+      "bearerOnly": true,
+      "publicClient": false,
+      "protocol": "openid-connect"
+    },
+    {
+      "clientId": "smart-travel-web",
+      "name": "Smart Travel Web (Auth.js confidential client)",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "${OIDC_CLIENT_SECRET}",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "redirectUris": ["http://localhost:3000/api/auth/callback/keycloak", "http://web:3000/api/auth/callback/keycloak"],
+      "webOrigins": ["http://localhost:3000"],
+      "postLogoutRedirectUris": ["http://localhost:3000/*"],
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "post.logout.redirect.uris": "http://localhost:3000/*"
+      },
+      "defaultClientScopes": ["openid", "profile", "email", "roles", "smart-travel-api"],
+      "optionalClientScopes": ["offline_access"]
+    }
+  ]
+}

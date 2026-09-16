@@ -1,0 +1,20 @@
+{
+  "title": "Smart Travel — Service Overview",
+  "uid": "sta-service-overview",
+  "schemaVersion": 39,
+  "time": { "from": "now-1h", "to": "now" },
+  "panels": [
+    { "type": "timeseries", "title": "Request rate by service", "gridPos": {"x":0,"y":0,"w":12,"h":8},
+      "targets": [{ "expr": "sum by (service) (rate(sta_http_requests_total[5m]))" }] },
+    { "type": "timeseries", "title": "p95 latency by service", "gridPos": {"x":12,"y":0,"w":12,"h":8},
+      "targets": [{ "expr": "histogram_quantile(0.95, sum by (le, service) (rate(sta_http_request_duration_seconds_bucket[5m])))" }] },
+    { "type": "timeseries", "title": "Dependency errors", "gridPos": {"x":0,"y":8,"w":12,"h":8},
+      "targets": [{ "expr": "sum by (service, dependency) (rate(sta_dependency_errors_total[5m]))" }] },
+    { "type": "timeseries", "title": "Degraded results", "gridPos": {"x":12,"y":8,"w":12,"h":8},
+      "targets": [{ "expr": "sum by (service) (rate(sta_degraded_results_total[5m]))" }] },
+    { "type": "stat", "title": "Decision actions (1h)", "gridPos": {"x":0,"y":16,"w":12,"h":6},
+      "targets": [{ "expr": "sum by (action) (increase(sta_decision_actions_total[1h]))" }] },
+    { "type": "stat", "title": "LLM fallback ratio (1h)", "gridPos": {"x":12,"y":16,"w":12,"h":6},
+      "targets": [{ "expr": "sum(increase(sta_llm_fallback_total[1h])) / clamp_min(sum(increase(sta_llm_calls_total[1h])),1)" }] }
+  ]
+}
