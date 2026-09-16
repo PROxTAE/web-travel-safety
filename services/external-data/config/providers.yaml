@@ -1,0 +1,26 @@
+# Provider registry for transit (GTFS / GTFS-Realtime) feeds.
+# Only agencies listed here are queried; regions outside every bbox return OUTSIDE_COVERAGE.
+# Each entry must record license, attribution, timezone and refresh interval (04 plan §GTFS).
+config_version: "1.0.0"
+
+gtfs_feeds:
+  - id: mbta
+    agency: Massachusetts Bay Transportation Authority
+    country_code: US
+    region: Greater Boston, Massachusetts
+    # [min_lon, min_lat, max_lon, max_lat]
+    bbox: [-71.65, 41.95, -70.55, 42.75]
+    timezone: America/New_York
+    modes: [TRAIN, BUS]
+    static_url: https://cdn.mbta.com/MBTA_GTFS.zip
+    realtime:
+      trip_updates: https://cdn.mbta.com/realtime/TripUpdates.pb
+      alerts: https://cdn.mbta.com/realtime/Alerts.pb
+      vehicle_positions: https://cdn.mbta.com/realtime/VehiclePositions.pb
+    auth_ref: null            # public feed, no key
+    license: "MBTA Developer License Agreement (https://www.mbta.com/developers/gtfs-realtime)"
+    attribution: "Data provided by the Massachusetts Bay Transportation Authority (MBTA)"
+    refresh_interval_seconds: 60
+    enabled: true
+
+# Add regional feeds (e.g. a Thai operator) here once the operator publishes GTFS-RT and the license is recorded.

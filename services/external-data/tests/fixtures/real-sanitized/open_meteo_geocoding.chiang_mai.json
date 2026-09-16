@@ -1,0 +1,49 @@
+{
+  "_fixture": {
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Chiang+Mai&count=3",
+    "captured_at": "2026-09-16T20:33:08.856543Z",
+    "schema_version": "1.0.0",
+    "license": "CC BY 4.0",
+    "redaction": "none; public places"
+  },
+  "data": {
+    "results": [
+      {
+        "id": 1153671,
+        "name": "Chiang Mai",
+        "latitude": 18.79038,
+        "longitude": 98.98468,
+        "elevation": 313.0,
+        "feature_code": "PPLA",
+        "country_code": "TH",
+        "admin1_id": 1153670,
+        "admin2_id": 1152000,
+        "timezone": "Asia/Bangkok",
+        "population": 127240,
+        "country_id": 1605651,
+        "country": "Thailand",
+        "admin1": "Chiang Mai",
+        "admin2": "Mueang Chiang Mai"
+      },
+      {
+        "id": 1116869,
+        "name": "Chiang Mai International Airport",
+        "latitude": 18.76667,
+        "longitude": 98.96667,
+        "elevation": 312.0,
+        "feature_code": "AIRP",
+        "country_code": "TH",
+        "admin1_id": 1153670,
+        "admin2_id": 1152000,
+        "admin3_id": 12642849,
+        "timezone": "Asia/Bangkok",
+        "country_id": 1605651,
+        "country": "Thailand",
+        "admin1": "Chiang Mai",
+        "admin2": "Mueang Chiang Mai",
+        "admin3": "Suthep"
+      }
+    ],
+    "generationtime_ms": 0.41234493
+  }
+}

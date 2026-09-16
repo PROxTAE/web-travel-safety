@@ -1,0 +1,14 @@
+{
+  "_fixture": {
+    "source": "https://cdn.mbta.com/realtime/Alerts.pb",
+    "captured_at": "2026-09-16T20:33:22.490402Z",
+    "schema_version": "1.0.0",
+    "license": "MBTA developer license",
+    "redaction": "truncated to first 40 of 133 entities; binary protobuf as served (no PII in feed)"
+  },
+  "data": {
+    "bytes": 126932,
+    "entities": 40,
+    "header_timestamp": 1789590750
+  }
+}

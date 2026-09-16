@@ -1,0 +1,316 @@
+{
+  "_fixture": {
+    "source": "https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH (7d, truncated to 5 features)",
+    "captured_at": "2026-09-16T20:33:14.926026Z",
+    "schema_version": "1.0.0",
+    "license": "GDACS terms (attribution)",
+    "redaction": "truncated to 5 features"
+  },
+  "data": {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "bbox": [
+          -76.8772,
+          4.5241,
+          -76.8772,
+          4.5241
+        ],
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -76.8772,
+            4.5241
+          ]
+        },
+        "properties": {
+          "eventtype": "EQ",
+          "eventid": 1566555,
+          "episodeid": 1734377,
+          "eventname": "",
+          "glide": "",
+          "name": "Earthquake in Colombia",
+          "description": "Earthquake in Colombia",
+          "htmldescription": "Green M 5 Earthquake in Colombia at: 16 Sep 2026 20:12:52.",
+          "icon": "https://www.gdacs.org/images/gdacs_icons/maps/Green/EQ.png",
+          "iconoverall": "https://www.gdacs.org/images/gdacs_icons/maps/Green/EQ.png",
+          "url": {
+            "geometry": "https://www.gdacs.org/gdacsapi/api/polygons/getgeometry?eventtype=EQ&eventid=1566555&episodeid=1734377",
+            "report": "https://www.gdacs.org/report.aspx?eventid=1566555&episodeid=1734377&eventtype=EQ",
+            "details": "https://www.gdacs.org/gdacsapi/api/events/geteventdata?eventtype=EQ&eventid=1566555"
+          },
+          "alertlevel": "Green",
+          "alertscore": 1,
+          "episodealertlevel": "Green",
+          "episodealertscore": 0.0,
+          "istemporary": "true",
+          "iscurrent": "true",
+          "country": "Colombia",
+          "fromdate": "2026-09-16T20:12:52",
+          "todate": "2026-09-16T20:12:52",
+          "datemodified": "2026-09-16T20:30:22",
+          "iso3": "COL",
+          "source": "NEIC",
+          "sourceid": "",
+          "polygonlabel": "Centroid",
+          "Class": "Point_Centroid",
+          "affectedcountries": [
+            {
+              "iso2": "CO",
+              "iso3": "COL",
+              "countryname": "Colombia"
+            }
+          ],
+          "severitydata": {
+            "severity": 5.0,
+            "severitytext": "Magnitude 5M, Depth:59.026km",
+            "severityunit": "M"
+          }
+        }
+      },
+      {
+        "type": "Feature",
+        "bbox": [
+          145.4729,
+          14.2866,
+          145.4729,
+          14.2866
+        ],
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            145.4729,
+            14.2866
+          ]
+        },
+        "properties": {
+          "eventtype": "EQ",
+          "eventid": 1566547,
+          "episodeid": 1734372,
+          "eventname": "",
+          "glide": "",
+          "name": "Earthquake in Northern Mariana Is.",
+          "description": "Earthquake in Northern Mariana Is.",
+          "htmldescription": "Green M 5.1 Earthquake in Northern Mariana Is. at: 16 Sep 2026 18:06:40.",
+          "icon": "https://www.gdacs.org/images/gdacs_icons/maps/Green/EQ.png",
+          "iconoverall": "https://www.gdacs.org/images/gdacs_icons/maps/Green/EQ.png",
+          "url": {
+            "geometry": "https://www.gdacs.org/gdacsapi/api/polygons/getgeometry?eventtype=EQ&eventid=1566547&episodeid=1734372",
+            "report": "https://www.gdacs.org/report.aspx?eventid=1566547&episodeid=1734372&eventtype=EQ",
+            "details": "https://www.gdacs.org/gdacsapi/api/events/geteventdata?eventtype=EQ&eventid=1566547"
+          },
+          "alertlevel": "Green",
+          "alertscore": 1,
+          "episodealertlevel": "Green",
+          "episodealertscore": 0.0,
+          "istemporary": "false",
+          "iscurrent": "true",
+          "country": "Northern Mariana Is.",
+          "fromdate": "2026-09-16T18:06:40",
+          "todate": "2026-09-16T18:06:40",
+          "datemodified": "2026-09-16T19:51:23",
+          "iso3": "MNP",
+          "source": "NEIC",
+          "sourceid": "",
+          "polygonlabel": "Centroid",
+          "Class": "Point_Centroid",
+          "affectedcountries": [
+            {
+              "iso2": "MP",
+              "iso3": "MNP",
+              "countryname": "Northern Mariana Is."
+            }
+          ],
+          "severitydata": {
+            "severity": 5.1,
+            "severitytext": "Magnitude 5.1M, Depth:110.79km",
+            "severityunit": "M"
+          }
+        }
+      },
+      {
+        "type": "Feature",
+        "bbox": [
+          149.7,
+          17.6,
+          149.7,
+          17.6
+        ],
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            149.7,
+            17.6
+          ]
+        },
+        "properties": {
+          "eventtype": "TC",
+          "eventid": 1001322,
+          "episodeid": 6,
+          "eventname": "DUJUAN-26",
+          "glide": "",
+          "name": "Tropical Cyclone DUJUAN-26",
+          "description": "Tropical Cyclone DUJUAN-26",
+          "htmldescription": "Green Tropical Cyclone DUJUAN-26 in Japan from: 15 Sep 2026  to: 16 Sep 2026 .",
+          "icon": "https://www.gdacs.org/images/gdacs_icons/maps/Green/TC.png",
+          "iconoverall": "https://www.gdacs.org/images/gdacs_icons/maps/Green/TC.png",
+          "url": {
+            "geometry": "https://www.gdacs.org/gdacsapi/api/polygons/getgeometry?eventtype=TC&eventid=1001322&episodeid=6",
+            "report": "https://www.gdacs.org/report.aspx?eventid=1001322&episodeid=6&eventtype=TC",
+            "details": "https://www.gdacs.org/gdacsapi/api/events/geteventdata?eventtype=TC&eventid=1001322"
+          },
+          "alertlevel": "Green",
+          "alertscore": 1,
+          "episodealertlevel": "Green",
+          "episodealertscore": 1.0,
+          "istemporary": "false",
+          "iscurrent": "true",
+          "country": "Japan",
+          "fromdate": "2026-09-15T12:00:00",
+          "todate": "2026-09-16T18:00:00",
+          "datemodified": "2026-09-16T20:20:52",
+          "iso3": "JPN",
+          "source": "JTWC",
+          "sourceid": "",
+          "polygonlabel": "Centroid",
+          "Class": "Point_Centroid",
+          "countryonland": "",
+          "affectedcountries": [
+            {
+              "iso2": "JP",
+              "iso3": "JPN",
+              "countryname": "Japan"
+            }
+          ],
+          "severitydata": {
+            "severity": 129.6288,
+            "severitytext": "Tropical Storm (maximum wind speed of 130 km/h)",
+            "severityunit": "km/h"
+          }
+        }
+      },
+      {
+        "type": "Feature",
+        "bbox": [
+          140.0207,
+          36.0556,
+          140.0207,
+          36.0556
+        ],
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            140.0207,
+            36.0556
+          ]
+        },
+        "properties": {
+          "eventtype": "EQ",
+          "eventid": 1566529,
+          "episodeid": 1734348,
+          "eventname": "",
+          "glide": "",
+          "name": "Earthquake in Japan",
+          "description": "Earthquake in Japan",
+          "htmldescription": "Green M 5 Earthquake in Japan at: 16 Sep 2026 15:07:38.",
+          "icon": "https://www.gdacs.org/images/gdacs_icons/maps/Green/EQ.png",
+          "iconoverall": "https://www.gdacs.org/images/gdacs_icons/maps/Green/EQ.png",
+          "url": {
+            "geometry": "https://www.gdacs.org/gdacsapi/api/polygons/getgeometry?eventtype=EQ&eventid=1566529&episodeid=1734348",
+            "report": "https://www.gdacs.org/report.aspx?eventid=1566529&episodeid=1734348&eventtype=EQ",
+            "details": "https://www.gdacs.org/gdacsapi/api/events/geteventdata?eventtype=EQ&eventid=1566529"
+          },
+          "alertlevel": "Green",
+          "alertscore": 1,
+          "episodealertlevel": "Green",
+          "episodealertscore": 0.0,
+          "istemporary": "false",
+          "iscurrent": "true",
+          "country": "Japan",
+          "fromdate": "2026-09-16T15:07:38",
+          "todate": "2026-09-16T15:07:38",
+          "datemodified": "2026-09-16T15:47:43",
+          "iso3": "JPN",
+          "source": "NEIC",
+          "sourceid": "",
+          "polygonlabel": "Centroid",
+          "Class": "Point_Centroid",
+          "affectedcountries": [
+            {
+              "iso2": "JP",
+              "iso3": "JPN",
+              "countryname": "Japan"
+            }
+          ],
+          "severitydata": {
+            "severity": 5.0,
+            "severitytext": "Magnitude 5M, Depth:77.348km",
+            "severityunit": "M"
+          }
+        }
+      },
+      {
+        "type": "Feature",
+        "bbox": [
+          40.13,
+          9.0247,
+          40.13,
+          9.0247
+        ],
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            40.13,
+            9.0247
+          ]
+        },
+        "properties": {
+          "eventtype": "EQ",
+          "eventid": 1566510,
+          "episodeid": 1734328,
+          "eventname": "",
+          "glide": "",
+          "name": "Earthquake in Ethiopia",
+          "description": "Earthquake in Ethiopia",
+          "htmldescription": "Green M 4.5 Earthquake in Ethiopia at: 16 Sep 2026 12:33:23.",
+          "icon": "https://www.gdacs.org/images/gdacs_icons/maps/Green/EQ.png",
+          "iconoverall": "https://www.gdacs.org/images/gdacs_icons/maps/Green/EQ.png",
+          "url": {
+            "geometry": "https://www.gdacs.org/gdacsapi/api/polygons/getgeometry?eventtype=EQ&eventid=1566510&episodeid=1734328",
+            "report": "https://www.gdacs.org/report.aspx?eventid=1566510&episodeid=1734328&eventtype=EQ",
+            "details": "https://www.gdacs.org/gdacsapi/api/events/geteventdata?eventtype=EQ&eventid=1566510"
+          },
+          "alertlevel": "Green",
+          "alertscore": 1,
+          "episodealertlevel": "Green",
+          "episodealertscore": 0.0,
+          "istemporary": "false",
+          "iscurrent": "true",
+          "country": "Ethiopia",
+          "fromdate": "2026-09-16T12:33:23",
+          "todate": "2026-09-16T12:33:23",
+          "datemodified": "2026-09-16T13:13:42",
+          "iso3": "ETH",
+          "source": "NEIC",
+          "sourceid": "",
+          "polygonlabel": "Centroid",
+          "Class": "Point_Centroid",
+          "affectedcountries": [
+            {
+              "iso2": "ET",
+              "iso3": "ETH",
+              "countryname": "Ethiopia"
+            }
+          ],
+          "severitydata": {
+            "severity": 4.5,
+            "severitytext": "Magnitude 4.5M, Depth:10km",
+            "severityunit": "M"
+          }
+        }
+      }
+    ],
+    "bbox": null
+  }
+}
