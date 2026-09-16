@@ -1,0 +1,297 @@
+{
+  "name": "route-risk-baseline",
+  "version": "1.0.0",
+  "algorithm": "logreg",
+  "stage": "CANDIDATE",
+  "feature_schema_version": "1.0.0",
+  "feature_names": [
+    "route_distance_km",
+    "route_duration_hours",
+    "travel_mode_encoded",
+    "route_geometry_inferred",
+    "weather_max_precip_probability",
+    "weather_max_precip_mm",
+    "weather_max_wind_gust_kmh",
+    "weather_min_visibility_m",
+    "weather_max_temperature_c",
+    "weather_min_temperature_c",
+    "weather_max_severity_rank",
+    "severe_weather_exposure_minutes",
+    "weather_coverage_ratio",
+    "earthquake_max_magnitude_near_corridor",
+    "earthquake_min_distance_km",
+    "active_official_alert_count",
+    "active_disaster_event_count",
+    "max_disaster_severity_rank",
+    "official_closure_count",
+    "closed_segment_count",
+    "delayed_segment_count",
+    "max_delay_minutes",
+    "transport_realtime_coverage_ratio",
+    "source_quality_mean",
+    "source_quality_min",
+    "stale_source_ratio",
+    "conflict_count",
+    "missing_critical_count",
+    "departure_hour_local",
+    "month",
+    "route_region_h3_res3_count",
+    "weather_max_precip_probability_missing",
+    "weather_max_precip_mm_missing",
+    "weather_max_wind_gust_kmh_missing",
+    "weather_min_visibility_m_missing",
+    "weather_max_temperature_c_missing",
+    "weather_min_temperature_c_missing",
+    "weather_max_severity_rank_missing",
+    "earthquake_max_magnitude_near_corridor_missing",
+    "earthquake_min_distance_km_missing",
+    "max_disaster_severity_rank_missing",
+    "max_delay_minutes_missing",
+    "rule_score"
+  ],
+  "checksum": "862ffe244912a91c3279996f5a74489f6bb312fa69fe732057673dc5eed7bebb",
+  "thresholds_version": "1.0.0",
+  "thresholds": {
+    "version": "1.0.0",
+    "derived_from": "out-of-fold predictions on the training split (StratifiedKFold 5)",
+    "objective": {
+      "high": "recall >= 0.80",
+      "medium": "recall >= 0.95"
+    },
+    "high": 0.0139,
+    "medium": 0.0084,
+    "uncertainty_band": 0.1,
+    "delay_improvement_min": 0.15
+  },
+  "metrics": {
+    "high_recall": 0.6470588235294118,
+    "high_recall_ci95": [
+      0.541,
+      0.74
+    ],
+    "high_precision": 0.0514018691588785,
+    "f1": 0.09523809523809523,
+    "false_negative_rate": 0.35294117647058826,
+    "pr_auc": 0.29266712126899724,
+    "roc_auc": 0.7899094140580208,
+    "brier": 0.019187874799121225,
+    "ece": 0.004995895990039493,
+    "confusion": {
+      "tn": 2576,
+      "fp": 1015,
+      "fn": 30,
+      "tp": 55
+    },
+    "n": 3676,
+    "n_positive": 85,
+    "thresholds": {
+      "high": 0.0139,
+      "medium": 0.0084
+    }
+  },
+  "subgroups": {
+    "region=EAST_ASIA": {
+      "n": 369,
+      "high_recall": 0.0
+    },
+    "region=EUROPE": {
+      "n": 369,
+      "high_recall": 0.0
+    },
+    "region=NORTH_AMERICA": {
+      "n": 492,
+      "high_recall": 0.0
+    },
+    "region=OCEANIA": {
+      "n": 304,
+      "high_recall": 0.0
+    },
+    "region=SEA": {
+      "n": 984,
+      "high_recall": 0.0
+    },
+    "region=SOUTH_ASIA": {
+      "n": 912,
+      "high_recall": 0.0
+    },
+    "mode=BUS": {
+      "n": 427,
+      "high_recall": 0.0
+    },
+    "mode=CAR": {
+      "n": 1773,
+      "high_recall": 0.0
+    },
+    "mode=TRAIN": {
+      "n": 1230,
+      "high_recall": 0.0
+    }
+  },
+  "all_candidates": {
+    "logreg": {
+      "high_recall": 0.6470588235294118,
+      "high_recall_ci95": [
+        0.541,
+        0.74
+      ],
+      "high_precision": 0.0514018691588785,
+      "f1": 0.09523809523809523,
+      "false_negative_rate": 0.35294117647058826,
+      "pr_auc": 0.29266712126899724,
+      "roc_auc": 0.7899094140580208,
+      "brier": 0.019187874799121225,
+      "ece": 0.004995895990039493,
+      "confusion": {
+        "tn": 2576,
+        "fp": 1015,
+        "fn": 30,
+        "tp": 55
+      },
+      "n": 3676,
+      "n_positive": 85,
+      "thresholds": {
+        "high": 0.0139,
+        "medium": 0.0084
+      }
+    },
+    "hgb": {
+      "high_recall": 0.5882352941176471,
+      "high_recall_ci95": [
+        0.482,
+        0.687
+      ],
+      "high_precision": 0.1072961373390558,
+      "f1": 0.18148820326678766,
+      "false_negative_rate": 0.4117647058823529,
+      "pr_auc": 0.18955428969949648,
+      "roc_auc": 0.7607646567398888,
+      "brier": 0.020697468856371564,
+      "ece": 0.010361210489967385,
+      "confusion": {
+        "tn": 3175,
+        "fp": 416,
+        "fn": 35,
+        "tp": 50
+      },
+      "n": 3676,
+      "n_positive": 85,
+      "thresholds": {
+        "high": 0.0165,
+        "medium": 0.0099
+      }
+    },
+    "rule_baseline": {
+      "high_recall": 0.8470588235294118,
+      "high_recall_ci95": [
+        0.756,
+        0.908
+      ],
+      "high_precision": 0.05333333333333334,
+      "f1": 0.10034843205574913,
+      "false_negative_rate": 0.15294117647058825,
+      "pr_auc": 0.16523371408186016,
+      "roc_auc": 0.8218012351139287,
+      "brier": 0.026570768998911858,
+      "ece": 0.05947894450489664,
+      "confusion": {
+        "tn": 2313,
+        "fp": 1278,
+        "fn": 13,
+        "tp": 72
+      },
+      "n": 3676,
+      "n_positive": 85,
+      "thresholds": {
+        "high": 0.0567,
+        "medium": 0.034
+      }
+    }
+  },
+  "acceptance": {
+    "version": "1.0.0",
+    "primary_metric": "high_recall",
+    "minimums": {
+      "high_recall": 0.8,
+      "pr_auc": 0.35,
+      "roc_auc": 0.75
+    },
+    "maximums": {
+      "brier": 0.2,
+      "ece": 0.08,
+      "false_negative_rate": 0.2
+    },
+    "must_beat_rule_baseline_on": [
+      "high_recall",
+      "pr_auc"
+    ],
+    "latency_p95_ms": 300,
+    "approver": "team-lead"
+  },
+  "acceptance_failures": [
+    "high_recall=0.647 < 0.8",
+    "pr_auc=0.293 < 0.35",
+    "false_negative_rate=0.353 > 0.2",
+    "high_recall does not beat rule baseline (0.647 < 0.847)"
+  ],
+  "dataset_manifest": {
+    "built_at": "2026-09-16T23:25:32.560096+00:00",
+    "period": {
+      "start": "2025-11-01",
+      "end": "2026-08-31"
+    },
+    "routes": [
+      "bkk-cnx",
+      "bkk-hkt",
+      "bkk-kkc",
+      "bkk-hhq",
+      "han-dad",
+      "mnl-ceb",
+      "jkt-bdo",
+      "kul-pen",
+      "tyo-osa",
+      "tpe-khh",
+      "sel-pus",
+      "del-jai",
+      "bom-pnq",
+      "dac-cgp",
+      "lax-sfo",
+      "mia-mco",
+      "hou-dfw",
+      "mex-pbc",
+      "lon-man",
+      "mad-bcn",
+      "ath-the",
+      "syd-cbr",
+      "nbo-mba",
+      "lim-cuz"
+    ],
+    "split": {
+      "test_regions": [
+        "SOUTH_ASIA",
+        "OCEANIA"
+      ],
+      "test_period_start": "2026-05-01"
+    },
+    "stats": {
+      "routes": 24,
+      "days": 304,
+      "samples": 7296,
+      "positives": 150,
+      "snapshot_errors": 0,
+      "api_calls": 480
+    },
+    "dataset_sha256": "b84d518531f63648a3f2cea052c044a7187e75c0ddd85913bd64d55dafecdde5",
+    "rows": 7296,
+    "positive_rate": 0.02055921052631579,
+    "sources": {
+      "features_weather": "Open-Meteo Previous Runs API (day-1 forecast) CC BY 4.0",
+      "labels_weather": "Open-Meteo Archive API (ERA5) CC BY 4.0",
+      "labels_official": "GDACS Orange/Red event list",
+      "quakes": "USGS FDSN catalog M>=4.0"
+    }
+  },
+  "label_policy_version": "1.0.0",
+  "trained_at": "2026-09-16T23:26:45.036968+00:00",
+  "approved_by": null,
+  "approved_at": null
+}

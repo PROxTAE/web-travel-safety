@@ -1,0 +1,84 @@
+{
+  "built_at": "2026-09-16T23:25:32.560096+00:00",
+  "period": {
+    "start": "2025-11-01",
+    "end": "2026-08-31"
+  },
+  "routes": [
+    "bkk-cnx",
+    "bkk-hkt",
+    "bkk-kkc",
+    "bkk-hhq",
+    "han-dad",
+    "mnl-ceb",
+    "jkt-bdo",
+    "kul-pen",
+    "tyo-osa",
+    "tpe-khh",
+    "sel-pus",
+    "del-jai",
+    "bom-pnq",
+    "dac-cgp",
+    "lax-sfo",
+    "mia-mco",
+    "hou-dfw",
+    "mex-pbc",
+    "lon-man",
+    "mad-bcn",
+    "ath-the",
+    "syd-cbr",
+    "nbo-mba",
+    "lim-cuz"
+  ],
+  "split": {
+    "test_regions": [
+      "SOUTH_ASIA",
+      "OCEANIA"
+    ],
+    "test_period_start": "2026-05-01"
+  },
+  "label_policy": {
+    "version": "1.0.0",
+    "label_method": "documented weak supervision from official thresholds on observed outcomes",
+    "sources": {
+      "actual_weather": "Open-Meteo Archive (ERA5/reanalysis) hourly at corridor sample points",
+      "official_alerts": "GDACS Orange/Red events active on the day and intersecting the corridor buffer",
+      "earthquakes": "USGS FDSN M>=5.5 within corridor buffer during the travel window"
+    },
+    "positive_if_any": {
+      "actual_max_precipitation_mm_per_hour": 30,
+      "actual_max_wind_gust_kmh": 89,
+      "actual_weather_code_in": [
+        65,
+        66,
+        67,
+        75,
+        82,
+        86,
+        95,
+        96,
+        99
+      ],
+      "gdacs_official_alert_intersects": true,
+      "usgs_magnitude_within_corridor": 5.5
+    }
+  },
+  "feature_schema_version": "1.0.0",
+  "sources": {
+    "features_weather": "Open-Meteo Previous Runs API (day-1 forecast) CC BY 4.0",
+    "labels_weather": "Open-Meteo Archive API (ERA5) CC BY 4.0",
+    "labels_official": "GDACS Orange/Red event list",
+    "quakes": "USGS FDSN catalog M>=4.0"
+  },
+  "stats": {
+    "routes": 24,
+    "days": 304,
+    "samples": 7296,
+    "positives": 150,
+    "snapshot_errors": 0,
+    "api_calls": 480
+  },
+  "dataset_sha256": "b84d518531f63648a3f2cea052c044a7187e75c0ddd85913bd64d55dafecdde5",
+  "rows": 7296,
+  "positive_rate": 0.02055921052631579
+}

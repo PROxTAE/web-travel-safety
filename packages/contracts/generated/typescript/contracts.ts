@@ -239,6 +239,8 @@ export interface EvidencePackageRequest {
   snapshot: IntegratedTravelContext;
   locale?: string;
   question?: string | null;
+  /** destination country for knowledge geography filter */
+  country_code?: string | null;
 }
 
 /** Output of external-data /internal/v1/context/query — all canonical records + provider health. */

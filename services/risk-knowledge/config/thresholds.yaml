@@ -1,0 +1,6 @@
+# Risk level thresholds on calibrated probability_high. Versioned; approved with model_acceptance.yaml.
+version: "1.0.0"
+high: 0.55      # p >= high  -> HIGH
+medium: 0.25    # p >= medium -> MEDIUM, else LOW
+uncertainty_band: 0.10   # |p - threshold| < band => flagged near-threshold (escalation input for คน 7)
+delay_improvement_min: 0.15   # planned p - delayed p >= this => time_dependent (input to DELAY rule)

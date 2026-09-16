@@ -763,6 +763,7 @@ class EvidencePackageRequest(ContractModel):
     snapshot: IntegratedTravelContext
     locale: str = "en-US"
     question: str | None = None
+    country_code: CountryCode | None = Field(default=None, description="destination country for knowledge geography filter")
 
 
 class DecisionRequest(ContractModel):

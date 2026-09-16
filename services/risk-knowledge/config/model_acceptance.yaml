@@ -1,0 +1,14 @@
+# Promotion criteria agreed before training (never tuned afterwards to make a model pass).
+version: "1.0.0"
+primary_metric: high_recall
+minimums:
+  high_recall: 0.80          # recall of HIGH (positive) class on the held-out time+geo split
+  pr_auc: 0.35               # must beat the rule-only baseline PR-AUC by >= 0.02 as well
+  roc_auc: 0.75
+maximums:
+  brier: 0.20
+  ece: 0.08                  # expected calibration error (10 bins)
+  false_negative_rate: 0.20
+must_beat_rule_baseline_on: [high_recall, pr_auc]
+latency_p95_ms: 300
+approver: team-lead

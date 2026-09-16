@@ -1,0 +1,14 @@
+# Weak-supervision label policy v1.0.0 — label = 1 (HIGH) if actual conditions during the travel window were hazardous.
+# Labels use OBSERVED/OFFICIAL outcome data; features use only the day-1 FORECAST + data available before departure.
+version: "1.0.0"
+label_method: "documented weak supervision from official thresholds on observed outcomes"
+sources:
+  actual_weather: "Open-Meteo Archive (ERA5/reanalysis) hourly at corridor sample points"
+  official_alerts: "GDACS Orange/Red events active on the day and intersecting the corridor buffer"
+  earthquakes: "USGS FDSN M>=5.5 within corridor buffer during the travel window"
+positive_if_any:
+  actual_max_precipitation_mm_per_hour: 30      # heavy rain (WMO/Thai TMD 'heavy' >= 35 mm/day; hourly 30 used conservatively)
+  actual_max_wind_gust_kmh: 89                  # storm force gusts (Beaufort 10)
+  actual_weather_code_in: [65, 66, 67, 75, 82, 86, 95, 96, 99]
+  gdacs_official_alert_intersects: true
+  usgs_magnitude_within_corridor: 5.5

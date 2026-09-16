@@ -1628,6 +1628,20 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
+    "country_code": {
+      "anyOf": [
+        {
+          "pattern": "^[A-Z]{2}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "destination country for knowledge geography filter",
+      "title": "Country Code"
+    },
     "locale": {
       "default": "en-US",
       "title": "Locale",
