@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.7
-FROM python:3.12.8-slim AS builder
+FROM python:3.12.14-slim AS builder
 ENV UV_LINK_MODE=copy UV_COMPILE_BYTECODE=1 UV_PROJECT_ENVIRONMENT=/opt/venv UV_PYTHON_DOWNLOADS=never
 COPY --from=ghcr.io/astral-sh/uv:0.5.29 /uv /bin/uv
 WORKDIR /build
@@ -14,11 +14,12 @@ RUN --mount=type=cache,target=/root/.cache/uv uv sync --frozen --no-dev --no-edi
 ENV PATH="/opt/venv/bin:$PATH" HF_HOME=/opt/hf
 RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('intfloat/multilingual-e5-small', device='cpu')"
 
-FROM python:3.12.8-slim AS runtime
+FROM python:3.12.14-slim AS runtime
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PATH="/opt/venv/bin:$PATH" TZ=UTC HF_HOME=/opt/hf HF_HUB_OFFLINE=1 \
     FEATURE_SCHEMA_PATH=/app/config/feature_schema.yaml RISK_MODEL_ARTIFACT_DIR=/app/artifacts KNOWLEDGE_CACHE_DIR=/app/knowledge/cache
 RUN groupadd --gid 10001 app && useradd --uid 10001 --gid app --create-home --shell /usr/sbin/nologin app \
-    && apt-get update && apt-get install -y --no-install-recommends ca-certificates tzdata && rm -rf /var/lib/apt/lists/*
+    && apt-get update && apt-get upgrade -y --no-install-recommends \
+    && apt-get install -y --no-install-recommends ca-certificates tzdata && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY --from=builder /opt/venv /opt/venv
 COPY --from=builder --chown=app:app /opt/hf /opt/hf

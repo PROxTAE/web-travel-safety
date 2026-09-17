@@ -64,6 +64,10 @@ Optional capabilities degrade honestly when a credential is missing: no `ORS_API
 nearby POIs report `UNAVAILABLE`; no `OPENAI_API_KEY` → deterministic explanation template; no Amadeus
 production credentials → flight status `UNAVAILABLE`.
 
+Operations: `ops/scripts/backup.sh` (pg_dump + Qdrant snapshot + manifest) and `ops/scripts/restore.sh <dir> --teardown`
+(restore into the throwaway `sta-restore` project and smoke-read it) — see `ops/runbooks/backup-restore.md`;
+`make scan-images` runs Docker Scout on every image (the CI gate is trivy, CRITICAL, fixable).
+
 ## Local development without Docker
 
 Each Python package/service is a `uv` project (Python 3.12):

@@ -3,10 +3,11 @@ SHELL := bash
 COMPOSE := docker compose -f compose.yaml -f compose.dev.yaml
 PY_SERVICES := api agent external-data data-integration risk-knowledge decision-engine recommendation
 PY_PACKAGES := packages/python-common packages/contracts
+IMAGE_PREFIX ?= smart-travel-assistant-
 
 .PHONY: help bootstrap compose-validate build up down ps logs migrate \
         lint typecheck test-unit test-contract test-integration test-e2e \
-        contracts-generate contracts-check secret-scan
+        contracts-generate contracts-check secret-scan backup restore-drill scan-images
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2}'
@@ -58,6 +59,15 @@ test-integration: ## requires running compose stack
 
 test-e2e: ## Playwright against running stack
 	pnpm --filter web test:e2e
+
+backup: ## pg_dump + Qdrant snapshot of the running stack into backups/<stamp> (COMPOSE_PROJECT=<name> if not default)
+	ops/scripts/backup.sh backups
+
+restore-drill: ## restore BK=backups/<stamp> into the throwaway sta-restore project, smoke read, tear down
+	ops/scripts/restore.sh $(BK) --teardown
+
+scan-images: ## Docker Scout CVE scan (critical/high, fixable) of every built image
+	@for i in api agent external-data data-integration risk-knowledge decision-engine recommendation web; do echo "== $$i"; docker scout cves --only-severity critical,high --only-fixed $(IMAGE_PREFIX)$$i:latest | tail -8; done
 
 contracts-generate: ## regenerate JSON Schema + TypeScript from the Pydantic source of truth
 	cd packages/contracts && uv run python scripts/generate.py

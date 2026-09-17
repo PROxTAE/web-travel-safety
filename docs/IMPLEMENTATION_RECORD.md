@@ -189,9 +189,15 @@ emergency (hold 3 s → confirm → share → connect, เบอร์จาก 
 | 10 | web แสดงแผนที่เปล่า | Turbopack เขียน `import.meta.url` ของ MapLibre ใหม่ → worker หาไฟล์ไม่เจอ; guard redirect worker import ไป /login (HTML) | โหลด MapLibre เป็น native ESM จาก `/public/maplibre`, static files ข้าม session guard |
 | 11 | ปุ่ม/ป้ายไม่ผ่าน contrast AA | เขียวสด/ส้มบนพื้นอ่อน, hover ของ HeroUI ทำให้จางลง | token สีเข้ม (deep teal, amber-ink, coral-deep) + hover เข้มขึ้น |
 | 12 | Docker Desktop พังกลางทาง (socket ค้าง) | Windows ไม่ลบ unix socket ค้างหลัง sleep | ย้ายโฟลเดอร์ `Docker/run` ออกแล้วเปิดใหม่ — ข้อมูลใน volume อยู่ครบ |
+| 13 | ประเมินทริปเดิมซ้ำหลังพยากรณ์อากาศเปลี่ยน → `data-integration failed internally` | id ของจุดพยากรณ์คงที่ต่อ (จุด, ชั่วโมง) แต่ `content_hash` เปลี่ยนตามค่า → ชน `weather_records_pkey` (บั๊กชนิดเดียวกับ #9) | upsert บน id เมื่อ hash ต่าง (แถว index = ฉบับล่าสุด, snapshot_json เก็บค่าของแต่ละ snapshot เอง) |
+| 14 | Docker Scout พบ CVE critical/high ที่มี fix 2C/40–44H ต่อ image | base `python:3.12.8-slim` (Debian 12, ธ.ค. 2024) เก่า + ไม่ `apt-get upgrade`; `cryptography` 44, `transformers` 4.57, `langgraph` 0.3, npm ที่ติดมากับ node image | base 3.12.14 (Debian 13) + upgrade ทุก runtime stage, bump lib (api/agent/risk-knowledge), web ลบ npm ทิ้ง → ทุก image = 0 |
 
-**สิ่งที่ยังทำไม่ได้ (ตั้งใจไม่ปลอม):** ORS/Amadeus/OpenAI ไม่มี key → capability = UNAVAILABLE จริง; โมเดลยัง CANDIDATE;
-backup/restore drill, vulnerability scan, load test, observability profile ยังไม่ได้รัน
+**รอบสอง (หลัง sign-off แรก, ดู §12 ของรายงาน):** load test จริง (limiter 10/min และ 120/min ตัดตรงเป๊ะ, SSE cap 3/user ทำงาน,
+latency ×10 ที่ conc 20 เกิดเฉพาะขา host-port ของ Docker Desktop ไม่ใช่ service), observability profile (trace/correlation ครบสาย,
+Grafana dashboard), backup/restore drill ผ่าน (`ops/scripts/backup.sh` / `restore.sh` + `ops/runbooks/backup-restore.md`),
+scan image ทุกตัวเหลือ 0 critical/high ที่มี fix
+
+**สิ่งที่ยังทำไม่ได้ (ตั้งใจไม่ปลอม):** ORS/Amadeus/OpenAI ไม่มี key → capability = UNAVAILABLE จริง; โมเดลยัง CANDIDATE; SBOM ยังไม่ได้สร้าง (ไม่มี syft/trivy บนเครื่องนี้)
 
 ---
 

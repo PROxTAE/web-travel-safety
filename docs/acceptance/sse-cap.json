@@ -1,0 +1,43 @@
+{
+ "request_id": "d0a950c2-2bbf-41b4-abcc-957036cb00fa",
+ "streams": [
+  {
+   "idx": 0,
+   "events": 14,
+   "status": 200,
+   "first_ms": 81.1,
+   "last": "run.completed",
+   "closed_ms": 714.6
+  },
+  {
+   "idx": 1,
+   "events": 14,
+   "status": 200,
+   "first_ms": 167.3,
+   "last": "run.completed",
+   "closed_ms": 705.9
+  },
+  {
+   "idx": 2,
+   "events": 0,
+   "status": 429,
+   "error": "too many open event streams",
+   "ms": 181.5
+  },
+  {
+   "idx": 3,
+   "events": 0,
+   "status": 429,
+   "error": "too many open event streams",
+   "ms": 186.0
+  },
+  {
+   "idx": 4,
+   "events": 14,
+   "status": 200,
+   "first_ms": 172.5,
+   "last": "run.completed",
+   "closed_ms": 679.5
+  }
+ ]
+}
