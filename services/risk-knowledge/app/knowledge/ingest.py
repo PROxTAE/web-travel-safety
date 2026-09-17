@@ -9,6 +9,7 @@ from __future__ import annotations
 import hashlib
 import re
 from dataclasses import dataclass, field
+from datetime import UTC, datetime
 from pathlib import Path
 from urllib.parse import urlsplit
 
@@ -49,6 +50,14 @@ class IngestedDocument:
     chunks: list[Chunk]
 
 
+def _from_cache(doc: SourceDocument, cached: Path, reason: str) -> tuple[bytes, str, int]:
+    if not cached.exists():
+        raise ValueError(f"{doc.document_id}: {reason} and no captured copy in cache")
+    captured_at = datetime.fromtimestamp(cached.stat().st_mtime, tz=UTC).isoformat()
+    log.warning("knowledge_source_from_cache", document_id=doc.document_id, reason=reason, captured_at=captured_at)
+    return cached.read_bytes(), f"{doc.source_url}#cached:{captured_at}", 200
+
+
 def download(
     doc: SourceDocument, manifest: SourceManifest, cache_dir: Path, *, timeout: float = 30
 ) -> tuple[bytes, str, int]:
@@ -56,15 +65,21 @@ def download(
     if host not in manifest.allowed_domains:
         raise PermissionError(f"{host} not allowlisted")
     cache_dir.mkdir(parents=True, exist_ok=True)
-    with httpx.Client(
-        timeout=timeout, follow_redirects=True, headers={"User-Agent": "smart-travel-assistant/knowledge-ingest"}
-    ) as c:
-        r = c.get(str(doc.source_url))
+    cached = cache_dir / f"{doc.document_id}.html"
+    try:
+        with httpx.Client(
+            timeout=timeout, follow_redirects=True, headers={"User-Agent": "smart-travel-assistant/knowledge-ingest"}
+        ) as c:
+            r = c.get(str(doc.source_url))
+    except httpx.HTTPError as exc:
+        return _from_cache(doc, cached, f"network error {type(exc).__name__}")
     if urlsplit(str(r.url)).netloc not in manifest.allowed_domains:
         raise PermissionError(f"redirected outside allowlist: {r.url}")
     ctype = r.headers.get("content-type", "").split(";")[0].strip().lower()
     if r.status_code != 200 or ctype not in ALLOWED_TYPES:
-        raise ValueError(f"{doc.document_id}: status {r.status_code} type {ctype!r}")
+        # some official sites (ready.gov) block container egress with 403; a previously captured copy of the same
+        # real page is acceptable and is reported as CACHED with its capture time, never as a fresh fetch
+        return _from_cache(doc, cached, f"status {r.status_code} type {ctype!r}")
     if len(r.content) > MAX_BYTES:
         raise ValueError(f"{doc.document_id}: body too large ({len(r.content)} bytes)")
     (cache_dir / f"{doc.document_id}.html").write_bytes(r.content)

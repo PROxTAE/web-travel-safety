@@ -29,7 +29,8 @@ class Settings(BaseServiceSettings):
     external_data_service_url: str = "http://external-data:8002"
     recommendation_service_url: str = "http://recommendation:8006"
 
-    cors_allowed_origins: list[str] = Field(default_factory=lambda: ["http://localhost:3000"])
+    # comma-separated exact origins (kept as str so pydantic-settings does not try to JSON-decode the env value)
+    cors_allowed_origins: str = "http://localhost:3000"
     trusted_proxy_count: int = Field(default=0, ge=0, le=3, description="X-Forwarded-For hops to trust")
 
     # Envelope encryption for identity.emergency_profiles (32-byte base64 key, kept out of the DB)
@@ -63,12 +64,9 @@ class Settings(BaseServiceSettings):
     alerts_consumer_group: str = "api"
     alerts_stream: str = "alert.reassessment.requested"
 
-    @field_validator("cors_allowed_origins", mode="before")
-    @classmethod
-    def _split(cls, v: object) -> object:
-        if isinstance(v, str):
-            return [o.strip() for o in v.split(",") if o.strip()]
-        return v
+    @property
+    def cors_origins(self) -> list[str]:
+        return [o.strip() for o in self.cors_allowed_origins.split(",") if o.strip()]
 
     @field_validator("emergency_profile_encryption_key")
     @classmethod

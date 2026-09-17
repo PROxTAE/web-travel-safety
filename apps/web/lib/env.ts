@@ -9,6 +9,8 @@ const serverSchema = z.object({
   AUTH_SECRET: z.string().min(16),
   AUTH_URL: z.string().url().optional(),
   OIDC_ISSUER: z.string().url(),
+  // issuer as reachable from the web container (docker network); defaults to OIDC_ISSUER
+  OIDC_INTERNAL_ISSUER: z.string().url().optional(),
   OIDC_CLIENT_ID: z.string().min(1),
   OIDC_CLIENT_SECRET: z.string().min(1),
   APP_ENV: z.enum(["development", "test", "staging", "production"]).default("development"),

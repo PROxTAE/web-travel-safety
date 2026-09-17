@@ -27,6 +27,7 @@ dependencies = [
   "beautifulsoup4>=4.12,<5",
   "lxml>=5,<6",
   "sentence-transformers>=3.3,<4",
+  "torch>=2.4",
   "tzdata>=2024.2",
 ]
 
@@ -44,6 +45,13 @@ dev = [
 [tool.uv.sources]
 sta-common = { path = "../../packages/python-common", editable = true }
 sta-contracts = { path = "../../packages/contracts", editable = true }
+# CPU-only torch: the embedding model (multilingual-e5-small) runs on CPU; CUDA wheels add ~3 GB to the image
+torch = [{ index = "pytorch-cpu" }]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
 
 [build-system]
 requires = ["hatchling"]
