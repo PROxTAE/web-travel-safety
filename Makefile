@@ -42,11 +42,11 @@ lint: ## ruff + eslint
 	pnpm --filter web lint
 
 typecheck: ## mypy + tsc
-	@for d in $(addprefix services/,$(PY_SERVICES)); do echo "== $$d"; (cd $$d && uv run mypy app) || exit 1; done
+	@for d in $(addprefix services/,$(PY_SERVICES)); do echo "== $$d"; (cd $$d && uv run python -m mypy app) || exit 1; done
 	pnpm --filter web typecheck
 
 test-unit: ## deterministic unit tests (no network, no docker)
-	@for d in $(PY_PACKAGES) $(addprefix services/,$(PY_SERVICES)); do echo "== $$d"; (cd $$d && uv run pytest -q -m "not integration and not canary") || exit 1; done
+	@for d in $(PY_PACKAGES) $(addprefix services/,$(PY_SERVICES)); do echo "== $$d"; (cd $$d && uv run python -m pytest -q -m "not integration and not canary") || exit 1; done
 	pnpm --filter web test
 
 test-contract: ## schema/example/generated-client contract tests

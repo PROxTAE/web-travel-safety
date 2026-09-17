@@ -1,0 +1,1669 @@
+openapi: 3.1.0
+info:
+  title: Smart Travel Assistant — Public API
+  version: 1.0.0
+paths:
+  /health/live:
+    get:
+      tags:
+      - health
+      summary: Live
+      operationId: live_health_live_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Live Health Live Get
+  /health/ready:
+    get:
+      tags:
+      - health
+      summary: Ready
+      operationId: ready_health_ready_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/v1/me:
+    get:
+      tags:
+      - me
+      summary: Get Me
+      operationId: get_me_api_v1_me_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Get Me Api V1 Me Get
+    patch:
+      tags:
+      - me
+      summary: Patch Me
+      operationId: patch_me_api_v1_me_patch
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MePatch'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Patch Me Api V1 Me Patch
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/me/emergency-profile:
+    get:
+      tags:
+      - me
+      summary: Get Emergency Profile
+      operationId: get_emergency_profile_api_v1_me_emergency_profile_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Get Emergency Profile Api V1 Me Emergency Profile Get
+    put:
+      tags:
+      - me
+      summary: Put Emergency Profile
+      operationId: put_emergency_profile_api_v1_me_emergency_profile_put
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmergencyProfilePut'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Put Emergency Profile Api V1 Me Emergency Profile Put
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - me
+      summary: Delete Emergency Profile
+      operationId: delete_emergency_profile_api_v1_me_emergency_profile_delete
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Delete Emergency Profile Api V1 Me Emergency Profile Delete
+  /api/v1/consents:
+    get:
+      tags:
+      - me
+      summary: List Consents
+      operationId: list_consents_api_v1_consents_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response List Consents Api V1 Consents Get
+    post:
+      tags:
+      - me
+      summary: Post Consent
+      operationId: post_consent_api_v1_consents_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsentCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Post Consent Api V1 Consents Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/me/data-jobs:
+    post:
+      tags:
+      - me
+      summary: Create Data Job
+      operationId: create_data_job_api_v1_me_data_jobs_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataJobCreate'
+        required: true
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Create Data Job Api V1 Me Data Jobs Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/me/data-jobs/{job_id}:
+    get:
+      tags:
+      - me
+      summary: Get Data Job
+      operationId: get_data_job_api_v1_me_data_jobs__job_id__get
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Job Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Data Job Api V1 Me Data Jobs  Job Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/trips:
+    post:
+      tags:
+      - trips
+      summary: Create Trip
+      operationId: create_trip_api_v1_trips_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TripCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Create Trip Api V1 Trips Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - trips
+      summary: List Trips
+      operationId: list_trips_api_v1_trips_get
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 50
+          title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Trips Api V1 Trips Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/trips/{trip_id}:
+    get:
+      tags:
+      - trips
+      summary: Get Trip
+      operationId: get_trip_api_v1_trips__trip_id__get
+      parameters:
+      - name: trip_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Trip Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Trip Api V1 Trips  Trip Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    patch:
+      tags:
+      - trips
+      summary: Patch Trip
+      operationId: patch_trip_api_v1_trips__trip_id__patch
+      parameters:
+      - name: trip_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Trip Id
+      - name: If-Match
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: If-Match
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TripPatch'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Patch Trip Api V1 Trips  Trip Id  Patch
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - trips
+      summary: Delete Trip
+      operationId: delete_trip_api_v1_trips__trip_id__delete
+      parameters:
+      - name: trip_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Trip Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Delete Trip Api V1 Trips  Trip Id  Delete
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/trips/{trip_id}/assessments:
+    post:
+      tags:
+      - trips
+      summary: Create Assessment
+      operationId: create_assessment_api_v1_trips__trip_id__assessments_post
+      parameters:
+      - name: trip_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Trip Id
+      - name: Idempotency-Key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 128
+          - type: 'null'
+          title: Idempotency-Key
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - $ref: '#/components/schemas/AssessmentCreate'
+              - type: 'null'
+              title: Body
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Create Assessment Api V1 Trips  Trip Id  Assessments Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - trips
+      summary: List Assessments
+      operationId: list_assessments_api_v1_trips__trip_id__assessments_get
+      parameters:
+      - name: trip_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Trip Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Assessments Api V1 Trips  Trip Id  Assessments Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/trips/{trip_id}/apply-route:
+    post:
+      tags:
+      - trips
+      summary: Apply Route
+      operationId: apply_route_api_v1_trips__trip_id__apply_route_post
+      parameters:
+      - name: trip_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Trip Id
+      - name: If-Match
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: If-Match
+      - name: Idempotency-Key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 128
+          - type: 'null'
+          title: Idempotency-Key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplyRoute'
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Apply Route Api V1 Trips  Trip Id  Apply Route Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/runs/{request_id}:
+    get:
+      tags:
+      - runs
+      summary: Get Run
+      operationId: get_run_api_v1_runs__request_id__get
+      parameters:
+      - name: request_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Request Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Run Api V1 Runs  Request Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/runs/{request_id}/events:
+    get:
+      tags:
+      - runs
+      summary: Run Events
+      operationId: run_events_api_v1_runs__request_id__events_get
+      parameters:
+      - name: request_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Request Id
+      - name: Last-Event-ID
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last-Event-Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/runs/{request_id}/cancel:
+    post:
+      tags:
+      - runs
+      summary: Cancel Run
+      operationId: cancel_run_api_v1_runs__request_id__cancel_post
+      parameters:
+      - name: request_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Request Id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - $ref: '#/components/schemas/CancelBody'
+              - type: 'null'
+              title: Body
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Cancel Run Api V1 Runs  Request Id  Cancel Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/runs/{request_id}/resume:
+    post:
+      tags:
+      - runs
+      summary: Resume Run
+      description: 'After NEEDS_INPUT the client fixes the trip (PATCH /trips) and resumes: a new run linked to the old one.'
+      operationId: resume_run_api_v1_runs__request_id__resume_post
+      parameters:
+      - name: request_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Request Id
+      - name: Idempotency-Key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 128
+          - type: 'null'
+          title: Idempotency-Key
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Resume Run Api V1 Runs  Request Id  Resume Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/locations/search:
+    get:
+      tags:
+      - facades
+      summary: Locations Search
+      operationId: locations_search_api_v1_locations_search_get
+      parameters:
+      - name: q
+        in: query
+        required: true
+        schema:
+          type: string
+          minLength: 2
+          maxLength: 200
+          title: Q
+      - name: locale
+        in: query
+        required: false
+        schema:
+          type: string
+          pattern: ^[a-z]{2}(-[A-Z]{2})?$
+          default: en
+          title: Locale
+      - name: country
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            pattern: ^[A-Za-z]{2}$
+          - type: 'null'
+          title: Country
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 20
+          minimum: 1
+          default: 8
+          title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Locations Search Api V1 Locations Search Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/recommendations/{rec_id}:
+    get:
+      tags:
+      - facades
+      summary: Get Recommendation
+      operationId: get_recommendation_api_v1_recommendations__rec_id__get
+      parameters:
+      - name: rec_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Rec Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Recommendation Api V1 Recommendations  Rec Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/conversations:
+    get:
+      tags:
+      - facades
+      summary: List Conversations
+      operationId: list_conversations_api_v1_conversations_get
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 20
+          title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Conversations Api V1 Conversations Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - facades
+      summary: Create Conversation
+      operationId: create_conversation_api_v1_conversations_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConversationCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Create Conversation Api V1 Conversations Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/conversations/{conv_id}/messages:
+    get:
+      tags:
+      - facades
+      summary: List Messages
+      operationId: list_messages_api_v1_conversations__conv_id__messages_get
+      parameters:
+      - name: conv_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Conv Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Messages Api V1 Conversations  Conv Id  Messages Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - facades
+      summary: Post Message
+      operationId: post_message_api_v1_conversations__conv_id__messages_post
+      parameters:
+      - name: conv_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Conv Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageCreate'
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Post Message Api V1 Conversations  Conv Id  Messages Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/safety/events:
+    get:
+      tags:
+      - facades
+      summary: Safety Events
+      operationId: safety_events_api_v1_safety_events_get
+      parameters:
+      - name: bbox
+        in: query
+        required: true
+        schema:
+          type: string
+          description: min_lon,min_lat,max_lon,max_lat
+          title: Bbox
+        description: min_lon,min_lat,max_lon,max_lat
+      - name: lookback_days
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 30
+          minimum: 1
+          default: 7
+          title: Lookback Days
+      - name: layers
+        in: query
+        required: false
+        schema:
+          type: string
+          default: disasters,alerts
+          title: Layers
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 500
+          minimum: 1
+          default: 200
+          title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Safety Events Api V1 Safety Events Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/emergency/contacts:
+    get:
+      tags:
+      - facades
+      summary: Emergency Contacts
+      operationId: emergency_contacts_api_v1_emergency_contacts_get
+      parameters:
+      - name: country_code
+        in: query
+        required: true
+        schema:
+          type: string
+          pattern: ^[A-Za-z]{2}$
+          title: Country Code
+      - name: subdivision
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 64
+          - type: 'null'
+          title: Subdivision
+      - name: service_type
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 32
+          - type: 'null'
+          title: Service Type
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Emergency Contacts Api V1 Emergency Contacts Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/emergency/nearby:
+    get:
+      tags:
+      - facades
+      summary: Emergency Nearby
+      operationId: emergency_nearby_api_v1_emergency_nearby_get
+      parameters:
+      - name: type
+        in: query
+        required: true
+        schema:
+          enum:
+          - POLICE
+          - MEDICAL
+          - EMBASSY
+          - FIRE
+          type: string
+          title: Type
+      - name: lat
+        in: query
+        required: true
+        schema:
+          type: number
+          maximum: 90
+          minimum: -90
+          title: Lat
+      - name: lon
+        in: query
+        required: true
+        schema:
+          type: number
+          maximum: 180
+          minimum: -180
+          title: Lon
+      - name: radius_m
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 50000
+          minimum: 100
+          default: 5000
+          title: Radius M
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 50
+          minimum: 1
+          default: 10
+          title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Emergency Nearby Api V1 Emergency Nearby Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/feedback:
+    post:
+      tags:
+      - facades
+      summary: Post Feedback
+      operationId: post_feedback_api_v1_feedback_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeedbackCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Post Feedback Api V1 Feedback Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/alert-subscriptions:
+    post:
+      tags:
+      - facades
+      summary: Create Subscription
+      operationId: create_subscription_api_v1_alert_subscriptions_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriptionCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Create Subscription Api V1 Alert Subscriptions Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/alert-subscriptions/{sub_id}:
+    delete:
+      tags:
+      - facades
+      summary: Delete Subscription
+      operationId: delete_subscription_api_v1_alert_subscriptions__sub_id__delete
+      parameters:
+      - name: sub_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Sub Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ApplyRoute:
+      properties:
+        route_id:
+          type: string
+          format: uuid
+          title: Route Id
+        recommendation_id:
+          type: string
+          format: uuid
+          title: Recommendation Id
+        acknowledge_risk:
+          type: boolean
+          title: Acknowledge Risk
+          default: false
+      additionalProperties: false
+      type: object
+      required:
+      - route_id
+      - recommendation_id
+      title: ApplyRoute
+    AssessmentCreate:
+      properties:
+        question:
+          anyOf:
+          - type: string
+            maxLength: 2000
+          - type: 'null'
+          title: Question
+        intent_hint:
+          anyOf:
+          - $ref: '#/components/schemas/Intent'
+          - type: 'null'
+      additionalProperties: false
+      type: object
+      title: AssessmentCreate
+    CancelBody:
+      properties:
+        reason:
+          type: string
+          maxLength: 120
+          title: Reason
+          default: user_cancelled
+      additionalProperties: false
+      type: object
+      title: CancelBody
+    ConsentCreate:
+      properties:
+        type:
+          $ref: '#/components/schemas/ConsentType'
+        granted:
+          type: boolean
+          title: Granted
+        policy_version:
+          type: string
+          maxLength: 32
+          minLength: 1
+          title: Policy Version
+        expires_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Expires At
+      additionalProperties: false
+      type: object
+      required:
+      - type
+      - granted
+      - policy_version
+      title: ConsentCreate
+    ConsentType:
+      type: string
+      enum:
+      - LOCATION_ONCE
+      - LOCATION_LIVE
+      - ALERT_NOTIFICATION
+      - ANALYTICS
+      - EMERGENCY_PROFILE
+      title: ConsentType
+    ConversationCreate:
+      properties:
+        trip_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Trip Id
+        title:
+          anyOf:
+          - type: string
+            maxLength: 160
+          - type: 'null'
+          title: Title
+      additionalProperties: false
+      type: object
+      title: ConversationCreate
+    DataJobCreate:
+      properties:
+        kind:
+          type: string
+          enum:
+          - EXPORT
+          - DELETE
+          title: Kind
+      additionalProperties: false
+      type: object
+      required:
+      - kind
+      title: DataJobCreate
+    DeliveryChannel:
+      type: string
+      enum:
+      - IN_APP
+      - EMAIL
+      - SMS
+      - PUSH
+      title: DeliveryChannel
+    EmergencyContactIn:
+      properties:
+        name:
+          type: string
+          maxLength: 120
+          minLength: 1
+          title: Name
+        relationship:
+          anyOf:
+          - type: string
+            maxLength: 60
+          - type: 'null'
+          title: Relationship
+        phone:
+          type: string
+          maxLength: 32
+          minLength: 3
+          pattern: ^\+?[0-9 ()\-]{3,32}$
+          title: Phone
+      additionalProperties: false
+      type: object
+      required:
+      - name
+      - phone
+      title: EmergencyContactIn
+    EmergencyProfilePut:
+      properties:
+        blood_type:
+          anyOf:
+          - type: string
+            maxLength: 8
+          - type: 'null'
+          title: Blood Type
+        allergies:
+          items:
+            type: string
+          type: array
+          maxItems: 20
+          title: Allergies
+        medications:
+          items:
+            type: string
+          type: array
+          maxItems: 20
+          title: Medications
+        medical_notes:
+          anyOf:
+          - type: string
+            maxLength: 2000
+          - type: 'null'
+          title: Medical Notes
+        contacts:
+          items:
+            $ref: '#/components/schemas/EmergencyContactIn'
+          type: array
+          maxItems: 5
+          title: Contacts
+        insurance_provider:
+          anyOf:
+          - type: string
+            maxLength: 120
+          - type: 'null'
+          title: Insurance Provider
+        insurance_policy_ref:
+          anyOf:
+          - type: string
+            maxLength: 120
+          - type: 'null'
+          title: Insurance Policy Ref
+        insurance_phone:
+          anyOf:
+          - type: string
+            maxLength: 32
+          - type: 'null'
+          title: Insurance Phone
+      additionalProperties: false
+      type: object
+      title: EmergencyProfilePut
+    FeedbackCategory:
+      type: string
+      enum:
+      - HELPFUL
+      - INCORRECT
+      - STALE
+      - UNSAFE
+      - ROUTE_ISSUE
+      - SOURCE_ISSUE
+      - OTHER
+      title: FeedbackCategory
+    FeedbackCreate:
+      properties:
+        recommendation_id:
+          type: string
+          format: uuid
+          title: Recommendation Id
+        category:
+          $ref: '#/components/schemas/FeedbackCategory'
+        text:
+          anyOf:
+          - type: string
+            maxLength: 4000
+          - type: 'null'
+          title: Text
+      additionalProperties: false
+      type: object
+      required:
+      - recommendation_id
+      - category
+      title: FeedbackCreate
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Intent:
+      type: string
+      enum:
+      - PLAN_TRIP
+      - CHECK_SAFETY
+      - ASK_INFORMATION
+      - FOLLOW_UP
+      - EMERGENCY
+      title: Intent
+    LocationRef:
+      properties:
+        place_id:
+          type: string
+          maxLength: 128
+          minLength: 1
+          title: Place Id
+        display_name:
+          type: string
+          maxLength: 256
+          minLength: 1
+          title: Display Name
+        coordinates:
+          $ref: '#/components/schemas/Point'
+        country_code:
+          type: string
+          pattern: ^[A-Z]{2}$
+          title: Country Code
+        admin1:
+          anyOf:
+          - type: string
+            maxLength: 128
+          - type: 'null'
+          title: Admin1
+        timezone:
+          type: string
+          maxLength: 64
+          minLength: 1
+          title: Timezone
+        provider:
+          type: string
+          maxLength: 64
+          minLength: 1
+          title: Provider
+        confirmed_by_user:
+          type: boolean
+          title: Confirmed By User
+          default: false
+      additionalProperties: false
+      type: object
+      required:
+      - place_id
+      - display_name
+      - coordinates
+      - country_code
+      - timezone
+      - provider
+      title: LocationRef
+    MePatch:
+      properties:
+        locale:
+          anyOf:
+          - type: string
+            pattern: ^[a-z]{2}(-[A-Z]{2})?$
+          - type: 'null'
+          title: Locale
+        timezone:
+          anyOf:
+          - type: string
+            maxLength: 64
+          - type: 'null'
+          title: Timezone
+        display_name:
+          anyOf:
+          - type: string
+            maxLength: 120
+          - type: 'null'
+          title: Display Name
+      additionalProperties: false
+      type: object
+      title: MePatch
+    MessageCreate:
+      properties:
+        text:
+          type: string
+          maxLength: 2000
+          minLength: 1
+          title: Text
+        intent_hint:
+          anyOf:
+          - $ref: '#/components/schemas/Intent'
+          - type: 'null'
+      additionalProperties: false
+      type: object
+      required:
+      - text
+      title: MessageCreate
+    Point:
+      properties:
+        type:
+          type: string
+          const: Point
+          title: Type
+          default: Point
+        coordinates:
+          items:
+            type: number
+          type: array
+          maxItems: 3
+          minItems: 2
+          title: Coordinates
+      additionalProperties: false
+      type: object
+      required:
+      - coordinates
+      title: Point
+    Severity:
+      type: string
+      enum:
+      - INFO
+      - MINOR
+      - MODERATE
+      - SEVERE
+      - EXTREME
+      - UNKNOWN
+      title: Severity
+    SubscriptionCreate:
+      properties:
+        trip_id:
+          type: string
+          format: uuid
+          title: Trip Id
+        channel:
+          $ref: '#/components/schemas/DeliveryChannel'
+        consent_id:
+          type: string
+          format: uuid
+          title: Consent Id
+        severity_threshold:
+          $ref: '#/components/schemas/Severity'
+          default: MODERATE
+        push_subscription:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Push Subscription
+        email:
+          anyOf:
+          - type: string
+            maxLength: 254
+            pattern: ^[^@\s]+@[^@\s]+\.[^@\s]+$
+          - type: 'null'
+          title: Email
+      additionalProperties: false
+      type: object
+      required:
+      - trip_id
+      - channel
+      - consent_id
+      title: SubscriptionCreate
+    TravelMode:
+      type: string
+      enum:
+      - FLIGHT
+      - TRAIN
+      - BUS
+      - CAR
+      - WALK
+      - BICYCLE
+      - MULTIMODAL
+      title: TravelMode
+    TravelPreference:
+      properties:
+        prefer_safer_route:
+          type: boolean
+          title: Prefer Safer Route
+          default: true
+        prefer_lower_cost:
+          type: boolean
+          title: Prefer Lower Cost
+          default: false
+        prefer_lower_emissions:
+          type: boolean
+          title: Prefer Lower Emissions
+          default: false
+        max_extra_duration_minutes:
+          type: integer
+          maximum: 1440.0
+          minimum: 0.0
+          title: Max Extra Duration Minutes
+          default: 90
+        avoid_tolls:
+          type: boolean
+          title: Avoid Tolls
+          default: false
+        accessibility:
+          items:
+            type: string
+          type: array
+          maxItems: 10
+          title: Accessibility
+      additionalProperties: false
+      type: object
+      title: TravelPreference
+    TripCreate:
+      properties:
+        origin:
+          $ref: '#/components/schemas/LocationRef'
+        destination:
+          $ref: '#/components/schemas/LocationRef'
+        departure_time:
+          type: string
+          format: date-time
+          title: Departure Time
+        return_time:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Return Time
+        travel_modes:
+          items:
+            $ref: '#/components/schemas/TravelMode'
+          type: array
+          maxItems: 4
+          minItems: 1
+          title: Travel Modes
+        preferences:
+          $ref: '#/components/schemas/TravelPreference'
+        timezone:
+          type: string
+          maxLength: 64
+          minLength: 1
+          title: Timezone
+      additionalProperties: false
+      type: object
+      required:
+      - origin
+      - destination
+      - departure_time
+      - travel_modes
+      - timezone
+      title: TripCreate
+    TripPatch:
+      properties:
+        origin:
+          anyOf:
+          - $ref: '#/components/schemas/LocationRef'
+          - type: 'null'
+        destination:
+          anyOf:
+          - $ref: '#/components/schemas/LocationRef'
+          - type: 'null'
+        departure_time:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Departure Time
+        return_time:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Return Time
+        travel_modes:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/TravelMode'
+            type: array
+            maxItems: 4
+            minItems: 1
+          - type: 'null'
+          title: Travel Modes
+        preferences:
+          anyOf:
+          - $ref: '#/components/schemas/TravelPreference'
+          - type: 'null'
+        timezone:
+          anyOf:
+          - type: string
+            maxLength: 64
+            minLength: 1
+          - type: 'null'
+          title: Timezone
+        status:
+          anyOf:
+          - type: string
+            enum:
+            - ACTIVE
+            - COMPLETED
+            - ARCHIVED
+          - type: 'null'
+          title: Status
+        risk_acknowledged:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Risk Acknowledged
+      additionalProperties: false
+      type: object
+      title: TripPatch
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+  securitySchemes:
+    oidc:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Keycloak realm smart-travel, audience smart-travel-api, role traveler
+servers:
+- url: http://localhost:8000
+  description: local compose
+security:
+- oidc: []

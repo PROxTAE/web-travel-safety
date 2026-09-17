@@ -39,4 +39,6 @@ done
 set_var SERVICE_AUTH_TOKEN "$(rand_hex 32)"
 set_var AUTH_SECRET "$(rand_b64 32)"
 set_var EMERGENCY_PROFILE_ENCRYPTION_KEY "$(rand_b64 32)"
+set_var USER_SCOPE_SALT "$(rand_hex 16)"
+set_var PSEUDONYM_SALT "$(rand_hex 16)"
 echo "done — review $ENV_FILE; provider keys (ORS_API_KEY, OPENAI_API_KEY, AMADEUS_*) stay optional"
