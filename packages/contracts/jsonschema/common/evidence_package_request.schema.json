@@ -1659,6 +1659,20 @@
       "default": null,
       "title": "Question"
     },
+    "request_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "request the package is built for when a fresh-enough snapshot from an earlier request in the same conversation is reused (follow-up); defaults to snapshot.request_id",
+      "title": "Request Id"
+    },
     "snapshot": {
       "$ref": "#/$defs/IntegratedTravelContext"
     }

@@ -155,7 +155,7 @@ def build_router(settings: Settings, auth_dep: Any) -> APIRouter:
         wx, tr, dz = fact_strings(snap)
         pkg = EvidencePackage(
             package_id=uuid4(),
-            request_id=snap.request_id,
+            request_id=body.request_id or snap.request_id,
             snapshot_id=snap.snapshot_id,
             trip_revision=snap.trip_revision,
             risk_assessments=assessments,
