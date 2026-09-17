@@ -43,19 +43,22 @@ PostgreSQL 16 + PostGIS · Redis · Qdrant · Keycloak · OpenTelemetry · Prome
 
 ```bash
 cp .env.example .env          # PowerShell: Copy-Item .env.example .env
-# fill POSTGRES_*PASSWORD, SERVICE_AUTH_TOKEN, KEYCLOAK_ADMIN_PASSWORD, OIDC_CLIENT_SECRET,
-# AUTH_SECRET, EMERGENCY_PROFILE_ENCRYPTION_KEY (see ops/scripts/gen-secrets.sh)
+bash ops/scripts/gen-secrets.sh   # fills every required secret; provider keys stay optional
 docker compose -f compose.yaml -f compose.dev.yaml config --quiet
+docker compose -f compose.yaml -f compose.dev.yaml build
 docker compose -f compose.yaml -f compose.dev.yaml up -d postgres redis qdrant keycloak
 make migrate
-docker compose run --rm risk-knowledge python -m app.cli.verify_model
-docker compose run --rm risk-knowledge python -m app.cli.index_knowledge
+docker compose run --rm risk-knowledge python -m app.cli.verify_model            # CANDIDATE model => rule baseline
+docker compose run --rm risk-knowledge python -m app.cli.index_knowledge         # Qdrant collection + alias
 docker compose run --rm recommendation python -m app.cli.verify_emergency_directory
 docker compose -f compose.yaml -f compose.dev.yaml up -d
 docker compose ps
 ```
 
-Open <http://localhost:3000>. Register a user in Keycloak (<http://localhost:8080>, realm `smart-travel`).
+Open <http://localhost:3000>. Create a traveler in Keycloak (<http://localhost:8080>, realm `smart-travel`, realm role
+`traveler`; the realm logs in by e-mail). The last full run with evidence is in
+[`docs/acceptance/2026-09-17-8a8100c.md`](docs/acceptance/2026-09-17-8a8100c.md); the story of how the system was
+built, person by person, is in [`docs/IMPLEMENTATION_RECORD.md`](docs/IMPLEMENTATION_RECORD.md).
 
 Optional capabilities degrade honestly when a credential is missing: no `ORS_API_KEY` → road routing and
 nearby POIs report `UNAVAILABLE`; no `OPENAI_API_KEY` → deterministic explanation template; no Amadeus
@@ -70,7 +73,8 @@ cd services/external-data && uv sync --all-extras && uv run pytest -q
 cd apps/web && pnpm install && pnpm dev
 ```
 
-`make lint typecheck test-unit test-contract` runs the same checks as CI.
+`make lint typecheck test-unit test-contract` runs the same checks as CI. On Windows with Application Control, run
+tools as modules (`uv run python -m pytest`, `python -m mypy`) and Playwright with `E2E_BROWSER_CHANNEL=chrome`.
 
 ## Rules that are enforced, not just written
 

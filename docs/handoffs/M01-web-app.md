@@ -38,8 +38,8 @@
 - [x] auth/token/location/medical info ปลอดภัย — cookie-only tokens, consent gates, sanitized markdown
 - [x] responsive + WCAG 2.1 AA — component axe (badges) + E2E axe (serious/critical = 0) เมื่อรันกับ stack จริง
 - [x] production Docker image non-root — `apps/web/Dockerfile`
-- [ ] E2E/visual ต่อ stack จริง (login → recommendation → apply) — spec พร้อมใน `tests/e2e/journey.spec.ts`, ต้อง compose + Keycloak user (integration phase)
-- [ ] Pixel comparison 1672×941 ทั้ง 6 หน้า — ทำได้หลัง stack จริงขึ้น (หน้า protected ต้องมี session)
+- [x] E2E ต่อ stack จริง — Playwright 16/16 (desktop 1672×941 + mobile 390): login Keycloak จริง, plan trip → SSE → recommendation, axe serious/critical = 0, SOS hold; `docs/acceptance/2026-09-17-8a8100c.md`
+- [x] Screenshot 6 หน้าเทียบ reference — `docs/acceptance/screenshots/01…06*.png` (layout/visual language ตรง; ค่าเป็นข้อมูลสด)
 
 ## 4. Route / component tree
 
@@ -92,6 +92,9 @@ Retry policy: only `ApiError.retryable` (429/5xx/network) up to 2×, honouring `
 | Problem | Resolution |
 | --- | --- |
 | Windows Application Control blocks unsigned native binaries (rolldown for Vitest 5/Vite 8) | pinned `vitest@3.2` + `vite@6` (esbuild binary is allowed); Next/Tailwind/lightningcss bindings load fine |
+| Map never loaded in the real stack (bundler rewrote MapLibre's `import.meta.url`; the session guard redirected the worker's cookie-less module import to `/login`) | MapLibre served as native ESM from `/public/maplibre` (`scripts/sync-assets.mjs`), static paths excluded from `proxy.ts` |
+| axe: white-on-#08B88A buttons, amber/blue text on tints, HeroUI hover lightening | AA tokens (`--accent` deep teal, `--accent-hover` darker, `amber-ink`, `weather-ink`, `coral-deep`) |
+| Confirming a pin on the map did not update the form; a just-created trip id was not visible to the assessment mutation | `confirmedPins` prop mirrored into RHF values; trip id passed per mutation call |
 | `next start` incompatible with `output: standalone` | `scripts/start-standalone.mjs` copies static/public and runs `server.js` (same as Docker) |
 | Next 16 proxy required a named `proxy` export | rewrote guard with `getToken` (edge-safe) instead of `auth()` wrapper |
 | React Compiler lint: impure `Date.now` in render, setState in effects | `useNow()` ticker; SSE reducer resets via render-time state adjust; SOS uses ref callback |
@@ -101,7 +104,7 @@ Retry policy: only `ApiError.retryable` (429/5xx/network) up to 2×, honouring `
 
 | Limitation | Impact | Next |
 | --- | --- | --- |
-| Visual/pixel QA of protected pages not done in this environment | layout verified only via build + code review + login page render | run E2E visual baselines against compose stack |
+| Playwright must use a system browser channel here (`E2E_BROWSER_CHANNEL=chrome`) | unsigned Chromium builds are blocked by Application Control on this host | CI uses the bundled Chromium |
 | Alerts on the map are pinned at the destination (public `AlertItem` has no geometry) | approximate marker position for alerts; disaster events use real geometry | contract PR to add `geometry` to `AlertItem` |
 | Marker clustering not enabled | thousands of markers would be slow | add Supercluster once real volumes are observed |
 | Thai localisation is partial (labels EN, dates via `Intl` with user locale) | Thai users read English UI strings | i18n dictionary in a follow-up |

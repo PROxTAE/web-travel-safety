@@ -104,6 +104,8 @@ envelope with `POLICY_VALIDATION_FAILED`, `DEPENDENCY_UNAVAILABLE`, `DEPENDENCY_
 | Follow-up reuse failed the evidence gate (`package.request_id` was the old run's) | gate now compares the package to its snapshot's request id, which is how risk-knowledge keys it |
 | Test stub keyed decisions by the package's request id (unlike the real decision-engine) | stub corrected to mirror decision-engine; the gate `decision.request_id == current request` stays strict |
 | `run_failed` log had no reason | added the (non-sensitive, our own) message to the structured log |
+| Live stack: follow-up rejected by decision-engine (`REQUEST_MISMATCH`) because the package kept the reused snapshot's request id | `EvidencePackageRequest.request_id` — the package is owned by the current request; every downstream gate stays strict |
+| Live stack: reassessment after apply-route reused the previous revision's snapshot (`REVISION_MISMATCH`) | reuse only for the same trip **and** revision; a follow-up without a question always fetches fresh data |
 
 ## 15. Limitations
 
