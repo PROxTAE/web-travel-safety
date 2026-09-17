@@ -128,6 +128,7 @@ Runtime has no mock data; the test suite uses an in-memory Qdrant and a hashing 
 | Ranking preferred route under official alert | override raised level but not score | score floored at level threshold (`inference.py`) |
 | Polars schema inference on mixed None/float | build crashed at frame creation | `infer_schema_length=None` |
 | Alias-less candidate evaluation | recall 0.0 in first index run | `load_collection(name)` for candidates |
+| Docker Scout: `transformers` 4.57 (3 HIGH) and `lxml` 5.4 (1 HIGH) in the image | fixable CVEs | sentence-transformers 5.7 / transformers 5.17 / lxml 6.1; same `multilingual-e5-small` weights, 22 unit tests + live `knowledge/retrieve` OK (2.6 s cold load) |
 
 ## 15. Known limitations
 

@@ -32,7 +32,10 @@ RUN node scripts/gen-contracts.mjs && node scripts/sync-assets.mjs && node scrip
 
 FROM node:22-alpine AS runtime
 ENV NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 PORT=3000 HOSTNAME=0.0.0.0
-RUN addgroup -g 10001 app && adduser -u 10001 -G app -D -h /home/app app
+# OS security updates; drop the bundled npm/corepack (unused at runtime, carries its own dependency CVEs)
+RUN apk upgrade --no-cache \
+    && rm -rf /usr/local/lib/node_modules /usr/local/bin/npm /usr/local/bin/npx /usr/local/bin/corepack /opt/yarn* /usr/local/bin/yarn /usr/local/bin/yarnpkg \
+    && addgroup -g 10001 app && adduser -u 10001 -G app -D -h /home/app app
 WORKDIR /app
 COPY --from=build --chown=app:app /repo/apps/web/.next/standalone ./
 COPY --from=build --chown=app:app /repo/apps/web/.next/static ./apps/web/.next/static

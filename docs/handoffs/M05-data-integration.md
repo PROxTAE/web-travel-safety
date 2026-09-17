@@ -143,6 +143,8 @@ POST, supersedes chain, auth.
 | `ZoneInfoNotFoundError` on Windows | no system tz database | added `tzdata` dependency (also required in slim images) |
 | coverage 1.0 with 2 points | denominator came from input | denominator from route length (expected positions) |
 | dateline corridor invalid | planar centroid + lon wrap | geodesic midpoint centre + antimeridian split → MultiPolygon |
+| Live: FLIGHT trip failed `INTERNAL_ERROR` on the second snapshot | transport placeholder id is deterministic → `transport_records_pkey` | `ON CONFLICT DO NOTHING` on id (canonical row written once, lineage references it) |
+| Live (post-rebuild Playwright): second assessment of a trip after Open-Meteo re-issued the forecast → `weather_records_pkey` | point id deterministic per (provider, location, hour, sample, probe) while `content_hash` follows the values | upsert on id when the hash differs (index row = newest issue; each snapshot keeps its own values in `snapshot_json`); identical content is a no-op |
 
 ## 15. Known limitations
 

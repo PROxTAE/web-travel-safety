@@ -27,7 +27,7 @@ def _after_required(state: AgentState) -> Literal["fetch_external_data", "build_
 
 
 def build_graph(ctx: NodeContext, checkpointer: Any = None) -> Any:
-    g: StateGraph = StateGraph(AgentState)
+    g: StateGraph[AgentState] = StateGraph(AgentState)
     g.add_node("validate_input", ctx.validate_input)
     g.add_node("classify_intent", ctx.classify_intent)
     g.add_node("check_required_fields", ctx.check_required_fields)

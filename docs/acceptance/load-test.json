@@ -1,0 +1,118 @@
+{
+ "started_at": "2026-09-17T12:15:53.373338+00:00",
+ "target": "http://localhost:8000",
+ "get_me_via_host": {
+  "conc_1": {
+   "n": 3,
+   "p50_ms": 99.8,
+   "p95_ms": 116.1,
+   "max_ms": 116.1,
+   "rate_limited": 0
+  },
+  "conc_5": {
+   "n": 15,
+   "p50_ms": 157.7,
+   "p95_ms": 231.8,
+   "max_ms": 231.8,
+   "rate_limited": 0
+  },
+  "conc_20": {
+   "n": 60,
+   "p50_ms": 648.1,
+   "p95_ms": 940.2,
+   "max_ms": 970.6,
+   "rate_limited": 0
+  }
+ },
+ "create_trip_ms": 50.8,
+ "first_429": {
+  "attempt": 11,
+  "retry_after": "59",
+  "body": {
+   "error": {
+    "code": "RATE_LIMITED",
+    "message": "rate limit exceeded",
+    "field_errors": [],
+    "retryable": true,
+    "retry_after_seconds": 59
+   },
+   "meta": {
+    "contract_version": "1.0.0"
+   }
+  }
+ },
+ "assessment_ack": {
+  "codes": [
+   202,
+   202,
+   202,
+   202,
+   202,
+   202,
+   202,
+   202,
+   202,
+   202,
+   429,
+   429,
+   429
+  ],
+  "first_real_ack_ms": 211.3,
+  "replays": {
+   "n": 9,
+   "p50_ms": 85.0,
+   "p95_ms": 91.4,
+   "max_ms": 91.4
+  }
+ },
+ "request_id": "13659093-2e72-419e-8a91-869d66443ccb",
+ "sse_concurrent_5": [
+  {
+   "idx": 0,
+   "status": 200,
+   "first_event_ms": 83.4,
+   "first_line": "event: run.accepted"
+  },
+  {
+   "idx": 1,
+   "status": 200,
+   "first_event_ms": 115.6,
+   "first_line": "event: run.accepted"
+  },
+  {
+   "idx": 2,
+   "status": 200,
+   "first_event_ms": 178.8,
+   "first_line": "event: run.accepted"
+  },
+  {
+   "idx": 3,
+   "status": 200,
+   "first_event_ms": 188.7,
+   "first_line": "event: run.accepted"
+  },
+  {
+   "idx": 4,
+   "status": 200,
+   "first_event_ms": 145.9,
+   "first_line": "event: run.accepted"
+  }
+ ],
+ "sse_after_release": {
+  "idx": 99,
+  "status": 200,
+  "first_event_ms": 51.2,
+  "first_line": "event: run.accepted"
+ },
+ "run": {
+  "status": "PARTIAL",
+  "wall_s": 180.3,
+  "degraded_services": []
+ },
+ "default_limit_130_gets": {
+  "200": 120,
+  "429": 10,
+  "other": []
+ },
+ "finished_at": "2026-09-17T12:20:11.413108+00:00"
+}

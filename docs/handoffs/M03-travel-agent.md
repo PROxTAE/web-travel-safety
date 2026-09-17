@@ -106,6 +106,7 @@ envelope with `POLICY_VALIDATION_FAILED`, `DEPENDENCY_UNAVAILABLE`, `DEPENDENCY_
 | `run_failed` log had no reason | added the (non-sensitive, our own) message to the structured log |
 | Live stack: follow-up rejected by decision-engine (`REQUEST_MISMATCH`) because the package kept the reused snapshot's request id | `EvidencePackageRequest.request_id` — the package is owned by the current request; every downstream gate stays strict |
 | Live stack: reassessment after apply-route reused the previous revision's snapshot (`REVISION_MISMATCH`) | reuse only for the same trip **and** revision; a follow-up without a question always fetches fresh data |
+| Docker Scout: `langgraph-checkpoint` 2.1.2 (CVE-2025-64439) and `langchain-core` 0.3.86 (CVE-2026-34070) | LangGraph 1.2 / checkpoint-postgres 3.1 / langchain-core 1.6; `StateGraph[AgentState]` typing; `setup()` migrated the checkpoint tables in place; 12 unit tests + live assessments unchanged |
 
 ## 15. Limitations
 

@@ -19,7 +19,7 @@ dependencies = [
   "pyyaml>=6,<7",
   "tzdata>=2024.2",
   "PyJWT[crypto]>=2.9,<3",
-  "cryptography>=43,<45",
+  "cryptography>=45,<51",
 ]
 
 [project.optional-dependencies]

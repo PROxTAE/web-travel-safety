@@ -54,3 +54,6 @@ Thumbs.db
 # Acceptance evidence screenshots are attached to PRs, not committed in bulk
 .claude/launch.json
 apps/web/public/maplibre/
+
+# Local backups (ops/scripts/backup.sh)
+backups/

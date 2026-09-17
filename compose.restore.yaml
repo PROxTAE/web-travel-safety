@@ -1,0 +1,47 @@
+# Throwaway restore target for the backup/restore drill (ops/scripts/restore.sh).
+# Only the two stateful stores plus a psql/curl helper: no host ports, own project name, own volumes.
+# `docker compose -f compose.restore.yaml down -v` only ever removes THIS project's volumes.
+name: sta-restore
+
+services:
+  postgres:
+    image: postgis/postgis:16-3.4
+    env_file: .env
+    volumes:
+      - restore-postgres:/var/lib/postgresql/data
+      - ./infra/postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  qdrant:
+    image: qdrant/qdrant:v1.13.4
+    volumes:
+      - restore-qdrant:/qdrant/storage
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c ':> /dev/tcp/127.0.0.1/6333' || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  # helper with pg_restore/psql (same major version as the server) for the drill commands
+  tools:
+    image: postgis/postgis:16-3.4
+    entrypoint: ["sleep", "infinity"]
+    env_file: .env
+    depends_on:
+      postgres: { condition: service_healthy }
+      qdrant: { condition: service_healthy }
+
+  # curl for the Qdrant snapshot upload / alias / smoke read (qdrant publishes no host port)
+  qtools:
+    image: curlimages/curl:8.12.1
+    entrypoint: ["sleep", "infinity"]
+    depends_on:
+      qdrant: { condition: service_healthy }
+
+volumes:
+  restore-postgres:
+  restore-qdrant:

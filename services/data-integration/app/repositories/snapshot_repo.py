@@ -137,21 +137,32 @@ class SnapshotRepository:
                 )
                 await s.execute(stmt)
             for w in snap.weather:
-                stmt = (
-                    insert(WeatherRecordRow)
-                    .values(
-                        id=w.id,
-                        snapshot_id=snap.snapshot_id,
-                        valid_at=w.valid_at,
-                        severity=w.severity.value,
-                        provider=w.source.provider,
-                        content_hash=w.source.content_hash,
-                        geom=from_shape(shape(w.location.model_dump()), srid=4326),
-                        record_json=json.loads(w.model_dump_json()),
-                    )
-                    .on_conflict_do_nothing(constraint="uq_integration_weather_hash")
+                # forecast point ids are deterministic per (provider, location, hour, sample, probe) while the
+                # forecast itself is re-issued: the indexed row tracks the newest issue for that point (the
+                # snapshot_json above keeps every snapshot's own values), and an identical re-fetch is a no-op
+                values = dict(
+                    id=w.id,
+                    snapshot_id=snap.snapshot_id,
+                    valid_at=w.valid_at,
+                    severity=w.severity.value,
+                    provider=w.source.provider,
+                    content_hash=w.source.content_hash,
+                    geom=from_shape(shape(w.location.model_dump()), srid=4326),
+                    record_json=json.loads(w.model_dump_json()),
                 )
-                await s.execute(stmt)
+                stmt = insert(WeatherRecordRow).values(**values)
+                refreshed = ("snapshot_id", "valid_at", "severity", "content_hash", "geom", "record_json")
+                stmt = stmt.on_conflict_do_update(
+                    index_elements=[WeatherRecordRow.id],
+                    set_={k: stmt.excluded[k] for k in refreshed},
+                    where=WeatherRecordRow.content_hash != stmt.excluded.content_hash,
+                )
+                try:
+                    async with s.begin_nested():
+                        await s.execute(stmt)
+                except IntegrityError:
+                    # same content already indexed under another point id (uq_integration_weather_hash): nothing new
+                    continue
             for t in snap.transport:
                 # transport ids are deterministic per provider record (an UNKNOWN placeholder repeats across
                 # snapshots), so the canonical row is written once and later snapshots reference it via lineage
