@@ -164,10 +164,34 @@ emergency (hold 3 s → confirm → share → connect, เบอร์จาก 
 
 ---
 
-## 10. Integration / Acceptance
+## 10. Integration / Acceptance (Team Lead — รันจริงบน Docker ทั้งชุด)
 
-ดู `docs/acceptance/` (ไฟล์ล่าสุดตามวันที่ + git SHA): build ทุก image, migrate 7 schema, verify model / index knowledge /
-verify emergency directory, health/readiness ทุก service, สถานการณ์ E2E ที่รันได้กับ provider จริง และรายการที่ยังทำไม่ได้พร้อมเหตุผล
+รายงานเต็ม: `docs/acceptance/2026-09-17-8a8100c.md` + screenshot 6 หน้าใน `docs/acceptance/screenshots/`
+
+**ทำอะไร:** build 8 image, up 13 containers (postgres/redis/qdrant/keycloak + 7 services + worker + web), migrate 7 schema,
+`verify_model` (CANDIDATE → rule baseline), `index_knowledge` (56 points, recall@3 = 1.0, released), `verify_emergency_directory`
+(7 verified / 1 pending), readiness ทุก service, สร้าง user ทดสอบใน realm dev, รัน E2E-01…10 ผ่าน Public API ด้วย JWT จริง
+และ Playwright 16 เคส (login จริง → วางแผนทริป → SSE → คำแนะนำ → axe = 0 serious, SOS hold, มือถือ 390)
+
+**บั๊กจริงที่เจอตอนรวมระบบ (ทั้งหมดแก้แล้ว — นี่คือเหตุผลที่ต้องมี integration phase):**
+
+| # | อาการ | สาเหตุ | แก้ |
+| --- | --- | --- | --- |
+| 1 | Keycloak start ไม่ขึ้น | realm JSON ใช้ field ของ v25 (`postLogoutRedirectUris`, `KC_HOSTNAME_PORT`) | ใช้รูปแบบ v26 |
+| 2 | login ได้แต่ API ตอบ 401 "token verification failed" | Keycloak 26 ไม่ใส่ `sub` ใน access token ถ้า realm import ไม่มี scope `basic` | นิยาม scope `basic/profile/email/roles` ในไฟล์ realm |
+| 3 | `PROVIDER_AUTH` ทั้งที่ไม่มี key | comment ท้ายบรรทัดใน `.env` ถูกอ่านเป็นค่า (`ORS_API_KEY="# optional…"`) | ย้าย comment ขึ้นบรรทัดของตัวเอง |
+| 4 | migration ทุก service ล้ม `permission denied` | `CREATE SCHEMA IF NOT EXISTS` ต้องการสิทธิ์ CREATE บน database แม้ schema มีแล้ว | DO-block ข้ามเมื่อ schema มีอยู่ (init สร้างให้ role เป็น owner) |
+| 5 | image risk-knowledge 6+ GB | sentence-transformers ดึง torch CUDA | index `pytorch-cpu` → 3.2 GB |
+| 6 | FEMA Ready.gov ตอบ 403 จากใน container | bot protection ต่อ egress ของ Docker | ใช้สำเนาที่ capture จากแหล่งจริงเมื่อวาน (รายงานว่า cached ไม่ใช่ fresh) |
+| 7 | follow-up ล้ม `REQUEST_MISMATCH` | package ที่สร้างจาก snapshot เดิมเป็นของ request เก่า | `EvidencePackageRequest.request_id` (contract เพิ่ม field optional) gate ยังเข้มเหมือนเดิม |
+| 8 | reassessment หลัง apply-route ล้ม `REVISION_MISMATCH` | agent นำ snapshot revision เก่ามาใช้ซ้ำ | reuse เฉพาะ trip + revision เดียวกัน; ไม่มีคำถาม = fetch ใหม่เสมอ |
+| 9 | ทริปโหมด FLIGHT ล้ม `INTERNAL_ERROR` | transport placeholder มี id คงที่ → ชน primary key ใน `integration.transport_records` | upsert `ON CONFLICT DO NOTHING` เหมือน weather/disaster |
+| 10 | web แสดงแผนที่เปล่า | Turbopack เขียน `import.meta.url` ของ MapLibre ใหม่ → worker หาไฟล์ไม่เจอ; guard redirect worker import ไป /login (HTML) | โหลด MapLibre เป็น native ESM จาก `/public/maplibre`, static files ข้าม session guard |
+| 11 | ปุ่ม/ป้ายไม่ผ่าน contrast AA | เขียวสด/ส้มบนพื้นอ่อน, hover ของ HeroUI ทำให้จางลง | token สีเข้ม (deep teal, amber-ink, coral-deep) + hover เข้มขึ้น |
+| 12 | Docker Desktop พังกลางทาง (socket ค้าง) | Windows ไม่ลบ unix socket ค้างหลัง sleep | ย้ายโฟลเดอร์ `Docker/run` ออกแล้วเปิดใหม่ — ข้อมูลใน volume อยู่ครบ |
+
+**สิ่งที่ยังทำไม่ได้ (ตั้งใจไม่ปลอม):** ORS/Amadeus/OpenAI ไม่มี key → capability = UNAVAILABLE จริง; โมเดลยัง CANDIDATE;
+backup/restore drill, vulnerability scan, load test, observability profile ยังไม่ได้รัน
 
 ---
 

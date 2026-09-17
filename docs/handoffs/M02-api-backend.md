@@ -46,7 +46,7 @@
 - [x] dependency ล่มคืน stable error ไม่ stack trace — `test_agent_down_gives_stable_error_and_failed_row`
 - [x] health/readiness/metrics — sta_common (`oidc` critical, `agent` non-critical, postgres/redis critical)
 - [x] Docker non-root multi-stage — `Dockerfile`
-- [ ] Real Keycloak token + full E2E in Docker — pending integration phase (unit suite uses a local RSA realm key served as JWKS)
+- [x] Real Keycloak token + full E2E in Docker — `docs/acceptance/2026-09-17-8a8100c.md` (E2E-01…10 via the public API with a real JWT)
 - [ ] Load test SSE/connection limits — not run (no load harness in this environment)
 
 ## 4. Public endpoint matrix
@@ -137,6 +137,10 @@ GET /api/v1/runs/be75…/events  → id:1 run.accepted → id:2 run.progress FET
 | JWKS refresh gate skipped the first rotation (fetched < 5 s earlier) | separate anti-storm timer for unknown-kid refreshes |
 | Idempotent replay added a duplicate user message | `StartResult.replayed` flag; message only on first submission |
 | Malformed agent payload was swallowed as a retryable outage | contract violations carry `details.reason=contract_violation` → 502 surfaced |
+| Keycloak 26 access tokens had no `sub` (realm import lacked the built-in `basic` scope) → "token verification failed" | realm import defines `basic/profile/email/roles`; verifier requires `sub` (kept strict) |
+| `cors_allowed_origins: list[str]` made pydantic-settings JSON-decode the env value | comma-separated string + `cors_origins` property |
+| Stream consumer `XREADGROUP block=5000` > redis socket timeout → TimeoutError loop | block 2 s |
+| Web and API needed different issuer URLs (browser vs docker network) | API accepts both issuers; JWKS read from the internal one |
 
 ## 15. Limitations
 
