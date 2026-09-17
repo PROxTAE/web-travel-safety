@@ -91,7 +91,9 @@ class RunManager:
         conv = state.get("conversation_id")
         if conv and (req.resume_from_request_id or resume_state is None):
             prev = await self.repo.latest_state_for_conversation(conv, exclude=rid)
-            if prev and prev.get("snapshot"):
+            snap = (prev or {}).get("snapshot") or {}
+            # evidence may only be carried over for the same trip *and* revision (apply-route bumps the revision)
+            if prev and snap.get("trip_id") == str(tr.trip_id) and snap.get("trip_revision") == tr.trip_revision:
                 state["snapshot"] = prev["snapshot"]
                 state["snapshot_id"] = prev.get("snapshot_id")
                 state["snapshot_created_at"] = prev.get("snapshot_created_at")

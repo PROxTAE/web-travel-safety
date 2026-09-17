@@ -174,5 +174,9 @@ class ResilientClient:
             code = ErrorCode.RATE_LIMITED
         elif resp.status_code in (408, 504):
             code = ErrorCode.DEPENDENCY_TIMEOUT
+        elif resp.status_code >= 500 and code == ErrorCode.INTERNAL_ERROR:
+            # a dependency's internal failure is an outage from the caller's point of view (retryable, 503)
+            code = ErrorCode.DEPENDENCY_UNAVAILABLE
+            message = f"{self.dependency} failed internally"
         DEPENDENCY_ERRORS.labels(self.service_name, self.dependency, code).inc()
         raise AppError(code, message, retry_after_seconds=retry_after, details={"upstream_status": resp.status_code})

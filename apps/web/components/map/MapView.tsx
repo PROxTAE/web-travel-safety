@@ -1,11 +1,23 @@
 "use client";
 
-import * as maplibregl from "maplibre-gl";
 import type { ErrorEvent, GeoJSONSource, LngLatBoundsLike, Map as MLMap, Marker, StyleSpecification } from "maplibre-gl";
 import type { FeatureCollection } from "geojson";
 import { useEffect, useRef, useState } from "react";
 
 import { publicEnv } from "@/lib/env";
+
+type MapLibreModule = typeof import("maplibre-gl");
+let mapLibrePromise: Promise<MapLibreModule> | null = null;
+
+/**
+ * MapLibre is loaded as a native ES module from /public/maplibre (copied by scripts/sync-assets.mjs) instead of
+ * being bundled: the bundler rewrites `import.meta.url`, which breaks MapLibre's own worker URL resolution.
+ */
+function loadMapLibre(): Promise<MapLibreModule> {
+  const url = "/maplibre/maplibre-gl.mjs"; // runtime path; not a bundler-resolvable specifier
+  mapLibrePromise ??= import(/* webpackIgnore: true */ /* turbopackIgnore: true */ url) as Promise<MapLibreModule>;
+  return mapLibrePromise;
+}
 
 export type MapMarker = {
   id: string;
@@ -35,6 +47,7 @@ export type MapViewProps = {
   interactive?: boolean;
   onMarkerClick?: (m: MapMarker) => void;
   onViewportChange?: (v: Viewport) => void;
+  controlsPosition?: "top-left" | "top-right" | "bottom-left" | "bottom-right";
   className?: string;
   ariaLabel: string;
 };
@@ -67,19 +80,27 @@ export function MapView({
   interactive = true,
   onMarkerClick,
   onViewportChange,
+  controlsPosition = "top-left",
   className,
   ariaLabel,
 }: MapViewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MLMap | null>(null);
   const markerObjs = useRef<Marker[]>([]);
+  const libRef = useRef<MapLibreModule | null>(null);
   const [ready, setReady] = useState(false);
   const [styleFailed, setStyleFailed] = useState(false);
 
   useEffect(() => {
-    if (!containerRef.current || mapRef.current) return;
-    const map = new maplibregl.Map({
-      container: containerRef.current,
+    const container = containerRef.current;
+    if (!container || mapRef.current) return;
+    let cancelled = false;
+    let created: MLMap | null = null;
+    void loadMapLibre().then((maplibregl) => {
+      if (cancelled) return;
+      libRef.current = maplibregl;
+      const map = new maplibregl.Map({
+      container,
       style: publicEnv.NEXT_PUBLIC_MAP_STYLE_URL,
       center,
       zoom,
@@ -87,26 +108,34 @@ export function MapView({
       attributionControl: { compact: true },
       cooperativeGestures: false,
     });
-    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-left");
-    map.addControl(new maplibregl.GeolocateControl({ trackUserLocation: false }), "top-left");
-    map.on("error", (e: ErrorEvent) => {
-      if (!map.isStyleLoaded() && !styleFailed) {
-        setStyleFailed(true);
-        map.setStyle(fallbackStyle());
+      map.addControl(new maplibregl.NavigationControl({ showCompass: false }), controlsPosition);
+      if (typeof navigator !== "undefined" && "geolocation" in navigator) {
+        map.addControl(new maplibregl.GeolocateControl({ trackUserLocation: false }), controlsPosition);
       }
-      console.warn("map_error", e.error?.message ?? "unknown");
+      map.on("error", (e: ErrorEvent) => {
+        if (!map.isStyleLoaded() && !styleFailed) {
+          setStyleFailed(true);
+          map.setStyle(fallbackStyle());
+        }
+        console.warn("map_error", e.error?.message ?? "unknown");
+      });
+      map.on("load", () => setReady(true));
+      const emit = () => {
+        const b = map.getBounds();
+        onViewportChange?.({ bbox: [b.getWest(), b.getSouth(), b.getEast(), b.getNorth()], zoom: map.getZoom() });
+      };
+      map.on("moveend", emit);
+      map.once("load", emit);
+      mapRef.current = map;
+      created = map;
+      // exposed for E2E/debug inspection only (no data is stored here)
+      (container as HTMLDivElement & { __map?: MLMap }).__map = map;
     });
-    map.on("load", () => setReady(true));
-    const emit = () => {
-      const b = map.getBounds();
-      onViewportChange?.({ bbox: [b.getWest(), b.getSouth(), b.getEast(), b.getNorth()], zoom: map.getZoom() });
-    };
-    map.on("moveend", emit);
-    map.once("load", emit);
-    mapRef.current = map;
     return () => {
-      map.remove();
+      cancelled = true;
+      created?.remove();
       mapRef.current = null;
+      setReady(false);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- map is created once; props are applied in effects below
   }, []);
@@ -162,7 +191,8 @@ export function MapView({
   // markers as DOM elements (accessible buttons)
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || !ready) return;
+    const lib = libRef.current;
+    if (!map || !lib || !ready) return;
     for (const m of markerObjs.current) m.remove();
     markerObjs.current = markers.map((m) => {
       const el = document.createElement("button");
@@ -174,7 +204,7 @@ export function MapView({
       const shape = m.kind === "event" ? "polygon(50% 0, 100% 100%, 0 100%)" : m.kind === "poi" ? "inset(0 round 4px)" : "circle(50%)";
       el.style.cssText = `width:${m.kind === "event" ? 22 : 18}px;height:${m.kind === "event" ? 22 : 18}px;background:${color};clip-path:${shape};border:0;cursor:pointer;box-shadow:0 0 0 4px ${color}33;`;
       el.addEventListener("click", () => onMarkerClick?.(m));
-      return new maplibregl.Marker({ element: el }).setLngLat([m.lon, m.lat]).addTo(map);
+      return new lib.Marker({ element: el }).setLngLat([m.lon, m.lat]).addTo(map);
     });
   }, [markers, ready, onMarkerClick]);
 
@@ -185,10 +215,10 @@ export function MapView({
   }, [fitTo, ready]);
 
   return (
-    <div className={className ?? "h-full w-full"} role="region" aria-label={ariaLabel}>
+    <div className={className ?? "h-full w-full"} role="region" aria-label={ariaLabel} data-map-ready={ready} data-map-style-failed={styleFailed}>
       <div ref={containerRef} className="h-full w-full rounded-2xl overflow-hidden" />
       {styleFailed && (
-        <p role="status" className="absolute bottom-2 left-2 rounded-lg bg-white/90 px-2 py-1 text-xs text-[#b45f00]">
+        <p role="status" className="absolute bottom-2 left-2 rounded-lg bg-white/90 px-2 py-1 text-xs text-amber-ink">
           Map tiles unavailable — routes and markers still shown on a plain canvas.
         </p>
       )}

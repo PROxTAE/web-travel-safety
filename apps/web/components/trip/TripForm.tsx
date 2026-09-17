@@ -3,7 +3,7 @@
 import { Button } from "@heroui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Bus, CalendarDays, Car, Leaf, Plane, Search, ShieldCheck, TrainFront, Wallet } from "lucide-react";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 import { LocationSearch } from "@/components/trip/LocationSearch";
@@ -49,6 +49,7 @@ export function TripForm({
   onSubmit,
   submitting,
   onLocationsChange,
+  confirmedPins,
   locale,
   submitLabel = "Find safe routes",
 }: {
@@ -56,6 +57,8 @@ export function TripForm({
   onSubmit: (values: TripFormValues) => void;
   submitting: boolean;
   onLocationsChange?: (o: LocationRef | null, d: LocationRef | null) => void;
+  /** pins confirmed on the map by the parent; mirrored into the form values so validation passes */
+  confirmedPins?: { origin: boolean; destination: boolean };
   locale?: string;
   submitLabel?: string;
 }) {
@@ -80,6 +83,13 @@ export function TripForm({
   const destination = watch("destination");
   const modes = watch("travel_modes");
   const tz = watch("timezone");
+
+  useEffect(() => {
+    if (confirmedPins?.origin && origin && !origin.confirmed_by_user)
+      setValue("origin", { ...origin, confirmed_by_user: true }, { shouldValidate: formState.isSubmitted });
+    if (confirmedPins?.destination && destination && !destination.confirmed_by_user)
+      setValue("destination", { ...destination, confirmed_by_user: true }, { shouldValidate: formState.isSubmitted });
+  }, [confirmedPins, origin, destination, setValue, formState.isSubmitted]);
 
   const setLocation = (field: "origin" | "destination", loc: LocationRef | null) => {
     setValue(field, loc, { shouldValidate: formState.isSubmitted });

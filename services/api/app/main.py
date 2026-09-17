@@ -146,7 +146,7 @@ def build(settings: Settings | None = None, *, clients: dict[str, ResilientClien
             s, redis, app.state.repo, app.state.assessments, app.state.recommendation
         )
         await app.state.alerts.start()
-        log.info("api_started", issuers=len(s.accepted_issuers), cors_origins=len(s.cors_allowed_origins))
+        log.info("api_started", issuers=len(s.accepted_issuers), cors_origins=len(s.cors_origins))
         try:
             yield
         finally:
@@ -168,7 +168,7 @@ def build(settings: Settings | None = None, *, clients: dict[str, ResilientClien
     )
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=s.cors_allowed_origins,  # exact origins only
+        allow_origins=s.cors_origins,  # exact origins only
         allow_credentials=True,
         allow_methods=["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
         allow_headers=["Authorization", "Content-Type", "If-Match", "Idempotency-Key", "Last-Event-ID", "X-Request-ID"],

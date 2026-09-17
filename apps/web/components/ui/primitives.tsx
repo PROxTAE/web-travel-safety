@@ -39,10 +39,10 @@ export function ButtonLink({
 
 const TONE_CLASS = {
   success: "bg-mint text-primary-deep",
-  warning: "bg-amber/15 text-[#b45f00]",
-  danger: "bg-coral/15 text-coral",
+  warning: "bg-amber/15 text-amber-ink",
+  danger: "bg-coral/15 text-[#b3232a]",
   default: "bg-line text-ink-muted",
-  accent: "bg-weather/15 text-weather",
+  accent: "bg-weather/15 text-weather-ink",
 };
 
 /** Risk level as icon + shape + text (never colour alone). The level comes from the server. */
@@ -89,7 +89,7 @@ export function DataFreshness({
   const now = useNow();
   const stale = isStale(fetchedAt, maxAgeMinutes, now) || (expiresAt ? new Date(expiresAt).getTime() < now : false);
   return (
-    <span className={cn("inline-flex items-center gap-1 text-xs", stale ? "text-[#b45f00]" : "text-ink-muted")}>
+    <span className={cn("inline-flex items-center gap-1 text-xs", stale ? "text-amber-ink" : "text-ink-muted")}>
       <Clock size={12} aria-hidden />
       {label} {relativeAge(fetchedAt, now)}
       {stale && <span className="font-semibold">· may be stale</span>}

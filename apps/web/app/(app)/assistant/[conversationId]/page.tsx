@@ -137,7 +137,9 @@ export default function AssistantPage({ params }: { params: Promise<{ conversati
             </li>
           )}
           {!isNew && messages.data?.length === 0 && !requestId && (
-            <EmptyState title="Ask anything about your trip" description="Safety, weather, transport, or what to do next. Answers use live data for your current trip." />
+            <li className="list-none">
+              <EmptyState title="Ask anything about your trip" description="Safety, weather, transport, or what to do next. Answers use live data for your current trip." />
+            </li>
           )}
         </ol>
         <div className="mt-3 flex flex-wrap gap-2">
@@ -157,7 +159,7 @@ export default function AssistantPage({ params }: { params: Promise<{ conversati
         >
           <Paperclip className="text-ink-muted" aria-hidden />
           <input value={text} onChange={(e) => setText(e.target.value)} maxLength={2000} aria-label="Message" placeholder={tripId ? "Ask about your trip, safety, or weather…" : "Plan a trip first so I can use live data"} className="flex-1 bg-transparent outline-none text-navy" disabled={isNew} />
-          <button type="submit" aria-label="Send" disabled={post.isPending || isNew || !text.trim()} className="rounded-full bg-primary p-2 text-white disabled:opacity-50"><Send size={18} aria-hidden /></button>
+          <button type="submit" aria-label="Send" disabled={post.isPending || isNew || !text.trim()} className="rounded-full bg-primary-deep p-2 text-white disabled:opacity-50"><Send size={18} aria-hidden /></button>
         </form>
         {!tripId && !trips.isLoading && (
           <p className="mt-2 text-xs text-ink-muted">No trip linked. <Link href="/trips/new" className="text-primary-deep underline">Plan a trip</Link> to get live answers.</p>

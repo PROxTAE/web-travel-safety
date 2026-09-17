@@ -25,10 +25,15 @@ declare module "next-auth/jwt" {
   }
 }
 
+function internalIssuer(): string {
+  const env = serverEnv();
+  return env.OIDC_INTERNAL_ISSUER ?? env.OIDC_ISSUER;
+}
+
 async function refreshAccessToken(token: JWT): Promise<JWT> {
   const env = serverEnv();
   if (!token.refresh_token) return { ...token, error: "RefreshTokenError" };
-  const res = await fetch(`${env.OIDC_ISSUER}/protocol/openid-connect/token`, {
+  const res = await fetch(`${internalIssuer()}/protocol/openid-connect/token`, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({
@@ -65,10 +70,18 @@ export function buildAuthConfig(): NextAuthConfig {
     pages: { signIn: "/login" },
     providers: [
       Keycloak({
+        // the browser is sent to the public issuer; server-to-server calls use the docker-network issuer.
+        // Explicit endpoints skip discovery (which would hand back public URLs unreachable from the container).
         issuer: env.OIDC_ISSUER,
         clientId: env.OIDC_CLIENT_ID,
         clientSecret: env.OIDC_CLIENT_SECRET,
-        authorization: { params: { scope: "openid profile email smart-travel-api" } },
+        authorization: {
+          url: `${env.OIDC_ISSUER}/protocol/openid-connect/auth`,
+          params: { scope: "openid profile email smart-travel-api" },
+        },
+        token: `${internalIssuer()}/protocol/openid-connect/token`,
+        userinfo: `${internalIssuer()}/protocol/openid-connect/userinfo`,
+        jwks_endpoint: `${internalIssuer()}/protocol/openid-connect/certs`,
       }),
     ],
     callbacks: {
@@ -99,7 +112,7 @@ export function buildAuthConfig(): NextAuthConfig {
         if (!idToken) return;
         try {
           await fetch(
-            `${env.OIDC_ISSUER}/protocol/openid-connect/logout?${new URLSearchParams({ id_token_hint: idToken })}`,
+            `${internalIssuer()}/protocol/openid-connect/logout?${new URLSearchParams({ id_token_hint: idToken })}`,
             { signal: AbortSignal.timeout(5000) },
           );
         } catch {

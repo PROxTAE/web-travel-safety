@@ -8,8 +8,15 @@ import { NextResponse, type NextRequest } from "next/server";
  */
 export async function proxy(req: NextRequest): Promise<NextResponse> {
   const { pathname } = req.nextUrl;
+  // static files under /public (assets, MapLibre worker modules) are never behind the session guard: module
+  // workers fetch their imports without cookies and a redirect to /login would hand them HTML
   const isPublic =
-    pathname === "/login" || pathname.startsWith("/api/auth") || pathname === "/api/health" || pathname.startsWith("/assets");
+    pathname === "/login" ||
+    pathname.startsWith("/api/auth") ||
+    pathname === "/api/health" ||
+    pathname.startsWith("/assets/") ||
+    pathname.startsWith("/maplibre/") ||
+    /\.[a-z0-9]{2,5}$/i.test(pathname);
   if (isPublic) return NextResponse.next();
   const secret = process.env.AUTH_SECRET;
   if (!secret) return NextResponse.next(); // misconfiguration surfaces as a server error from the page itself
@@ -30,5 +37,5 @@ export async function proxy(req: NextRequest): Promise<NextResponse> {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|assets/).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|assets/|maplibre/).*)"],
 };

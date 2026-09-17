@@ -76,7 +76,7 @@ export function SosHoldButton({ onActivate, disabled }: { onActivate: () => void
             if (e.key === " " || e.key === "Enter") stop();
           }}
           onBlur={stop}
-          className="flex h-56 w-56 flex-col items-center justify-center rounded-full bg-coral text-white shadow-[0_20px_50px_-20px_rgba(242,78,84,0.8)] outline-none ring-offset-4 focus-visible:ring-4 focus-visible:ring-coral/60 active:scale-[0.98] disabled:opacity-50 select-none touch-none"
+          className="flex h-56 w-56 flex-col items-center justify-center rounded-full bg-coral-deep text-white shadow-[0_20px_50px_-20px_rgba(242,78,84,0.8)] outline-none ring-offset-4 focus-visible:ring-4 focus-visible:ring-coral/60 active:scale-[0.98] disabled:opacity-50 select-none touch-none"
         >
           <Phone size={30} aria-hidden />
           <span className="mt-2 text-lg font-bold leading-tight">Hold for</span>

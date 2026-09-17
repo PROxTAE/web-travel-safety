@@ -1,0 +1,27 @@
+# Build context = repo root for every Dockerfile; keep it small and secret-free.
+.git
+.github
+.claude
+**/.venv
+**/__pycache__
+**/.pytest_cache
+**/.mypy_cache
+**/.ruff_cache
+**/node_modules
+**/.next
+**/playwright-report
+**/test-results
+**/htmlcov
+**/.env
+**/.env.*
+!.env.example
+*.pem
+*.key
+IMPLEMENTATION_PLANS
+docs
+services/risk-knowledge/artifacts
+services/risk-knowledge/data/raw
+services/risk-knowledge/data/processed
+services/risk-knowledge/knowledge/cache
+services/external-data/data/gtfs-cache
+mlruns

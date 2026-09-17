@@ -60,7 +60,7 @@ export function AssessmentProgress({
           </Button>
         )}
       </div>
-      <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-surface-secondary" role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100}>
+      <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-surface-secondary" role="progressbar" aria-label="Assessment progress" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100}>
         <div className="h-full rounded-full bg-primary transition-all" style={{ width: `${pct}%` }} />
       </div>
       <ol className="mt-3 grid grid-cols-3 gap-1 text-[11px] text-ink-muted">

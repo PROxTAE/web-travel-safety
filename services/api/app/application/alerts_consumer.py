@@ -72,7 +72,7 @@ class ReassessmentConsumer:
         while True:
             try:
                 rows = await self.redis.xreadgroup(
-                    self.s.alerts_consumer_group, self.consumer, {self.stream: ">"}, count=20, block=5000
+                    self.s.alerts_consumer_group, self.consumer, {self.stream: ">"}, count=20, block=2000
                 )
             except asyncio.CancelledError:
                 raise

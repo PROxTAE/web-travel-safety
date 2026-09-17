@@ -29,6 +29,8 @@ export default function DashboardPage() {
   const [question, setQuestion] = useState("");
 
   const routes = useMemo(() => (rec.data ? recommendationRoutes(rec.data, trip?.selected_route_id) : []), [rec.data, trip?.selected_route_id]);
+  // for AVOID the server sets no primary route; the assessed original still lives in alternatives
+  const shownRoute = rec.data?.primary_route ?? rec.data?.alternatives?.[0] ?? null;
   const markers = useMemo(() => {
     const out: MapMarker[] = trip ? tripMarkers(trip) : [];
     for (const a of rec.data?.alerts ?? []) {
@@ -91,8 +93,8 @@ export default function DashboardPage() {
                 <p className="font-bold text-navy flex items-center gap-2"><MapPin size={14} className="text-coral" aria-hidden />{trip.destination.display_name}</p>
                 <p className="text-sm text-ink-muted">
                   Arrive (est.){" "}
-                  {rec.data?.primary_route
-                    ? formatTime(new Date(new Date(trip.departure_time).getTime() + rec.data.primary_route.duration_seconds * 1000).toISOString(), trip.timezone)
+                  {shownRoute
+                    ? formatTime(new Date(new Date(trip.departure_time).getTime() + shownRoute.duration_seconds * 1000).toISOString(), trip.timezone)
                     : "—"}
                 </p>
               </li>
@@ -103,7 +105,7 @@ export default function DashboardPage() {
                 <span className="flex-1">
                   <span className="block text-xs text-ink-muted">Transport</span>
                   <span className="block font-bold text-navy">{trip.travel_modes.map((m) => MODE_LABELS[m]).join(" / ")}</span>
-                  <span className="block text-xs text-ink-muted">{rec.data?.primary_route ? `Approx. ${formatDuration(rec.data.primary_route.duration_seconds)}` : "Duration after assessment"}</span>
+                  <span className="block text-xs text-ink-muted">{shownRoute ? `Approx. ${formatDuration(shownRoute.duration_seconds)}` : "Duration after assessment"}</span>
                 </span>
                 <ChevronRight className="text-ink-muted" aria-hidden />
               </button>
@@ -111,7 +113,7 @@ export default function DashboardPage() {
                 <span className="sta-icon-tile !w-10 !h-10 bg-weather/10 text-weather"><CloudRain size={18} aria-hidden /></span>
                 <span className="flex-1">
                   <span className="block text-xs text-ink-muted">Weather ({trip.destination.display_name})</span>
-                  <span className="block font-bold text-weather">{weatherHeadline(rec.data).value}</span>
+                  <span className="block font-bold text-weather-ink">{weatherHeadline(rec.data).value}</span>
                   <span className="block text-xs text-ink-muted">{weatherHeadline(rec.data).detail}</span>
                 </span>
                 <ChevronRight className="text-ink-muted" aria-hidden />
@@ -195,7 +197,7 @@ export default function DashboardPage() {
               className="flex-1 bg-transparent text-sm outline-none"
               maxLength={2000}
             />
-            <button type="submit" aria-label="Send" disabled={createConversation.isPending} className="rounded-full bg-primary p-2 text-white disabled:opacity-50">
+            <button type="submit" aria-label="Send" disabled={createConversation.isPending} className="rounded-full bg-primary-deep p-2 text-white disabled:opacity-50">
               <Send size={16} aria-hidden />
             </button>
           </form>
@@ -207,7 +209,7 @@ export default function DashboardPage() {
           <p className="text-sm text-ink-muted">No live data yet. Run an assessment from My Trip.</p>
         ) : sheet === "weather" ? (
           <>
-            <p className="text-2xl font-extrabold text-weather">{weatherHeadline(rec.data).value}</p>
+            <p className="text-2xl font-extrabold text-weather-ink">{weatherHeadline(rec.data).value}</p>
             <dl className="grid grid-cols-2 gap-2 text-sm">
               {Object.entries((rec.data.weather_summary ?? {}) as Record<string, unknown>).map(([k, v]) => (
                 <div key={k} className="rounded-xl bg-surface-secondary p-2">

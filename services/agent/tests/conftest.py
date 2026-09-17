@@ -234,7 +234,7 @@ class Stubs:
         r = route()
         pkg = EvidencePackage(
             package_id=uuid4(),
-            request_id=snap["request_id"],
+            request_id=body.get("request_id") or snap["request_id"],  # mirrors risk-knowledge
             snapshot_id=snap["snapshot_id"],
             risk_assessments=[
                 RiskAssessment(

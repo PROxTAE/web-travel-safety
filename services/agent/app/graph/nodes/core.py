@@ -133,7 +133,11 @@ class NodeContext:
         req = TravelRequest.model_validate(state["travel_request"])
         snap = IntegratedTravelContext.model_validate(state["snapshot"])
         payload = EvidencePackageRequest(
-            snapshot=snap, locale=req.locale, question=req.question, country_code=req.destination.country_code
+            snapshot=snap,
+            locale=req.locale,
+            question=req.question,
+            country_code=req.destination.country_code,
+            request_id=req.request_id,  # a reused snapshot still yields a package owned by *this* request
         )
         await self.progress.stage(req.request_id, RunStage.RETRIEVING_GUIDANCE)
         await self.progress.stage(req.request_id, RunStage.EVALUATING_ROUTES)
@@ -141,8 +145,7 @@ class NodeContext:
             "risk_knowledge.build_evidence_package", payload, stage=RunStage.ASSESSING_RISK
         )
         pkg = out if isinstance(out, EvidencePackage) else EvidencePackage.model_validate(out)
-        # the package is keyed by the snapshot it was built from (a reused snapshot keeps its original request_id)
-        if pkg.snapshot_id != snap.snapshot_id or pkg.request_id != snap.request_id:
+        if pkg.snapshot_id != snap.snapshot_id or pkg.request_id != req.request_id:
             raise AppError(ErrorCode.POLICY_VALIDATION_FAILED, "evidence package does not match the snapshot")
         state["evidence_package"] = pkg.model_dump(mode="json")
         state["versions"]["knowledge_collection"] = pkg.knowledge_collection_version

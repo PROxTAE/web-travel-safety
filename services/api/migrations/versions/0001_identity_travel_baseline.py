@@ -19,8 +19,8 @@ T = "travel"
 
 
 def upgrade() -> None:
-    op.execute(f"CREATE SCHEMA IF NOT EXISTS {I}")
-    op.execute(f"CREATE SCHEMA IF NOT EXISTS {T}")
+    op.execute(f"DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_namespace WHERE nspname = \'{I}\') THEN EXECUTE \'CREATE SCHEMA {I}\'; END IF; END $$;")  # schema is pre-created by infra/postgres/init with the service role as owner
+    op.execute(f"DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_namespace WHERE nspname = \'{T}\') THEN EXECUTE \'CREATE SCHEMA {T}\'; END IF; END $$;")  # schema is pre-created by infra/postgres/init with the service role as owner
     op.create_table(
         "user_profiles",
         sa.Column("id", postgresql.UUID(as_uuid=True), primary_key=True),

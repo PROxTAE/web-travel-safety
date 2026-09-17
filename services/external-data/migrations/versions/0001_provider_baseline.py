@@ -18,7 +18,7 @@ SCHEMA = "provider"
 
 
 def upgrade() -> None:
-    op.execute(f"CREATE SCHEMA IF NOT EXISTS {SCHEMA}")
+    op.execute(f"DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_namespace WHERE nspname = \'{SCHEMA}\') THEN EXECUTE \'CREATE SCHEMA {SCHEMA}\'; END IF; END $$;")  # schema is pre-created by infra/postgres/init with the service role as owner
     op.create_table(
         "providers",
         sa.Column("id", sa.String(64), primary_key=True),

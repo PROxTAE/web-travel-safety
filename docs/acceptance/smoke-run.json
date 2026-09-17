@@ -1,0 +1,992 @@
+{
+ "request_id": "f7d95258-f29c-4f64-bb8c-bcf68bb0810a",
+ "trip_id": "5cc23176-b163-4b8d-ba46-a7c7d794378e",
+ "state": {
+  "request_id": "f7d95258-f29c-4f64-bb8c-bcf68bb0810a",
+  "trip_id": "5cc23176-b163-4b8d-ba46-a7c7d794378e",
+  "conversation_id": null,
+  "status": "PARTIAL",
+  "stage": "FORMATTING_RESPONSE",
+  "intent": "CHECK_SAFETY",
+  "missing_fields": [],
+  "recommendation_id": "913f8da6-7c29-4b04-91c3-3fd63b88c753",
+  "snapshot_id": "821e2ab1-8733-4868-b0bb-de5294bd125b",
+  "decision_id": "4cee6261-d8b7-4f39-9a04-25cbc23dea77",
+  "degraded_services": [
+   "openrouteservice: PROVIDER_AUTH",
+   "risk-knowledge: model unavailable (rule baseline)",
+   "decision-engine: explanation fallback (error:AuthenticationError)"
+  ],
+  "error_code": null,
+  "error_message": null,
+  "step_count": 6,
+  "tool_call_count": 5,
+  "llm_call_count": 0,
+  "versions": {
+   "policy": "1.0.0",
+   "prompt": "1.0.0",
+   "llm_model": "# e.g. gpt-4.1-mini ; required only when OPENAI_API_KEY is set",
+   "contract": "1.0.0",
+   "graph": "1.0.0+10f0bc9cd5f9de02",
+   "model": "rule-baseline@rule-1.0.0",
+   "feature_schema": "1.0.0",
+   "knowledge_collection": "2026.09.1"
+  },
+  "started_at": "2026-09-17T05:45:59.635568Z",
+  "updated_at": "2026-09-17T05:46:12.838199Z",
+  "completed_at": "2026-09-17T05:46:12.838222Z"
+ },
+ "events": [
+  {
+   "event_id": 1,
+   "event_type": "run.accepted",
+   "request_id": "f7d95258-f29c-4f64-bb8c-bcf68bb0810a",
+   "status": "QUEUED",
+   "occurred_at": "2026-09-17T05:45:59.638216Z"
+  },
+  {
+   "event_id": 2,
+   "event_type": "run.progress",
+   "request_id": "f7d95258-f29c-4f64-bb8c-bcf68bb0810a",
+   "status": "RUNNING",
+   "stage": "VALIDATING",
+   "percent": 5,
+   "message_key": "stage.validating",
+   "occurred_at": "2026-09-17T05:46:00.211124Z"
+  },
+  {
+   "event_id": 3,
+   "event_type": "run.progress",
+   "request_id": "f7d95258-f29c-4f64-bb8c-bcf68bb0810a",
+   "status": "RUNNING",
+   "stage": "FETCHING_EXTERNAL_DATA",
+   "percent": 20,
+   "message_key": "stage.fetching_external_data",
+   "occurred_at": "2026-09-17T05:46:00.267877Z"
+  },
+  {
+   "event_id": 4,
+   "event_type": "run.degraded",
+   "request_id": "f7d95258-f29c-4f64-bb8c-bcf68bb0810a",
+   "service": "openrouteservice",
+   "reason": "PROVIDER_AUTH",
+   "retrying": false,
+   "occurred_at": "2026-09-17T05:46:06.030017Z"
+  },
+  {
+   "event_id": 5,
+   "event_type": "run.progress",
+   "request_id": "f7d95258-f29c-4f64-bb8c-bcf68bb0810a",
+   "status": "RUNNING",
+   "stage": "INTEGRATING_DATA",
+   "percent": 40,
+   "message_key": "stage.integrating_data",
+   "occurred_at": "2026-09-17T05:46:06.036964Z"
+  },
+  {
+   "event_id": 6,
+   "event_type": "run.progress",
+   "request_id": "f7d95258-f29c-4f64-bb8c-bcf68bb0810a",
+   "status": "RUNNING",
+   "stage": "ASSESSING_RISK",
+   "percent": 55,
+   "message_key": "stage.assessing_risk",
+   "occurred_at": "2026-09-17T05:46:07.100513Z"
+  },
+  {
+   "event_id": 7,
+   "event_type": "run.progress",
+   "request_id": "f7d95258-f29c-4f64-bb8c-bcf68bb0810a",
+   "status": "RUNNING",
+   "stage": "RETRIEVING_GUIDANCE",
+   "percent": 62,
+   "message_key": "stage.retrieving_guidance",
+   "occurred_at": "2026-09-17T05:46:07.156646Z"
+  },
+  {
+   "event_id": 8,
+   "event_type": "run.progress",
+   "request_id": "f7d95258-f29c-4f64-bb8c-bcf68bb0810a",
+   "status": "RUNNING",
+   "stage": "EVALUATING_ROUTES",
+   "percent": 68,
+   "message_key": "stage.evaluating_routes",
+   "occurred_at": "2026-09-17T05:46:07.158409Z"
+  },
+  {
+   "event_id": 9,
+   "event_type": "run.degraded",
+   "request_id": "f7d95258-f29c-4f64-bb8c-bcf68bb0810a",
+   "service": "risk-knowledge",
+   "reason": "model unavailable (rule baseline)",
+   "retrying": false,
+   "occurred_at": "2026-09-17T05:46:09.432356Z"
+  },
+  {
+   "event_id": 10,
+   "event_type": "run.progress",
+   "request_id": "f7d95258-f29c-4f64-bb8c-bcf68bb0810a",
+   "status": "RUNNING",
+   "stage": "MAKING_DECISION",
+   "percent": 80,
+   "message_key": "stage.making_decision",
+   "occurred_at": "2026-09-17T05:46:09.439826Z"
+  },
+  {
+   "event_id": 11,
+   "event_type": "run.progress",
+   "request_id": "f7d95258-f29c-4f64-bb8c-bcf68bb0810a",
+   "status": "RUNNING",
+   "stage": "EXPLAINING",
+   "percent": 88,
+   "message_key": "stage.explaining",
+   "occurred_at": "2026-09-17T05:46:09.441306Z"
+  },
+  {
+   "event_id": 12,
+   "event_type": "run.degraded",
+   "request_id": "f7d95258-f29c-4f64-bb8c-bcf68bb0810a",
+   "service": "decision-engine",
+   "reason": "explanation fallback (error:AuthenticationError)",
+   "retrying": false,
+   "occurred_at": "2026-09-17T05:46:12.423919Z"
+  },
+  {
+   "event_id": 13,
+   "event_type": "run.progress",
+   "request_id": "f7d95258-f29c-4f64-bb8c-bcf68bb0810a",
+   "status": "RUNNING",
+   "stage": "FORMATTING_RESPONSE",
+   "percent": 95,
+   "message_key": "stage.formatting_response",
+   "occurred_at": "2026-09-17T05:46:12.427995Z"
+  },
+  {
+   "event_id": 14,
+   "event_type": "run.completed",
+   "request_id": "f7d95258-f29c-4f64-bb8c-bcf68bb0810a",
+   "status": "PARTIAL",
+   "percent": 100,
+   "recommendation_id": "913f8da6-7c29-4b04-91c3-3fd63b88c753",
+   "result_url": "/api/v1/recommendations/913f8da6-7c29-4b04-91c3-3fd63b88c753",
+   "occurred_at": "2026-09-17T05:46:12.836245Z"
+  }
+ ],
+ "rec": {
+  "recommendation_id": "913f8da6-7c29-4b04-91c3-3fd63b88c753",
+  "request_id": "f7d95258-f29c-4f64-bb8c-bcf68bb0810a",
+  "trip_id": "5cc23176-b163-4b8d-ba46-a7c7d794378e",
+  "conversation_id": null,
+  "decision_id": "4cee6261-d8b7-4f39-9a04-25cbc23dea77",
+  "snapshot_id": "821e2ab1-8733-4868-b0bb-de5294bd125b",
+  "status": "PARTIAL",
+  "action_code": "NORMAL",
+  "risk_level": "LOW",
+  "confidence": 0.79,
+  "short_summary": "Conditions along your route look acceptable. Travel as planned and keep checking updates.",
+  "immediate_actions": [
+   "Check conditions again before departure.",
+   "Keep live alerts on for this trip."
+  ],
+  "reasons": [
+   "No significant hazards were found on the corridor.",
+   "The local risk model was unavailable; a rule-based assessment was used."
+  ],
+  "reason_codes": [
+   "CONDITIONS_NORMAL",
+   "MODEL_UNAVAILABLE"
+  ],
+  "primary_route": {
+   "route_id": "00860ce1-bc67-5746-8329-fea369965c7a",
+   "provider_route_id": null,
+   "label": "ORIGINAL",
+   "labels": [
+    "ORIGINAL",
+    "RECOMMENDED",
+    "FASTEST",
+    "LOWEST_RISK"
+   ],
+   "mode": "CAR",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      100.5018,
+      13.7563
+     ],
+     [
+      100.44006964639905,
+      13.966216966686252
+     ],
+     [
+      100.37822741081617,
+      14.176114610241374
+     ],
+     [
+      100.31627134336964,
+      14.385992606768669
+     ],
+     [
+      100.2541994815159,
+      14.595850630774189
+     ],
+     [
+      100.19200984980111,
+      14.805688355133553
+     ],
+     [
+      100.12970045960981,
+      15.015505451058308
+     ],
+     [
+      100.0672693089105,
+      15.22530158806177
+     ],
+     [
+      100.00471438199811,
+      15.435076433924438
+     ],
+     [
+      99.94203364923342,
+      15.644829654658857
+     ],
+     [
+      99.87922506677903,
+      15.85456091447402
+     ],
+     [
+      99.81628657633227,
+      16.064269875739214
+     ],
+     [
+      99.75321610485454,
+      16.273956198947342
+     ],
+     [
+      99.6900115642973,
+      16.4836195426777
+     ],
+     [
+      99.62667085132443,
+      16.693259563558243
+     ],
+     [
+      99.56319184703122,
+      16.90287591622718
+     ],
+     [
+      99.49957241665936,
+      17.11246825329412
+     ],
+     [
+      99.4358104093084,
+      17.322036225300522
+     ],
+     [
+      99.3719036576433,
+      17.5315794806796
+     ],
+     [
+      99.30784997759807,
+      17.741097665715554
+     ],
+     [
+      99.24364716807537,
+      17.950590424502256
+     ],
+     [
+      99.17929301064213,
+      18.160057398901188
+     ],
+     [
+      99.11478526922079,
+      18.369498228498806
+     ],
+     [
+      99.05012168977655,
+      18.57891255056319
+     ],
+     [
+      98.9853,
+      18.7883
+     ]
+    ]
+   },
+   "segments": [
+    {
+     "index": 0,
+     "mode": "CAR",
+     "geometry": {
+      "type": "LineString",
+      "coordinates": [
+       [
+        100.5018,
+        13.7563
+       ],
+       [
+        100.44006964639905,
+        13.966216966686252
+       ],
+       [
+        100.37822741081617,
+        14.176114610241374
+       ],
+       [
+        100.31627134336964,
+        14.385992606768669
+       ],
+       [
+        100.2541994815159,
+        14.595850630774189
+       ],
+       [
+        100.19200984980111,
+        14.805688355133553
+       ],
+       [
+        100.12970045960981,
+        15.015505451058308
+       ],
+       [
+        100.0672693089105,
+        15.22530158806177
+       ],
+       [
+        100.00471438199811,
+        15.435076433924438
+       ],
+       [
+        99.94203364923342,
+        15.644829654658857
+       ],
+       [
+        99.87922506677903,
+        15.85456091447402
+       ],
+       [
+        99.81628657633227,
+        16.064269875739214
+       ],
+       [
+        99.75321610485454,
+        16.273956198947342
+       ],
+       [
+        99.6900115642973,
+        16.4836195426777
+       ],
+       [
+        99.62667085132443,
+        16.693259563558243
+       ],
+       [
+        99.56319184703122,
+        16.90287591622718
+       ],
+       [
+        99.49957241665936,
+        17.11246825329412
+       ],
+       [
+        99.4358104093084,
+        17.322036225300522
+       ],
+       [
+        99.3719036576433,
+        17.5315794806796
+       ],
+       [
+        99.30784997759807,
+        17.741097665715554
+       ],
+       [
+        99.24364716807537,
+        17.950590424502256
+       ],
+       [
+        99.17929301064213,
+        18.160057398901188
+       ],
+       [
+        99.11478526922079,
+        18.369498228498806
+       ],
+       [
+        99.05012168977655,
+        18.57891255056319
+       ],
+       [
+        98.9853,
+        18.7883
+       ]
+      ]
+     },
+     "distance_m": 579946.320397713,
+     "duration_seconds": 29825.81076331095,
+     "eta_start": "2026-09-17T13:45:59.405948Z",
+     "eta_end": "2026-09-17T22:03:05.216711Z",
+     "instruction": null,
+     "operator": null,
+     "service_number": null
+    }
+   ],
+   "distance_m": 579946.320397713,
+   "duration_seconds": 29825.81076331095,
+   "transfers": 0,
+   "exposure": {
+    "score": 0.0,
+    "hazard_event_ids": [],
+    "weather_window_ids": [
+     "d63b96a0-c80b-5475-aec6-c8f69bc36d2c",
+     "92f1e4b6-d409-5108-b0e2-4a43d91c4bdc"
+    ],
+    "closed": false,
+    "severe_weather_minutes": 0.0,
+    "max_hazard_severity": "MODERATE",
+    "min_hazard_distance_km": null
+   },
+   "risk_level": "LOW",
+   "risk_score": 0.0917,
+   "rank": 1,
+   "usable": true,
+   "trade_offs": [
+    "Risk LOW (p=0.09)",
+    "8.3 h, 580 km, fastest"
+   ],
+   "quality": {
+    "status": "PARTIAL",
+    "score": 0.45,
+    "flags": [
+     "INFERRED",
+     "OUTSIDE_COVERAGE"
+    ],
+    "coverage": 0.0,
+    "completeness": 0.5,
+    "freshness_seconds": 0,
+    "conflicts": [],
+    "notes": [
+     "route provider failed; geometry is a great-circle approximation and duration assumes 70 km/h + 0 min overhead (assumptions v1.0.0)"
+    ],
+    "weights_version": "1.0.0"
+   },
+   "sources": [
+    {
+     "source_id": "07348316-815e-560f-a1b9-9ed312dc485e",
+     "provider": "geodesic",
+     "provider_record_id": null,
+     "authority": "UNKNOWN",
+     "source_url": null,
+     "license": "computed",
+     "attribution": "Great-circle approximation computed by Smart Travel Assistant",
+     "observed_at": null,
+     "published_at": null,
+     "fetched_at": "2026-09-17T05:46:01.509014Z",
+     "expires_at": "2026-09-17T11:46:01.509014Z",
+     "content_hash": "f5bf5d9588bdc1d2670b4dcc74aafb1d8fcbf9cad8c6ffbe85f1e64963846a95",
+     "schema_version": "1.0.0"
+    }
+   ]
+  },
+  "alternatives": [],
+  "alerts": [],
+  "emergency_instructions": [],
+  "official_contacts": [
+   {
+    "country_code": "TH",
+    "subdivision": null,
+    "service_type": "POLICE",
+    "label": "Police (Royal Thai Police)",
+    "phone": "191",
+    "phone_e164": null,
+    "website": null,
+    "availability": "24/7",
+    "source_url": "https://www.touristpolice.go.th/",
+    "authority": "OFFICIAL",
+    "effective_at": "2026-01-01T00:00:00Z",
+    "verified_at": "2026-09-17T00:00:00Z",
+    "review_due_at": "2026-10-17T00:00:00Z"
+   },
+   {
+    "country_code": "TH",
+    "subdivision": null,
+    "service_type": "MEDICAL",
+    "label": "Medical emergency (EMS 1669)",
+    "phone": "1669",
+    "phone_e164": null,
+    "website": null,
+    "availability": "24/7",
+    "source_url": "https://www.niems.go.th/",
+    "authority": "OFFICIAL",
+    "effective_at": "2026-01-01T00:00:00Z",
+    "verified_at": "2026-09-17T00:00:00Z",
+    "review_due_at": "2026-10-17T00:00:00Z"
+   },
+   {
+    "country_code": "TH",
+    "subdivision": "Bangkok",
+    "service_type": "FIRE",
+    "label": "Fire and rescue (Bangkok)",
+    "phone": "199",
+    "phone_e164": null,
+    "website": null,
+    "availability": "24/7",
+    "source_url": "https://www.bangkok.go.th/",
+    "authority": "OFFICIAL",
+    "effective_at": "2026-01-01T00:00:00Z",
+    "verified_at": "2026-09-17T00:00:00Z",
+    "review_due_at": "2026-10-17T00:00:00Z"
+   },
+   {
+    "country_code": "TH",
+    "subdivision": null,
+    "service_type": "DISASTER",
+    "label": "Disaster hotline (DDPM 1784)",
+    "phone": "1784",
+    "phone_e164": null,
+    "website": null,
+    "availability": "24/7",
+    "source_url": "https://www.disaster.go.th/",
+    "authority": "OFFICIAL",
+    "effective_at": "2026-01-01T00:00:00Z",
+    "verified_at": "2026-09-17T00:00:00Z",
+    "review_due_at": "2026-10-17T00:00:00Z"
+   },
+   {
+    "country_code": "TH",
+    "subdivision": null,
+    "service_type": "TOURIST_POLICE",
+    "label": "Tourist Police",
+    "phone": "1155",
+    "phone_e164": null,
+    "website": null,
+    "availability": "24/7",
+    "source_url": "https://www.touristpolice.go.th/",
+    "authority": "OFFICIAL",
+    "effective_at": "2026-01-01T00:00:00Z",
+    "verified_at": "2026-09-17T00:00:00Z",
+    "review_due_at": "2026-10-17T00:00:00Z"
+   }
+  ],
+  "sources": [
+   {
+    "source_id": "07348316-815e-560f-a1b9-9ed312dc485e",
+    "provider": "geodesic",
+    "provider_record_id": null,
+    "authority": "UNKNOWN",
+    "source_url": null,
+    "license": "computed",
+    "attribution": "Great-circle approximation computed by Smart Travel Assistant",
+    "observed_at": null,
+    "published_at": null,
+    "fetched_at": "2026-09-17T05:46:01.509014Z",
+    "expires_at": "2026-09-17T11:46:01.509014Z",
+    "content_hash": "f5bf5d9588bdc1d2670b4dcc74aafb1d8fcbf9cad8c6ffbe85f1e64963846a95",
+    "schema_version": "1.0.0"
+   },
+   {
+    "source_id": "0c68478a-80dd-5057-a28b-e227bd4eec7e",
+    "provider": "open_meteo",
+    "provider_record_id": null,
+    "authority": "LICENSED_PROVIDER",
+    "source_url": "https://open-meteo.com/en/docs",
+    "license": "CC BY 4.0 (non-commercial use)",
+    "attribution": "Weather data by Open-Meteo.com",
+    "observed_at": null,
+    "published_at": null,
+    "fetched_at": "2026-09-17T05:46:02.442491Z",
+    "expires_at": "2026-09-17T06:46:02.442491Z",
+    "content_hash": "19e61a4d2c3100963a888be4302dc3a408c998e574aae99dd984610c8548b0c7",
+    "schema_version": "1.0.0"
+   },
+   {
+    "source_id": "1cc69c88-fb5d-5dc1-947b-a601dee8e7a2",
+    "provider": "open_meteo",
+    "provider_record_id": null,
+    "authority": "LICENSED_PROVIDER",
+    "source_url": "https://open-meteo.com/en/docs",
+    "license": "CC BY 4.0 (non-commercial use)",
+    "attribution": "Weather data by Open-Meteo.com",
+    "observed_at": null,
+    "published_at": null,
+    "fetched_at": "2026-09-17T05:46:02.442491Z",
+    "expires_at": "2026-09-17T06:46:02.442491Z",
+    "content_hash": "0a7d274f0e35905405bdd5b24833082af48dcb89507343c16659a3341b025b59",
+    "schema_version": "1.0.0"
+   },
+   {
+    "source_id": "381c137d-7d5a-503f-8970-faf9b00fc4d2",
+    "provider": "open_meteo",
+    "provider_record_id": null,
+    "authority": "LICENSED_PROVIDER",
+    "source_url": "https://open-meteo.com/en/docs",
+    "license": "CC BY 4.0 (non-commercial use)",
+    "attribution": "Weather data by Open-Meteo.com",
+    "observed_at": null,
+    "published_at": null,
+    "fetched_at": "2026-09-17T05:46:02.442491Z",
+    "expires_at": "2026-09-17T06:46:02.442491Z",
+    "content_hash": "012c87e5d2ee7e965c0e578ea37beca32ce587bc6eefc75b391d8dc615f5caca",
+    "schema_version": "1.0.0"
+   },
+   {
+    "source_id": "3857cd29-8901-5554-ad5e-468af9118b44",
+    "provider": "open_meteo",
+    "provider_record_id": null,
+    "authority": "LICENSED_PROVIDER",
+    "source_url": "https://open-meteo.com/en/docs",
+    "license": "CC BY 4.0 (non-commercial use)",
+    "attribution": "Weather data by Open-Meteo.com",
+    "observed_at": null,
+    "published_at": null,
+    "fetched_at": "2026-09-17T05:46:02.442491Z",
+    "expires_at": "2026-09-17T06:46:02.442491Z",
+    "content_hash": "df7d55244a9af2bfff179eb8a551e31cef49d23b119173b2fb5193e230012f3d",
+    "schema_version": "1.0.0"
+   },
+   {
+    "source_id": "416aa55b-3488-595d-9cc3-3add645129ef",
+    "provider": "open_meteo",
+    "provider_record_id": null,
+    "authority": "LICENSED_PROVIDER",
+    "source_url": "https://open-meteo.com/en/docs",
+    "license": "CC BY 4.0 (non-commercial use)",
+    "attribution": "Weather data by Open-Meteo.com",
+    "observed_at": null,
+    "published_at": null,
+    "fetched_at": "2026-09-17T05:46:02.442491Z",
+    "expires_at": "2026-09-17T06:46:02.442491Z",
+    "content_hash": "46b87d650f0cb26a05fa2c955a55f2be615897e183bc0d50780c8129eb5ab55d",
+    "schema_version": "1.0.0"
+   },
+   {
+    "source_id": "42494d07-5108-567d-adb4-a9a4517fa8f6",
+    "provider": "open_meteo",
+    "provider_record_id": null,
+    "authority": "LICENSED_PROVIDER",
+    "source_url": "https://open-meteo.com/en/docs",
+    "license": "CC BY 4.0 (non-commercial use)",
+    "attribution": "Weather data by Open-Meteo.com",
+    "observed_at": null,
+    "published_at": null,
+    "fetched_at": "2026-09-17T05:46:02.442491Z",
+    "expires_at": "2026-09-17T06:46:02.442491Z",
+    "content_hash": "9f77a20ff64f63547fa42e122091fba9423a2aa2c76bee8220badc4db66a080c",
+    "schema_version": "1.0.0"
+   },
+   {
+    "source_id": "62efd69d-a3ca-58c8-a3b2-a21a2eea999b",
+    "provider": "open_meteo",
+    "provider_record_id": null,
+    "authority": "LICENSED_PROVIDER",
+    "source_url": "https://open-meteo.com/en/docs",
+    "license": "CC BY 4.0 (non-commercial use)",
+    "attribution": "Weather data by Open-Meteo.com",
+    "observed_at": null,
+    "published_at": null,
+    "fetched_at": "2026-09-17T05:46:02.442491Z",
+    "expires_at": "2026-09-17T06:46:02.442491Z",
+    "content_hash": "f301d47b82d35eb3d18b67052d5f14790f67c84af1d30954febf2d6dd9990d67",
+    "schema_version": "1.0.0"
+   },
+   {
+    "source_id": "68d7aa56-e112-5e08-935c-fae3fedec9fd",
+    "provider": "open_meteo",
+    "provider_record_id": null,
+    "authority": "LICENSED_PROVIDER",
+    "source_url": "https://open-meteo.com/en/docs",
+    "license": "CC BY 4.0 (non-commercial use)",
+    "attribution": "Weather data by Open-Meteo.com",
+    "observed_at": null,
+    "published_at": null,
+    "fetched_at": "2026-09-17T05:46:02.442491Z",
+    "expires_at": "2026-09-17T06:46:02.442491Z",
+    "content_hash": "c4d1c02583cf86ac2b68ae728cec9cb2e6bada1d634e0c70c6accc5f2486418e",
+    "schema_version": "1.0.0"
+   },
+   {
+    "source_id": "771e8d2f-c02a-5b69-abb0-0b869475dd67",
+    "provider": "open_meteo",
+    "provider_record_id": null,
+    "authority": "LICENSED_PROVIDER",
+    "source_url": "https://open-meteo.com/en/docs",
+    "license": "CC BY 4.0 (non-commercial use)",
+    "attribution": "Weather data by Open-Meteo.com",
+    "observed_at": null,
+    "published_at": null,
+    "fetched_at": "2026-09-17T05:46:02.442491Z",
+    "expires_at": "2026-09-17T06:46:02.442491Z",
+    "content_hash": "ad42c24f5dd15c461cce6a9799c9867f49d78974a3104cccc4c4b8051a20a002",
+    "schema_version": "1.0.0"
+   },
+   {
+    "source_id": "7bb7c4c6-cac0-555a-90e2-69b5f166a235",
+    "provider": "open_meteo",
+    "provider_record_id": null,
+    "authority": "LICENSED_PROVIDER",
+    "source_url": "https://open-meteo.com/en/docs",
+    "license": "CC BY 4.0 (non-commercial use)",
+    "attribution": "Weather data by Open-Meteo.com",
+    "observed_at": null,
+    "published_at": null,
+    "fetched_at": "2026-09-17T05:46:02.442491Z",
+    "expires_at": "2026-09-17T06:46:02.442491Z",
+    "content_hash": "cae3d87bda905fb49d0b42ec8124919d3ac72ef84c264b78abaefb175ef748fb",
+    "schema_version": "1.0.0"
+   },
+   {
+    "source_id": "8dcd977e-0dff-5f16-8ac9-d61d292c92f1",
+    "provider": "open_meteo",
+    "provider_record_id": null,
+    "authority": "LICENSED_PROVIDER",
+    "source_url": "https://open-meteo.com/en/docs",
+    "license": "CC BY 4.0 (non-commercial use)",
+    "attribution": "Weather data by Open-Meteo.com",
+    "observed_at": null,
+    "published_at": null,
+    "fetched_at": "2026-09-17T05:46:02.442491Z",
+    "expires_at": "2026-09-17T06:46:02.442491Z",
+    "content_hash": "9a36232bf53a38682099bc6ecba5fbc670b41135c556a5ebb905ece2953b999f",
+    "schema_version": "1.0.0"
+   },
+   {
+    "source_id": "931a6abe-1cad-538e-9353-a606da50ae0d",
+    "provider": "open_meteo",
+    "provider_record_id": null,
+    "authority": "LICENSED_PROVIDER",
+    "source_url": "https://open-meteo.com/en/docs",
+    "license": "CC BY 4.0 (non-commercial use)",
+    "attribution": "Weather data by Open-Meteo.com",
+    "observed_at": null,
+    "published_at": null,
+    "fetched_at": "2026-09-17T05:46:02.442491Z",
+    "expires_at": "2026-09-17T06:46:02.442491Z",
+    "content_hash": "8863df23be9a1a3867069e1e4468b8b8def31e575ca8eb27a78343fb60d310f2",
+    "schema_version": "1.0.0"
+   },
+   {
+    "source_id": "9baeee44-be68-5a3c-81cd-a5afb5911b43",
+    "provider": "open_meteo",
+    "provider_record_id": null,
+    "authority": "LICENSED_PROVIDER",
+    "source_url": "https://open-meteo.com/en/docs",
+    "license": "CC BY 4.0 (non-commercial use)",
+    "attribution": "Weather data by Open-Meteo.com",
+    "observed_at": null,
+    "published_at": null,
+    "fetched_at": "2026-09-17T05:46:02.442491Z",
+    "expires_at": "2026-09-17T06:46:02.442491Z",
+    "content_hash": "e603a1110583285af3506df080d9ad7253ba168177047e7b0032cad76479ed85",
+    "schema_version": "1.0.0"
+   },
+   {
+    "source_id": "a1bec13f-f9d3-5876-a9cf-643df15e0e86",
+    "provider": "open_meteo",
+    "provider_record_id": null,
+    "authority": "LICENSED_PROVIDER",
+    "source_url": "https://open-meteo.com/en/docs",
+    "license": "CC BY 4.0 (non-commercial use)",
+    "attribution": "Weather data by Open-Meteo.com",
+    "observed_at": null,
+    "published_at": null,
+    "fetched_at": "2026-09-17T05:46:02.442491Z",
+    "expires_at": "2026-09-17T06:46:02.442491Z",
+    "content_hash": "3a43393386176a0971181495e6949191c86603759f3902817e77af09763eb12b",
+    "schema_version": "1.0.0"
+   },
+   {
+    "source_id": "b09f6003-b29a-5c7c-a076-ad2b397145d3",
+    "provider": "open_meteo",
+    "provider_record_id": null,
+    "authority": "LICENSED_PROVIDER",
+    "source_url": "https://open-meteo.com/en/docs",
+    "license": "CC BY 4.0 (non-commercial use)",
+    "attribution": "Weather data by Open-Meteo.com",
+    "observed_at": null,
+    "published_at": null,
+    "fetched_at": "2026-09-17T05:46:02.442491Z",
+    "expires_at": "2026-09-17T06:46:02.442491Z",
+    "content_hash": "9c1c6c861164b4a16cbd6ebb7035290156f700485e7589fb3907cdfad33ad597",
+    "schema_version": "1.0.0"
+   },
+   {
+    "source_id": "b209d877-23bd-55a7-a49c-5148ce872460",
+    "provider": "open_meteo",
+    "provider_record_id": null,
+    "authority": "LICENSED_PROVIDER",
+    "source_url": "https://open-meteo.com/en/docs",
+    "license": "CC BY 4.0 (non-commercial use)",
+    "attribution": "Weather data by Open-Meteo.com",
+    "observed_at": null,
+    "published_at": null,
+    "fetched_at": "2026-09-17T05:46:02.442491Z",
+    "expires_at": "2026-09-17T06:46:02.442491Z",
+    "content_hash": "a17adf5f9290f27822ac0c4e0571abb911cd4fcf110f050533995325b5be1c34",
+    "schema_version": "1.0.0"
+   },
+   {
+    "source_id": "b3b88cde-7e37-5522-89c2-0ebb2ffd1718",
+    "provider": "open_meteo",
+    "provider_record_id": null,
+    "authority": "LICENSED_PROVIDER",
+    "source_url": "https://open-meteo.com/en/docs",
+    "license": "CC BY 4.0 (non-commercial use)",
+    "attribution": "Weather data by Open-Meteo.com",
+    "observed_at": null,
+    "published_at": null,
+    "fetched_at": "2026-09-17T05:46:02.442491Z",
+    "expires_at": "2026-09-17T06:46:02.442491Z",
+    "content_hash": "489a6774597ea3c37607768e777e4680a82bd86b52aadfe6bfdd05af3e65b921",
+    "schema_version": "1.0.0"
+   },
+   {
+    "source_id": "ba3b0edd-f880-5c71-bc34-910854317f5b",
+    "provider": "open_meteo",
+    "provider_record_id": null,
+    "authority": "LICENSED_PROVIDER",
+    "source_url": "https://open-meteo.com/en/docs",
+    "license": "CC BY 4.0 (non-commercial use)",
+    "attribution": "Weather data by Open-Meteo.com",
+    "observed_at": null,
+    "published_at": null,
+    "fetched_at": "2026-09-17T05:46:02.442491Z",
+    "expires_at": "2026-09-17T06:46:02.442491Z",
+    "content_hash": "da09c002e62549b6314be0974683b0dd9b751fbb79c574ece45f9588bbb11a9f",
+    "schema_version": "1.0.0"
+   },
+   {
+    "source_id": "e5f1af60-0579-5c33-a7ff-7e3869b04120",
+    "provider": "open_meteo",
+    "provider_record_id": null,
+    "authority": "LICENSED_PROVIDER",
+    "source_url": "https://open-meteo.com/en/docs",
+    "license": "CC BY 4.0 (non-commercial use)",
+    "attribution": "Weather data by Open-Meteo.com",
+    "observed_at": null,
+    "published_at": null,
+    "fetched_at": "2026-09-17T05:46:02.442491Z",
+    "expires_at": "2026-09-17T06:46:02.442491Z",
+    "content_hash": "cb10ba3ed7c8e583ef8c8ac6a8f833210298fb3e04e82445ad60871fb7a5e53a",
+    "schema_version": "1.0.0"
+   },
+   {
+    "source_id": "f6461a27-653b-5824-951f-19ed46aa8186",
+    "provider": "open_meteo",
+    "provider_record_id": null,
+    "authority": "LICENSED_PROVIDER",
+    "source_url": "https://open-meteo.com/en/docs",
+    "license": "CC BY 4.0 (non-commercial use)",
+    "attribution": "Weather data by Open-Meteo.com",
+    "observed_at": null,
+    "published_at": null,
+    "fetched_at": "2026-09-17T05:46:02.442491Z",
+    "expires_at": "2026-09-17T06:46:02.442491Z",
+    "content_hash": "0185c2980e162a473da59d996a63790300de0eb4dd12af3010e83ccdac39e8e6",
+    "schema_version": "1.0.0"
+   }
+  ],
+  "evidence": [
+   {
+    "evidence_id": "a70710d3-6046-5b05-b4fd-2badc12ce386",
+    "document_id": "fema-ready-thunderstorms",
+    "authority": "OFFICIAL",
+    "title": "Thunderstorms & Lightning \u2014 Ready.gov (FEMA)",
+    "source_url": "https://www.ready.gov/thunderstorms-lightning#cached:2026-09-16T23:10:19.169575+00:00",
+    "page": null,
+    "section": "Related Content",
+    "language": "en",
+    "hazards": [
+     "STORM"
+    ],
+    "effective_at": "2025-01-01T00:00:00Z",
+    "expires_at": "2027-01-01T00:00:00Z",
+    "passage": "\u2022 Thunderstorms Information Sheet (PDF)\n\u2022 NOAA Severe Thunderstorm Safety\n\u2022 Centers for Disease Control and Prevention - Lightning\n\u2022 American Red Cross\n\nLast Updated: 05/11/2026\n\nReturn to top",
+    "retrieval_score": 0.8727,
+    "rerank_score": 0.032266,
+    "collection_version": "2026.09.1",
+    "content_hash": "afe6cfba39c2beba7eabb1ab18e67bdb0459a521abfde8ab82c50b2b15712fc8"
+   },
+   {
+    "evidence_id": "72713d2a-a7f2-538b-ad73-ea6b6d5c79b9",
+    "document_id": "fema-ready-thunderstorms",
+    "authority": "OFFICIAL",
+    "title": "Thunderstorms & Lightning \u2014 Ready.gov (FEMA)",
+    "source_url": "https://www.ready.gov/thunderstorms-lightning#cached:2026-09-16T23:10:19.169575+00:00",
+    "page": null,
+    "section": "Prepare for Thunderstorms & Lightning",
+    "language": "en",
+    "hazards": [
+     "STORM"
+    ],
+    "effective_at": "2025-01-01T00:00:00Z",
+    "expires_at": "2027-01-01T00:00:00Z",
+    "passage": "Know Your Risk Know your area\u2019s risk for thunderstorms. In most places they can occur year-round and at any hour. Sign up for your community\u2019s warning system. The Emergency Alert System (EAS) and National Oceanic and Atmospheric Administration (NOAA) Weather Radio also provide emergency alerts.\n\nStrengthen Your Home Cut down or trim trees that may be in danger of falling on your home. Consider buying surge protectors, lightning rods or a lightning protection system to protect your home, appliances and electronic devices.\n\nMake an Emergency Plan Create an emergency plan so that you and your family know what to do, where to go and what you will need to protect yourselves from the effects of a thunderstorm. Identify sturdy buildings close to where you live, work, study and play.",
+    "retrieval_score": 0.8711,
+    "rerank_score": 0.031498,
+    "collection_version": "2026.09.1",
+    "content_hash": "80ffe7ba6b279e62c8283c963b8285d6504c6ea92d5cfe00c70bb030f18c27ab"
+   },
+   {
+    "evidence_id": "f0714016-6ca6-54c6-8085-491ae4dd12a5",
+    "document_id": "fema-ready-floods",
+    "authority": "OFFICIAL",
+    "title": "Floods \u2014 Ready.gov (FEMA)",
+    "source_url": "https://www.ready.gov/floods#cached:2026-09-16T23:11:12.732024+00:00",
+    "page": null,
+    "section": "After a Flood",
+    "language": "en",
+    "hazards": [
+     "FLOOD",
+     "STORM"
+    ],
+    "effective_at": "2025-01-01T00:00:00Z",
+    "expires_at": "2027-01-01T00:00:00Z",
+    "passage": "\u2022 Pay attention to authorities for information and instructions. Return home only when authorities say it is safe.\n\u2022 Avoid driving except in emergencies.\n\u2022 Wear heavy work gloves, protective clothing and boots during cleanup and use appropriate face coverings or masks if cleaning mold or other debris.\n\u2022 People with asthma and other lung conditions and/or immune suppression should not enter buildings with indoor water leaks or mold growth that can be seen or smelled. Children should not take part in disaster cleanup work.\n\u2022 Be aware that snakes and other animals may be in your house.\n\u2022 Be aware of the risk of electrocution. Do not touch electrical equipment if it is wet or if you are standing in water. Turn off the electricity to prevent electric shock if it is safe to do so.\n\u2022 Avoid wading in floodwater, which can be contaminated and contain dangerous debris. Underground or downed power lines can electrically charge the water.\n\u2022 Use a generator or other gasoline-powered machinery ONLY outdoors and away from windows.",
+    "retrieval_score": 0.8534,
+    "rerank_score": 0.030835,
+    "collection_version": "2026.09.1",
+    "content_hash": "30d2bc7f8245f86b4ad27a5c1db8e0517ece602d1e23e8c0508cf03bf9b2581a"
+   }
+  ],
+  "weather_summary": {
+   "weather_max_precip_mm": 2.5,
+   "weather_coverage_ratio": 1.0,
+   "weather_max_temperature_c": 25.8,
+   "weather_max_wind_gust_kmh": 17.3,
+   "weather_min_temperature_c": 21.7
+  },
+  "transport_summary": {
+   "records": 0,
+   "statuses": []
+  },
+  "freshness": {
+   "observed_at": null,
+   "fetched_at": "2026-09-17T05:46:06.523794Z",
+   "expires_at": "2026-09-17T06:46:02.442491Z"
+  },
+  "limitations": [
+   "Risk level: LOW",
+   "DATA_QUALITY:ROUTE_GEOMETRY_INFERRED",
+   "MODEL_UNAVAILABLE"
+  ],
+  "degraded_services": [
+   "openrouteservice: PROVIDER_AUTH",
+   "risk-knowledge: model unavailable (rule baseline)",
+   "decision-engine: explanation fallback (error:AuthenticationError)"
+  ],
+  "escalation_required": false,
+  "versions": {
+   "policy": "1.0.0",
+   "prompt": "1.0.0",
+   "llm_model": "# e.g. gpt-4.1-mini ; required only when OPENAI_API_KEY is set",
+   "contract": "1.0.0",
+   "graph": null,
+   "model": "rule-baseline@rule-1.0.0",
+   "feature_schema": "1.0.0",
+   "knowledge_collection": "2026.09.1"
+  },
+  "locale": "en-US",
+  "expires_at": "2026-09-17T06:46:02.442491Z",
+  "supersedes_recommendation_id": null,
+  "created_at": "2026-09-17T05:46:12.604359Z"
+ }
+}

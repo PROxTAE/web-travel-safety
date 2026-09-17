@@ -81,7 +81,7 @@ export function LocationSearch({
           {value.confirmed_by_user ? (
             <span className="text-xs font-semibold text-primary-deep">Confirmed</span>
           ) : (
-            <span className="text-xs font-semibold text-[#b45f00]">Confirm on map</span>
+            <span className="text-xs font-semibold text-amber-ink">Confirm on map</span>
           )}
           <button type="button" aria-label={`Clear ${label}`} onClick={() => onChange(null)} className="rounded-full p-1 hover:bg-mint">
             <X size={16} aria-hidden />

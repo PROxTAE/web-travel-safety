@@ -764,6 +764,11 @@ class EvidencePackageRequest(ContractModel):
     locale: str = "en-US"
     question: str | None = None
     country_code: CountryCode | None = Field(default=None, description="destination country for knowledge geography filter")
+    request_id: UUID | None = Field(
+        default=None,
+        description="request the package is built for when a fresh-enough snapshot from an earlier request in the same "
+        "conversation is reused (follow-up); defaults to snapshot.request_id",
+    )
 
 
 class DecisionRequest(ContractModel):

@@ -73,6 +73,8 @@ def needs_fresh_data(intent: Intent, question: str | None) -> bool:
     if intent in (Intent.PLAN_TRIP, Intent.CHECK_SAFETY, Intent.EMERGENCY):
         return True
     if intent == Intent.FOLLOW_UP:
+        if not question:
+            return True  # a re-run without a question is "assess again", never a cached answer
         return (
             bool(question and SAFETY_TERMS.search(question))
             or re.search(r"\b(now|current|today|latest|update)\b|ตอนนี้|ล่าสุด|วันนี้|อัปเดต", question or "", re.IGNORECASE)

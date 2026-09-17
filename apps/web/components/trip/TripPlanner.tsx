@@ -83,14 +83,16 @@ export function TripPlanner({ trip }: { trip: Trip | null }) {
       return;
     }
     try {
+      let id = tripId;
       if (trip && tripId) {
         await patchTrip.mutateAsync({ revision: trip.revision, body });
       } else {
         const created = await createTrip.mutateAsync(body);
+        id = created.id;
         setTripId(created.id);
         window.history.replaceState(null, "", `/trips/${created.id}`);
       }
-      const ref = await start.mutateAsync({});
+      const ref = await start.mutateAsync({ tripId: id ?? undefined });
       setRequestId(ref.request_id);
     } catch (e) {
       const err = e instanceof ApiError ? e : null;
@@ -121,6 +123,7 @@ export function TripPlanner({ trip }: { trip: Trip | null }) {
           onSubmit={submit}
           submitting={busy}
           onLocationsChange={onLocationsChange}
+          confirmedPins={confirmed}
           locale={(me.data?.locale ?? "en-US").split("-")[0]}
         />
       </section>

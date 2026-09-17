@@ -1,0 +1,103 @@
+{
+ "trip": {
+  "id": "0a33e6ab-b061-41d8-bebe-e2078819bf1b",
+  "revision": 1,
+  "origin": {
+   "place_id": "1609350",
+   "display_name": "Bangkok, Bangkok, Thailand",
+   "coordinates": {
+    "type": "Point",
+    "coordinates": [
+     100.50144,
+     13.75398
+    ]
+   },
+   "country_code": "TH",
+   "admin1": "Bangkok",
+   "timezone": "Asia/Bangkok",
+   "provider": "open_meteo_geocoding",
+   "confirmed_by_user": true
+  },
+  "destination": {
+   "place_id": "1153671",
+   "display_name": "Chiang Mai, Chiang Mai, Thailand",
+   "coordinates": {
+    "type": "Point",
+    "coordinates": [
+     98.98468,
+     18.79038
+    ]
+   },
+   "country_code": "TH",
+   "admin1": "Chiang Mai",
+   "timezone": "Asia/Bangkok",
+   "provider": "open_meteo_geocoding",
+   "confirmed_by_user": true
+  },
+  "departure_time": "2026-09-18T06:02:46.157346Z",
+  "return_time": null,
+  "travel_modes": [
+   "CAR"
+  ],
+  "preferences": {
+   "prefer_safer_route": true,
+   "prefer_lower_cost": false,
+   "prefer_lower_emissions": false,
+   "max_extra_duration_minutes": 90,
+   "avoid_tolls": false,
+   "accessibility": []
+  },
+  "timezone": "Asia/Bangkok",
+  "status": "ACTIVE",
+  "selected_route_id": null,
+  "previous_route_id": null,
+  "latest_request_id": null,
+  "latest_recommendation_id": null,
+  "risk_acknowledged_at": null,
+  "created_at": "2026-09-17T10:02:46.196755Z",
+  "updated_at": "2026-09-17T10:02:46.196755Z",
+  "deleted_at": null
+ },
+ "run_ref": {
+  "request_id": "e9bde953-d250-450a-bf0c-6e250eedd4ba",
+  "status": "QUEUED",
+  "events_url": "/api/v1/runs/e9bde953-d250-450a-bf0c-6e250eedd4ba/events",
+  "poll_url": "/api/v1/runs/e9bde953-d250-450a-bf0c-6e250eedd4ba",
+  "submitted_at": "2026-09-17T10:02:46.323683Z",
+  "recommendation_id": null,
+  "conversation_id": "7196e24c-9f17-4a01-945b-547a95938e0a"
+ },
+ "run": {
+  "request_id": "e9bde953-d250-450a-bf0c-6e250eedd4ba",
+  "trip_id": "0a33e6ab-b061-41d8-bebe-e2078819bf1b",
+  "conversation_id": "7196e24c-9f17-4a01-945b-547a95938e0a",
+  "kind": "ASSESSMENT",
+  "status": "PARTIAL",
+  "stage": "FORMATTING_RESPONSE",
+  "missing_fields": [],
+  "degraded_services": [
+   "openrouteservice: ORS_API_KEY not configured (CAR routing approximated)",
+   "risk-knowledge: model unavailable (rule baseline)",
+   "decision-engine: explanation fallback (llm_disabled)"
+  ],
+  "error_code": null,
+  "recommendation_id": "e4ea139d-c8a5-4427-b228-a17456959137",
+  "result_url": "/api/v1/recommendations/e4ea139d-c8a5-4427-b228-a17456959137",
+  "events_url": "/api/v1/runs/e9bde953-d250-450a-bf0c-6e250eedd4ba/events",
+  "poll_url": "/api/v1/runs/e9bde953-d250-450a-bf0c-6e250eedd4ba",
+  "versions": {
+   "policy": "1.0.0",
+   "prompt": "1.0.0",
+   "llm_model": null,
+   "contract": "1.0.0",
+   "graph": "1.0.0+10f0bc9cd5f9de02",
+   "model": "rule-baseline@rule-1.0.0",
+   "feature_schema": "1.0.0",
+   "knowledge_collection": "2026.09.1"
+  },
+  "submitted_at": "2026-09-17T10:02:46.275471Z",
+  "updated_at": "2026-09-17T10:02:51.916310Z",
+  "completed_at": "2026-09-17T10:02:51.916310Z"
+ },
+ "rec_id": "e4ea139d-c8a5-4427-b228-a17456959137"
+}

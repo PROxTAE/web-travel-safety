@@ -241,6 +241,8 @@ export interface EvidencePackageRequest {
   question?: string | null;
   /** destination country for knowledge geography filter */
   country_code?: string | null;
+  /** request the package is built for when a fresh-enough snapshot from an earlier request in the same conversation is reused (follow-up); defaults to snapshot.request_id */
+  request_id?: string | null;
 }
 
 /** Output of external-data /internal/v1/context/query — all canonical records + provider health. */
