@@ -38,7 +38,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
         <form action={start} className="mt-8">
           <button
             type="submit"
-            className="rounded-2xl bg-primary px-6 py-3 text-lg font-bold text-white shadow-card hover:bg-primary-deep focus-visible:outline-primary-deep"
+            className="rounded-2xl bg-primary-deep px-6 py-3 text-lg font-bold text-white shadow-card hover:bg-primary focus-visible:outline-primary-deep"
           >
             Sign in with Keycloak
           </button>

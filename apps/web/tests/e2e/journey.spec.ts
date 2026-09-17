@@ -12,7 +12,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto("/login");
   await page.getByRole("button", { name: /sign in with keycloak/i }).click();
   // Keycloak login form
-  await page.locator("#username").fill(creds.user!);
+  await page.locator("#username").fill(creds.user!); // the realm logs in by email
   await page.locator("#password").fill(creds.pass!);
   await page.locator("#kc-login").click();
   await page.waitForURL(/\/dashboard/);
@@ -28,20 +28,21 @@ test("unauthenticated visitor is redirected to login", async ({ browser }) => {
 
 test("plan a trip, run an assessment and read the recommendation", async ({ page }) => {
   await page.goto("/trips/new");
-  await page.getByLabel("From").fill("Bangkok");
+  await page.getByRole("combobox", { name: "From" }).fill("Bangkok");
   await page.getByRole("option").first().click();
-  await page.getByLabel("To").fill("Chiang Mai");
+  await page.getByRole("combobox", { name: "To" }).fill("Chiang Mai");
   await page.getByRole("option").first().click();
   await page.getByRole("button", { name: /confirm departure pin/i }).click();
   await page.getByRole("button", { name: /confirm destination pin/i }).click();
   const tomorrow = new Date(Date.now() + 24 * 3600_000).toISOString().slice(0, 16);
-  await page.getByLabel(/departure/i).fill(tomorrow);
+  await page.locator("#departure").fill(tomorrow);
   await page.getByRole("button", { name: /find safe routes/i }).click();
   await expect(page.getByRole("progressbar")).toBeVisible();
-  await expect(page.getByRole("heading", { name: /route options/i })).toBeVisible({ timeout: 90_000 });
-  await expect(page.locator("[data-action]")).toBeVisible();
+  await expect(page.locator("[data-action]").first()).toBeVisible({ timeout: 90_000 }); // locked action from the server
+  await expect(page.getByRole("heading", { name: /route options/i })).toBeVisible();
   const results = await new AxeBuilder({ page }).analyze();
-  expect(results.violations.filter((v) => ["critical", "serious"].includes(v.impact ?? ""))).toEqual([]);
+  const serious = results.violations.filter((v) => ["critical", "serious"].includes(v.impact ?? ""));
+  expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => `${n.html.slice(0, 80)} :: ${n.any[0]?.message ?? ""}`).join(" | ")}`)).toEqual([]);
 });
 
 test("emergency center never calls before confirmation", async ({ page }) => {
@@ -68,7 +69,7 @@ test.describe("visual baselines", () => {
       await page.waitForLoadState("networkidle");
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
       expect(overflow).toBe(false);
-      await page.screenshot({ path: `test-results/${path.replaceAll("/", "_")}.png`, fullPage: true });
+      await page.screenshot({ path: `test-results/${path.replaceAll("/", "_")}.png`, fullPage: false });
     });
   }
 });

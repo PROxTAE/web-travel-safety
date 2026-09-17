@@ -10,10 +10,13 @@
   --color-canvas: #f5fffc;
   --color-navy: #101a4b;
   --color-weather: #2f86f6;
+  --color-weather-ink: #1a5cc0; /* weather text on light tints, 5.5:1 */
+  --color-coral-deep: #d3343b; /* white text on the SOS button, 4.6:1 */
   --color-amber: #ff9d1f;
   --color-coral: #f24e54;
   --color-ink: #2b3357;
-  --color-ink-muted: #6b7394;
+  --color-ink-muted: #5b6382; /* 5.4:1 on white */
+  --color-amber-ink: #8a4b00; /* warning text on amber/15 tint, 7:1 */
   --color-line: #e3f2ec;
   --radius-card: 1.25rem;
   --radius-pill: 999px;
@@ -26,8 +29,9 @@
 :root {
   --background: var(--color-canvas);
   --foreground: var(--color-navy);
-  --accent: var(--color-primary);
+  --accent: var(--color-primary-deep); /* buttons: white text needs the deep teal for AA contrast */
   --accent-foreground: #ffffff;
+  --accent-hover: #06655e; /* hover darkens (HeroUI default lightens with white and drops below 4.5:1) */
   --success: var(--color-primary);
   --success-foreground: #ffffff;
   --warning: var(--color-amber);

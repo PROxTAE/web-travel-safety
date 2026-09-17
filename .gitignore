@@ -52,5 +52,5 @@ Thumbs.db
 *.swp
 
 # Acceptance evidence screenshots are attached to PRs, not committed in bulk
-docs/acceptance/screenshots/
 .claude/launch.json
+apps/web/public/maplibre/

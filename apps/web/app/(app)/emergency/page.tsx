@@ -149,7 +149,7 @@ export default function EmergencyPage() {
                   {!contacts.isLoading && !contacts.data?.contacts.length && (
                     <li className="rounded-2xl bg-white p-3 text-sm text-navy">No verified directory for {countryCode ?? "your location"}. Choose a place below to look up the local directory.</li>
                   )}
-                  {contacts.data?.limitations?.map((l) => <li key={l} className="text-xs text-[#b45f00]">{l}</li>)}
+                  {contacts.data?.limitations?.map((l) => <li key={l} className="text-xs text-amber-ink">{l}</li>)}
                 </ul>
               )}
               <Button variant="ghost" size="sm" className="mt-3" onPress={() => { stopSharing(); dispatch({ type: "RESET" }); }}>Done / reset</Button>
@@ -229,7 +229,7 @@ export default function EmergencyPage() {
             {nearbyType === n.type && (
               <div className="mt-3 text-sm">
                 {!coords && geo.state.status !== "denied" && <p className="text-ink-muted">Waiting for your location…</p>}
-                {!coords && geo.state.status === "denied" && <p className="text-[#b45f00]">Location denied — choose a place manually in the map card.</p>}
+                {!coords && geo.state.status === "denied" && <p className="text-amber-ink">Location denied — choose a place manually in the map card.</p>}
                 {nearby.isError && <ErrorState error={nearby.error} compact />}
                 {nearby.data && (
                   <ul className="flex flex-col gap-1">

@@ -22,7 +22,7 @@ export function EmergencyQuickCard({ countryCode }: { countryCode: string | null
       <div className="mt-3 grid grid-cols-[1fr_1.4fr] gap-3">
         <Link
           href="/emergency"
-          className="flex flex-col items-center justify-center rounded-2xl bg-coral text-white font-extrabold text-2xl py-6 shadow-card hover:bg-[#d93f45]"
+          className="flex flex-col items-center justify-center rounded-2xl bg-coral-deep text-white font-extrabold text-2xl py-6 shadow-card hover:bg-coral"
         >
           <Phone aria-hidden />
           SOS
@@ -32,7 +32,7 @@ export function EmergencyQuickCard({ countryCode }: { countryCode: string | null
           <ContactRow icon={<Plus size={16} aria-hidden />} contact={medical} fallback="Medical" loading={q.isLoading} />
         </div>
       </div>
-      {q.data?.limitations?.length ? <p className="mt-2 text-xs text-[#b45f00]">{q.data.limitations.join(" · ")}</p> : null}
+      {q.data?.limitations?.length ? <p className="mt-2 text-xs text-amber-ink">{q.data.limitations.join(" · ")}</p> : null}
       {q.data?.contacts[0] && (
         <p className="mt-2 text-xs text-ink-muted">
           Directory {q.data.directory_version} · <DataFreshness fetchedAt={q.data.contacts[0].verified_at} label="verified" maxAgeMinutes={60 * 24 * 90} />

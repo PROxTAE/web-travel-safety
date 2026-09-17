@@ -42,7 +42,7 @@ export function AppShell({ children, userName }: { children: ReactNode; userName
                 aria-current={active ? "page" : undefined}
                 className={cn(
                   "flex items-center gap-3 rounded-2xl px-4 py-3 font-semibold transition-colors",
-                  active ? "bg-primary text-white shadow-card" : "text-navy hover:bg-white/70",
+                  active ? "bg-primary-deep text-white shadow-card" : "text-navy hover:bg-white/70",
                 )}
               >
                 <Icon size={20} aria-hidden />

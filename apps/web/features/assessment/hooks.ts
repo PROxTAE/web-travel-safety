@@ -14,17 +14,21 @@ const ACTIVE = new Set(["CREATED", "QUEUED", "RUNNING"]);
  * Starts an assessment with a per-submission Idempotency-Key: a double click or a retry after a network hiccup
  * replays the same run instead of creating a duplicate. A new key is issued only after success.
  */
-export function useStartAssessment(tripId: string | null | undefined) {
+export function useStartAssessment(defaultTripId: string | null | undefined) {
   const qc = useQueryClient();
   const keyRef = useRef<string | null>(null);
   return useMutation({
-    mutationFn: async (body?: { question?: string; intent_hint?: Intent }) => {
+    // the trip id can be passed per call (a trip created moments ago is not yet in the hook's closure)
+    mutationFn: async (args: { tripId?: string; question?: string; intent_hint?: Intent } = {}) => {
+      const tripId = args.tripId ?? defaultTripId;
       if (!tripId) throw new Error("no trip");
       keyRef.current ??= newIdempotencyKey();
+      const body = { question: args.question, intent_hint: args.intent_hint };
       return (await endpoints.createAssessment(tripId, keyRef.current, body)).data;
     },
-    onSuccess: () => {
+    onSuccess: (_ref, args) => {
       keyRef.current = null;
+      const tripId = args.tripId ?? defaultTripId;
       if (tripId) void qc.invalidateQueries({ queryKey: queryKeys.trip(tripId) });
     },
   });

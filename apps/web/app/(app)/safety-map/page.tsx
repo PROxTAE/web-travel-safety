@@ -46,6 +46,8 @@ export default function SafetyMapPage() {
   const slotMeta = SLOTS.find((s) => s.key === slot) ?? SLOTS[0]!;
   const debounced = useDebounced(viewport, 400);
   const bbox = debounced ? bboxString(clampBbox(debounced.bbox)) : null;
+  // the API caps a query at 10° per side; a wider viewport only loads the centre window (never fabricated data)
+  const clamped = debounced ? debounced.bbox[2] - debounced.bbox[0] > 9.9 || debounced.bbox[3] - debounced.bbox[1] > 9.9 : false;
   const apiLayers = useMemo(() => Array.from(new Set(LAYERS.filter((l) => layers.includes(l.key)).map((l) => l.apiLayer).filter(Boolean))) as string[], [layers]);
   const events = useSafetyEvents(bbox, slotMeta.lookbackDays, apiLayers);
 
@@ -90,7 +92,7 @@ export default function SafetyMapPage() {
         }
       />
       <div className="sta-card relative p-2 min-h-[34rem] h-[60vh]">
-        <DynamicMap ariaLabel="Global safety map" markers={markers} polygons={polygons} routes={routes} center={[20, 15]} zoom={1.6} onViewportChange={onViewport} onMarkerClick={onMarker} />
+        <DynamicMap ariaLabel="Global safety map" markers={markers} polygons={polygons} routes={routes} center={[100, 15]} zoom={3.5} controlsPosition="bottom-right" onViewportChange={onViewport} onMarkerClick={onMarker} />
 
         {/* Risk layers panel */}
         <section className="absolute left-4 top-4 sta-card w-60 p-3" aria-labelledby="risk-layers">
@@ -121,8 +123,9 @@ export default function SafetyMapPage() {
               {markers.length} events in view · <DataFreshness fetchedAt={events.data.meta.generated_at} maxAgeMinutes={15} />
             </span>
           )}
-          {degraded.length > 0 && <span className="rounded-lg bg-amber/15 px-2 py-1 text-[#b45f00] shadow-card">Limited: {degraded.join(", ")}</span>}
+          {degraded.length > 0 && <span className="rounded-lg bg-amber/15 px-2 py-1 text-amber-ink shadow-card">Limited: {degraded.join(", ")}</span>}
           {layers.length === 0 && <span className="rounded-lg bg-white/95 px-2 py-1 text-ink-muted shadow-card">Turn on layers to see more risk information.</span>}
+          {clamped && <span className="rounded-lg bg-white/95 px-2 py-1 text-ink-muted shadow-card">Showing events for the central 10°×10° window — zoom in to a region for full coverage.</span>}
         </div>
 
         {/* selected event card */}
@@ -172,7 +175,7 @@ function EventCard({
   const start = useStartAssessment(trip?.id);
   const [details, setDetails] = useState(false);
   const sev = event.severity ?? "UNKNOWN";
-  const tone = sev === "SEVERE" || sev === "EXTREME" ? "bg-coral/15 text-coral" : sev === "MODERATE" ? "bg-amber/15 text-[#b45f00]" : "bg-mint text-primary-deep";
+  const tone = sev === "SEVERE" || sev === "EXTREME" ? "bg-coral/15 text-coral" : sev === "MODERATE" ? "bg-amber/15 text-amber-ink" : "bg-mint text-primary-deep";
   return (
     <aside className="absolute right-4 top-4 sta-card w-[min(22rem,calc(100%-2rem))] p-4" aria-label={event.title}>
       <div className="flex items-start gap-3">

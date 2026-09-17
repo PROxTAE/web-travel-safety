@@ -153,8 +153,11 @@ class SnapshotRepository:
                 )
                 await s.execute(stmt)
             for t in snap.transport:
-                s.add(
-                    TransportRecordRow(
+                # transport ids are deterministic per provider record (an UNKNOWN placeholder repeats across
+                # snapshots), so the canonical row is written once and later snapshots reference it via lineage
+                stmt = (
+                    insert(TransportRecordRow)
+                    .values(
                         id=t.id,
                         snapshot_id=snap.snapshot_id,
                         mode=t.mode.value,
@@ -165,7 +168,9 @@ class SnapshotRepository:
                         fetched_at=t.source.fetched_at,
                         record_json=json.loads(t.model_dump_json()),
                     )
+                    .on_conflict_do_nothing(index_elements=[TransportRecordRow.id])
                 )
+                await s.execute(stmt)
             for ln in result.lineage:
                 s.add(
                     LineageRowModel(

@@ -41,7 +41,7 @@ export function SummaryCards({ rec, loading, onOpen }: Props) {
         tone="bg-weather/10 text-weather"
         label="Weather"
         value={weather.value}
-        valueClass="text-weather"
+        valueClass="text-weather-ink"
         detail={weather.detail}
         loading={loading}
         onPress={() => onOpen("weather")}
