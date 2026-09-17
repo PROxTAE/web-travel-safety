@@ -53,3 +53,4 @@ Thumbs.db
 
 # Acceptance evidence screenshots are attached to PRs, not committed in bulk
 docs/acceptance/screenshots/
+.claude/launch.json
